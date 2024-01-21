@@ -9,7 +9,7 @@ class SendMailController extends Controller
     public function send_mail(Request $request)
     {
         $details = "Hello";
-
+        dd($request->all());
         $job = (new \App\Jobs\SendQueueEmail($details))->onQueue('send_mail');
 
         dispatch($job);

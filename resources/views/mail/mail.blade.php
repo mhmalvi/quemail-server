@@ -6,6 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    {{ $template }}
+    {!! $template !!}
 </body>
 </html>

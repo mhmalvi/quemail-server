@@ -7,6 +7,5 @@
 </head>
 <body>
     {{ $template }}
-    guggg
 </body>
 </html>

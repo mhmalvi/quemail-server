@@ -10,7 +10,7 @@ class SendMailController extends Controller
     {
         $details = "Hello";
 
-        $job = (new \App\Jobs\SendQueueEmail($details))
+        $job = (new \App\Jobs\SendQueueEmail($details))->onQueue('send_mail')
             ->delay(now()->addSeconds(2));
 
         dispatch($job);

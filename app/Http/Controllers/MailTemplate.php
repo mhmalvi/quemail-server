@@ -31,19 +31,39 @@ class MailTemplate extends Controller
         }
     }
 
-    public function getTemplate(){
+    public function getTemplate()
+    {
         $response = Template::all();
-        if($response){
+        if ($response) {
             return response()->json([
-                'message'=>'success',
-                'status'=>200,
-                'data'=>$response
-            ],200);
-        }else{
+                'message' => 'success',
+                'status' => 200,
+                'data' => $response
+            ], 200);
+        } else {
             return response()->json([
                 'message' => 'Not found',
                 'status' => 404
             ], 404);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $response = Template::find($request->id);
+        if ($response) {
+            $data = $response->delete();
+            if ($data) {
+                return response()->json([
+                    'message' => 'Deleted',
+                    'status' => 200
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Not found',
+                    'status' => 404
+                ], 404);
+            }
         }
     }
 }

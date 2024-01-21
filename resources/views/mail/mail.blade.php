@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    {{-- {{ $template }} --}}
+    {{ $template }}
     guggg
 </body>
 </html>

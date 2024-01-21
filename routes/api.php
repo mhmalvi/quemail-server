@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/send-mail',[SendMailController::class, 'send_mail']);
 Route::post('/save-template', [MailTemplate::class, 'saveTemplate']);
+Route::get('/get-template', [MailTemplate::class, 'getTemplate']);

@@ -50,7 +50,9 @@ class MailTemplate extends Controller
 
     public function destroy(Request $request)
     {
+        // dd($request->all());
         $response = Template::find($request->id);
+        // dd($response);
         if ($response) {
             $data = $response->delete();
             if ($data) {

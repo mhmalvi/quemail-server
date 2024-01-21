@@ -30,4 +30,20 @@ class MailTemplate extends Controller
             ], 500);
         }
     }
+
+    public function getTemplate(){
+        $response = Template::all();
+        if($response){
+            return response()->json([
+                'message'=>'success',
+                'status'=>200,
+                'data'=>$response
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 404
+            ], 404);
+        }
+    }
 }

@@ -12,13 +12,13 @@ use Illuminate\Queue\SerializesModels;
 class Mail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+    public $email_content;
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct($email_content)
     {
-        $this->data = $data;
+        $this->email_content = $email_content;
     }
 
     /**
@@ -28,7 +28,7 @@ class Mail extends Mailable
     {
         return new Envelope(
             // from: new Address('jeffrey@example.com', 'Jeffrey Way'),
-            subject: 'Cruel world',
+            subject: $this->email_content[0],
         );
     }
 
@@ -39,7 +39,7 @@ class Mail extends Mailable
     {
         return new Content(
             view: 'mail.mail',
-            with: [$this->data],
+            with: ['template' => $this->email_content[1]],
         );
     }
 

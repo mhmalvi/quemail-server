@@ -12,13 +12,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class SendQueueEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $details;
+    protected $email_content;
     /**
      * Create a new job instance.
      */
-    public function __construct($details)
+    public function __construct($email_content)
     {
-        $this->details = $details;
+        $this->email_content = $email_content;
     }
 
     /**
@@ -27,13 +27,14 @@ class SendQueueEmail implements ShouldQueue
     public function handle(): void
     {
         // $data = User::all();
-        $data = $this->details;
-        $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
+        // dd($this->email_content[2]);
+        $emails = $this->email_content[2];
+        // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
         // dd($emails);
-        foreach($emails as $key=>$value){
-            \Mail::to($value)->queue(new Mail($data));
+        foreach ($emails as $key => $value) {
+            \Mail::to($value)->queue(new Mail($this->email_content[0], $this->email_content[1]));
         }
-        
+
         // foreach ($data as $key => $value) {
         //     $input['email'] = $value->email;
         //     $input['name'] = $value->name;

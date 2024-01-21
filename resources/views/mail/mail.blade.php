@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    "world is very bad"
+    {{-- {{ $template }} --}}
+    guggg
 </body>
 </html>

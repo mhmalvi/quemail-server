@@ -47,6 +47,28 @@ class MailTemplate extends Controller
             ], 404);
         }
     }
+    public function updateTemplate(Request $request)
+    {
+        $request->validate([
+            'id' => 'required'
+        ]);
+        $template = Template::find($request->id);
+        $template->name = $request->name;
+        $template->template = $request->template;
+        $response = $template->save();
+        if ($response) {
+            return response()->json([
+                'message' => 'updated',
+                'status' => 201,
+                'data' => $template
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'failed',
+                'status' => 500
+            ], 500);
+        }
+    }
 
     public function destroy(Request $request)
     {

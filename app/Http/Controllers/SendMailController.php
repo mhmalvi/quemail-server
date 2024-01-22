@@ -28,4 +28,8 @@ class SendMailController extends Controller
         // dispatch($job);
         echo "Mail send successfully !!";
     }
+
+    public function imageUrl(Request $request){
+        dd($request->all());
+    }
 }

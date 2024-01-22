@@ -29,7 +29,9 @@ class SendMailController extends Controller
         echo "Mail send successfully !!";
     }
 
-    public function imageUrl(Request $request){
-        dd($request->all());
+    public function imageUrl(Request $request)
+    {
+        $imgpath = request()->file('name')->store('uploads', 'public');
+        return response()->json_encode(['location' => $imgpath]);
     }
 }

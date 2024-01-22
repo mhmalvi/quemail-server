@@ -50,7 +50,9 @@ class MailTemplate extends Controller
     public function updateTemplate(Request $request)
     {
         $request->validate([
-            'id' => 'required'
+            'id' => 'required',
+            'name'=>'required',
+            'template'=>'required'
         ]);
         $template = Template::find($request->id);
         $template->name = $request->name;

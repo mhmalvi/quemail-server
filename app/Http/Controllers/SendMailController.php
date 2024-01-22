@@ -38,5 +38,9 @@ class SendMailController extends Controller
 
 
         return json_encode(['location' => $fileNameToStore]);
+
+        $image = $request->image->getClientOriginalName();
+        $fileName = time() . '.' . $request->image->getClientOriginalExtension();
+        $request->image->move(public_path('assets/image'), $fileName);
     }
 }

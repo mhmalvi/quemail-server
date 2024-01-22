@@ -31,7 +31,7 @@ class SendMailController extends Controller
 
     public function imageUrl(Request $request)
     {
-        $imgpath = request()->file('name')->store('uploads', 'public');
+        $imgpath = request()->file('file')->store('uploads', 'public');
         return response()->json_encode(['location' => $imgpath]);
     }
 }

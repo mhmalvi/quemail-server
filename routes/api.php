@@ -23,3 +23,4 @@ Route::post('/send-mail',[SendMailController::class, 'send_mail']);
 Route::post('/save-template', [MailTemplate::class, 'saveTemplate']);
 Route::get('/get-template', [MailTemplate::class, 'getTemplate']);
 Route::post('/delete-template', [MailTemplate::class, 'destroy']);
+Route::put('/update-template', [MailTemplate::class, 'updateTemplate']);

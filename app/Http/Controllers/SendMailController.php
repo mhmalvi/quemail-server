@@ -49,7 +49,7 @@ class SendMailController extends Controller
         // dd(public_path(Storage::url($path)));
         // return ['location' => Storage::url($path)];
         return response()->json([
-            'location'=>Storage::url($path)
+            'location'=>"https://emailmarketing.queleadscrm.com".Storage::url($path)
         ]);
 
     }

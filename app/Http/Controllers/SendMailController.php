@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SendMailController extends Controller
 {
@@ -39,11 +40,17 @@ class SendMailController extends Controller
 
         // return json_encode(['location' => $fileNameToStore]);
 
-        $image = $request->image->getClientOriginalName();
-        $fileName = time() . '.' . $request->image->getClientOriginalExtension();
-        // dd(public_path('assets/image'), $fileName);
-        $request->image->move(public_path('assets/image'), $fileName);
-        public_path("assets/image/". $fileName);
+        // $image = $request->image->getClientOriginalName();
+        // $fileName = time() . '.' . $request->image->getClientOriginalExtension();
+        // // dd(public_path('assets/image'), $fileName);
+        // $request->image->move(public_path('assets/image'), $fileName);
+        // public_path("assets/image/". $fileName);
+        $path = $request->file('image')->store('uploads', 'public');
+        // dd(public_path(Storage::url($path)));
+        // return ['location' => Storage::url($path)];
+        return response()->json([
+            'location'=>Storage::url($path)
+        ]);
 
     }
 }

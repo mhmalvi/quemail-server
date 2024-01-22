@@ -31,16 +31,19 @@ class SendMailController extends Controller
 
     public function imageUrl(Request $request)
     {
-        $file = $request->file('image');
-        $path = url('/uploads/') . '/' . $file->getClientOriginalName();
-        $imgpath = $file->move(public_path('/uploads/'), $file->getClientOriginalName());
-        $fileNameToStore = $path;
+        // $file = $request->file('image');
+        // $path = url('/uploads/') . '/' . $file->getClientOriginalName();
+        // $imgpath = $file->move(public_path('/uploads/'), $file->getClientOriginalName());
+        // $fileNameToStore = $path;
 
 
-        return json_encode(['location' => $fileNameToStore]);
+        // return json_encode(['location' => $fileNameToStore]);
 
         $image = $request->image->getClientOriginalName();
         $fileName = time() . '.' . $request->image->getClientOriginalExtension();
+        // dd(public_path('assets/image'), $fileName);
         $request->image->move(public_path('assets/image'), $fileName);
+        public_path("assets/image/". $fileName);
+
     }
 }

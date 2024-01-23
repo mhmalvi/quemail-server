@@ -41,7 +41,7 @@ class UploadedImageController extends Controller
             $file_path = Storage::path($file_name);
             // dd($file_path);
             if ($file_path) {
-                $response = Storage::delete($file_path);
+                $response = unlink(public_path($file_path));
                 // dd($response);
                 if ($response) {
                     return response()->json([

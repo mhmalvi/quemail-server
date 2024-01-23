@@ -13,7 +13,10 @@ class UploadedImageController extends Controller
         // $files = Storage::files($directory);
         // dd($files);
         $fileUrl = Storage::disk('local')->files('public/uploads');
-        $imageBaseUrl = "https://emailmarketing.queleadscrm.com" . $fileUrl;
+        $imageBaseUrl = [];
+        foreach ($fileUrl as $key => $path) {
+            array_push($imageBaseUrl, "https://emailmarketing.queleadscrm.com" . $fileUrl);
+        }
         dd($imageBaseUrl);
         return response()->json(['file_url' => $imageBaseUrl]);
     }

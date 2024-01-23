@@ -28,3 +28,4 @@ Route::post('/update-template', [MailTemplate::class, 'updateTemplate']);
 
 Route::post('/upload-image',[SendMailController::class, 'imageUrl']);
 Route::get('/get-image', [UploadedImageController::class, 'getImages']);
+Route::post('/delete-image', [UploadedImageController::class, 'deleteImage']);

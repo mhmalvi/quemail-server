@@ -9,9 +9,8 @@ class UploadedImageController extends Controller
 {
     public function getImages()
     {
-        $fileUrl = Storage::files('public/uploads');
-        // dd($fileUrl);
-        $fileUrl = str_replace('public', 'storage', $fileUrl);
+        $fileMainUrl = Storage::files('public/uploads');
+        $fileUrl = str_replace('public', 'storage', $fileMainUrl);
         // dd($fileUrl);
         $imageBaseUrl = [];
         foreach ($fileUrl as $url) {
@@ -30,5 +29,12 @@ class UploadedImageController extends Controller
                 'status' => 404
             ], 404);
         }
+    }
+
+    public function deleteImage(Request $request){
+        $file = $request->path;
+        $path=str_replace('https://emailmarketing.queleadscrm.com/', '', $file);
+        dd($path);
+        Storage::disk('local')->delete($file);
     }
 }

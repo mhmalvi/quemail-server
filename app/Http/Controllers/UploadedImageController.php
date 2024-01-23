@@ -38,10 +38,10 @@ class UploadedImageController extends Controller
         $file_name = str_replace('https://emailmarketing.queleadscrm.com/storage/uploads/', '', $file);
         // dd($path);
         if ($file_name) {
-            $file_path = Storage::path($file_name);
+            // $file_path = Storage::path($file_name);
             // dd($file_path);
-            if ($file_path) {
-                $response = unlink(public_path($file_path));
+            // if ($file_path) {
+                $response = unlink(public_path($file_name));
                 // dd($response);
                 if ($response) {
                     return response()->json([
@@ -54,12 +54,12 @@ class UploadedImageController extends Controller
                         'status' => 500
                     ], 500);
                 }
-            } else {
-                return response()->json([
-                    'message' => 'File not found',
-                    'status' => 500
-                ], 500);
-            }
+            // } else {
+            //     return response()->json([
+            //         'message' => 'File not found',
+            //         'status' => 500
+            //     ], 500);
+            // }
         } else {
             return response()->json([
                 'message' => 'File not found',

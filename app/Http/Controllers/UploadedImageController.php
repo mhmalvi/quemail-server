@@ -9,7 +9,10 @@ class UploadedImageController extends Controller
 {
     public function getImages()
     {
-        $fileUrl = Storage::disk('local')->files('public/uploads');
+        $fileUrl = Storage::files('public/uploads');
+        // dd($fileUrl);
+        $fileUrl = str_replace('public', 'storage', $fileUrl);
+        // dd($fileUrl);
         $imageBaseUrl = [];
         foreach ($fileUrl as $url) {
             $path = "https://emailmarketing.queleadscrm.com/" . $url;

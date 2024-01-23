@@ -35,6 +35,7 @@ class UploadedImageController extends Controller
         $file = $request->path;
         $path=str_replace('https://emailmarketing.queleadscrm.com/', '', $file);
         // dd($path);
-        Storage::disk('local')->delete($path);
+        $response = Storage::disk('local')->delete($path);
+        dd($response);
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MailTemplate;
 use App\Http\Controllers\SendMailController;
+use App\Http\Controllers\UploadedImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,4 @@ Route::post('/delete-template', [MailTemplate::class, 'destroy']);
 Route::post('/update-template', [MailTemplate::class, 'updateTemplate']);
 
 Route::post('/upload-image',[SendMailController::class, 'imageUrl']);
+Route::get('/get-image', [UploadedImageController::class, 'getImages']);

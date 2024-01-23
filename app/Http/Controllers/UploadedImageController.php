@@ -34,7 +34,7 @@ class UploadedImageController extends Controller
     public function deleteImage(Request $request){
         $file = $request->path;
         $path=str_replace('https://emailmarketing.queleadscrm.com/', '', $file);
-        dd($path);
-        Storage::disk('local')->delete($file);
+        // dd($path);
+        Storage::disk('local')->delete($path);
     }
 }

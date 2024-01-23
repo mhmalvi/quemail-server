@@ -21,7 +21,7 @@ class UploadedImageController extends Controller
             return response()->json([
                 'meassage' => 'success',
                 'status' => 200,
-                'count'=>count($imageBaseUrl),
+                'count' => count($imageBaseUrl),
                 'file_url' => $imageBaseUrl
             ], 200);
         } else {
@@ -32,13 +32,25 @@ class UploadedImageController extends Controller
         }
     }
 
-    public function deleteImage(Request $request){
+    public function deleteImage(Request $request)
+    {
         $file = $request->path;
-        $file_name=str_replace('https://emailmarketing.queleadscrm.com/storage/uploads/', '', $file);
+        $file_name = str_replace('https://emailmarketing.queleadscrm.com/storage/uploads/', '', $file);
         // dd($path);
         $file_path = Storage::path($file_name);
-        dd($file_path);
+        // dd($file_path);
         $response = Storage::disk('local')->delete($file_path);
         // dd($response);
+        if ($response) {
+            return response()->json([
+                'message' => 'Deleted',
+                'status' => 200
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Deleted',
+                'status' => 500
+            ], 500);
+        }
     }
 }

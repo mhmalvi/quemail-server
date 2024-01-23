@@ -43,19 +43,19 @@ class UploadedImageController extends Controller
         if (count($file_name)>0) {
             foreach($file_name as $name){
                 $response = unlink(storage_path('app/public/uploads/' . $name));
-                // dd($response);
-                if ($response) {
-                    return response()->json([
-                        'message' => 'Deleted',
-                        'status' => 200
-                    ], 200);
-                } else {
-                    return response()->json([
-                        'message' => 'Deleted',
-                        'status' => 500
-                    ], 500);
-                }
-            }                
+                // dd($response);                
+            }
+            if ($response) {
+                return response()->json([
+                    'message' => 'Deleted',
+                    'status' => 200
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Deleted',
+                    'status' => 500
+                ], 500);
+            }               
         } else {
             return response()->json([
                 'message' => 'File not found',

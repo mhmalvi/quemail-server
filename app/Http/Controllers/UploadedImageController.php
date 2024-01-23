@@ -21,6 +21,7 @@ class UploadedImageController extends Controller
             return response()->json([
                 'meassage' => 'success',
                 'status' => 200,
+                'count'=>count($imageBaseUrl),
                 'file_url' => $imageBaseUrl
             ], 200);
         } else {
@@ -36,6 +37,6 @@ class UploadedImageController extends Controller
         $path=str_replace('https://emailmarketing.queleadscrm.com/', '', $file);
         // dd($path);
         $response = Storage::disk('local')->delete($path);
-        dd($response);
+        // dd($response);
     }
 }

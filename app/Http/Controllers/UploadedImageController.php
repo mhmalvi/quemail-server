@@ -38,7 +38,6 @@ class UploadedImageController extends Controller
             'path'=>'required'
         ]);
         $file = $request->path;
-        dd($file);
         $file_name = str_replace('https://emailmarketing.queleadscrm.com/storage/uploads/', '', $file);
         // dd($path);
         if (count($file_name)>0) {

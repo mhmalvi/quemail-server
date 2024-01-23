@@ -34,14 +34,16 @@ class UploadedImageController extends Controller
 
     public function deleteImage(Request $request)
     {
+        $request->validate([
+            'path'=>'required'
+        ]);
         $file = $request->path;
+        dd($file);
         $file_name = str_replace('https://emailmarketing.queleadscrm.com/storage/uploads/', '', $file);
         // dd($path);
-        if ($file_name) {
-            // $file_path = Storage::path($file_name);
-            // dd($file_path);
-            // if ($file_path) {
-                $response = unlink(storage_path('app/public/uploads/'.$file_name));
+        if (count($file_name)>0) {
+            foreach($file_name as $name){
+                $response = unlink(storage_path('app/public/uploads/' . $name));
                 // dd($response);
                 if ($response) {
                     return response()->json([
@@ -54,12 +56,7 @@ class UploadedImageController extends Controller
                         'status' => 500
                     ], 500);
                 }
-            // } else {
-            //     return response()->json([
-            //         'message' => 'File not found',
-            //         'status' => 500
-            //     ], 500);
-            // }
+            }                
         } else {
             return response()->json([
                 'message' => 'File not found',

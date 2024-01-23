@@ -37,18 +37,32 @@ class UploadedImageController extends Controller
         $file = $request->path;
         $file_name = str_replace('https://emailmarketing.queleadscrm.com/storage/uploads/', '', $file);
         // dd($path);
-        $file_path = Storage::path($file_name);
-        // dd($file_path);
-        $response = Storage::disk('local')->delete($file_path);
-        // dd($response);
-        if ($response) {
-            return response()->json([
-                'message' => 'Deleted',
-                'status' => 200
-            ], 200);
+        if ($file_name) {
+            $file_path = Storage::path($file_name);
+            // dd($file_path);
+            if ($file_path) {
+                $response = Storage::disk('local')->delete($file_path);
+                // dd($response);
+                if ($response) {
+                    return response()->json([
+                        'message' => 'Deleted',
+                        'status' => 200
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => 'Deleted',
+                        'status' => 500
+                    ], 500);
+                }
+            } else {
+                return response()->json([
+                    'message' => 'File not found',
+                    'status' => 500
+                ], 500);
+            }
         } else {
             return response()->json([
-                'message' => 'Deleted',
+                'message' => 'File not found',
                 'status' => 500
             ], 500);
         }

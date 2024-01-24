@@ -12,22 +12,30 @@ class SendMailController extends Controller
     {
         // $details = "Hello";
         // dd($request->all());
-        $email_content = [
-            $subject = $request->subject,
-            $template = $request->template,
-            $emails = $request->email
-        ];
-        // dd($email_content[2]);
-        // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
-        $emails = $request->email;
-        // dd($emails);
-        // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
-        // dd($emails);
-        foreach ($emails as $key => $value) {
-            \Mail::to($value)->queue(new Mail($email_content));
+        try {
+            $email_content = [
+                $subject = $request->subject,
+                $template = $request->template,
+                $emails = $request->email
+            ];
+            // dd($email_content[2]);
+            // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
+            $emails = $request->email;
+            // dd($emails);
+            // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
+            // dd($emails);
+            foreach ($emails as $key => $value) {
+                \Mail::to($value)->queue(new Mail($email_content));
+            }
+            // dispatch($job);
+            // echo "Mail send successfully !!";
+            return response()->json([
+                'message' => 'Email sent',
+                'status' => 200
+            ], 200);
+        } catch (\Throwable $th) {
+            throw $th;
         }
-        // dispatch($job);
-        echo "Mail send successfully !!";
     }
 
     public function imageUrl(Request $request)
@@ -49,8 +57,7 @@ class SendMailController extends Controller
         // dd(public_path(Storage::url($path)));
         // return ['location' => Storage::url($path)];
         return response()->json([
-            'location'=>"https://emailmarketing.queleadscrm.com".Storage::url($path)
+            'location' => "https://emailmarketing.queleadscrm.com" . Storage::url($path)
         ]);
-
     }
 }

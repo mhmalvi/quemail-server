@@ -26,7 +26,9 @@ class SendMailController extends Controller
             // dd($emails);
             foreach ($emails as $key => $value) {
                 $response = \Mail::to($value)->queue(new Mail($email_content));
-                dd($response);
+                if($response){
+                    echo 'Mail sent to '.$value;
+                }
             }
             // dispatch($job);
             // echo "Mail send successfully !!";

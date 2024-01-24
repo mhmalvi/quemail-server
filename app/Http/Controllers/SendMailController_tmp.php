@@ -12,17 +12,16 @@ class SendMailController extends Controller
     {
         // $details = "Hello";
         // dd($request->all());
-        $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com'];
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
-            $emails = $emails
+            $emails = $request->email
         ];
         // dd($email_content[2]);
-        $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
+        // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
         $emails = $request->email;
         // dd($emails);
-
+        $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com'];
         // dd($emails);
         foreach ($emails as $key => $value) {
             $response = \Mail::to($value)->queue(new Mail($email_content));
@@ -30,7 +29,7 @@ class SendMailController extends Controller
             //     echo 'Mail sent to '.$value;
             // }
         }
-        dispatch($job);
+        // dispatch($job);
         // echo "Mail send successfully !!";
         return response()->json([
             'message' => 'Email sent',

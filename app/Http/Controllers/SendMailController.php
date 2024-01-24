@@ -22,7 +22,7 @@ class SendMailController extends Controller
             // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
             $emails = $request->email;
             // dd($emails);
-            $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com'];
+            $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com'];
             // dd($emails);
             foreach ($emails as $key => $value) {
                 $response = \Mail::to($value)->queue(new Mail($email_content));
@@ -32,10 +32,10 @@ class SendMailController extends Controller
             }
             // dispatch($job);
             // echo "Mail send successfully !!";
-            return response()->json([
-                'message' => 'Email sent',
-                'status' => 200
-            ], 200);
+            // return response()->json([
+            //     'message' => 'Email sent',
+            //     'status' => 200
+            // ], 200);
         } catch (\Throwable $th) {
             throw $th;
         }

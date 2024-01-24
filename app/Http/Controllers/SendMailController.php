@@ -20,7 +20,7 @@ class SendMailController extends Controller
         // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
         // $emails = $request->email;
         // dd($emails);
-        $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
+        // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
         // dd($emails);
         foreach ($emails as $key => $value) {
             \Mail::to($value)->queue(new MarketingMail($email_content));

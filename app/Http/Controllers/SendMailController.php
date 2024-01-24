@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Mail;
+use App\Mail\MarketingMail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SendMailController extends Controller
 {
@@ -12,52 +11,26 @@ class SendMailController extends Controller
     {
         // $details = "Hello";
         // dd($request->all());
-        $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com'];
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
-            $emails = $emails
+            $emails = $request->email
         ];
         // dd($email_content[2]);
-        $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
-        $emails = $request->email;
+        // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
+        // $emails = $request->email;
         // dd($emails);
-
+        $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
         // dd($emails);
         foreach ($emails as $key => $value) {
-            $response = \Mail::to($value)->queue(new Mail($email_content));
-            // if($response){
-            //     echo 'Mail sent to '.$value;
-            // }
+            \Mail::to($value)->queue(new MarketingMail($email_content));
         }
-        dispatch($job);
-        // echo "Mail send successfully !!";
-        return response()->json([
-            'message' => 'Email sent',
-            'status' => 200
-        ], 200);
+        // dispatch($job);
+        echo "Mail send successfully !!";
     }
 
-    public function imageUrl(Request $request)
-    {
-        // $file = $request->file('image');
-        // $path = url('/uploads/') . '/' . $file->getClientOriginalName();
-        // $imgpath = $file->move(public_path('/uploads/'), $file->getClientOriginalName());
-        // $fileNameToStore = $path;
-
-
-        // return json_encode(['location' => $fileNameToStore]);
-
-        // $image = $request->image->getClientOriginalName();
-        // $fileName = time() . '.' . $request->image->getClientOriginalExtension();
-        // // dd(public_path('assets/image'), $fileName);
-        // $request->image->move(public_path('assets/image'), $fileName);
-        // public_path("assets/image/". $fileName);
-        $path = $request->file('image')->store('uploads', 'public');
-        // dd(public_path(Storage::url($path)));
-        // return ['location' => Storage::url($path)];
-        return response()->json([
-            'location' => "https://emailmarketing.queleadscrm.com" . Storage::url($path)
-        ]);
+    public function imageUrl(Request $request){
+        // dd($request->all());
+        
     }
 }

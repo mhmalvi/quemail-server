@@ -22,10 +22,11 @@ class SendMailController extends Controller
             // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
             $emails = $request->email;
             // dd($emails);
-            // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
+            $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com'];
             // dd($emails);
             foreach ($emails as $key => $value) {
-                \Mail::to($value)->queue(new Mail($email_content));
+                $response = \Mail::to($value)->queue(new Mail($email_content));
+                dd($response);
             }
             // dispatch($job);
             // echo "Mail send successfully !!";

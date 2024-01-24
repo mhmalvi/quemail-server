@@ -26,7 +26,7 @@ class MarketingMail extends Mailable
     {
 
         $this->email_content = $email_content;
-        dd($this->email_content);
+        // dd($this->email_content);
     }
 
     /**

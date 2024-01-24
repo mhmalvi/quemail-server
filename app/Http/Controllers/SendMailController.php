@@ -26,16 +26,16 @@ class SendMailController extends Controller
             // dd($emails);
             foreach ($emails as $key => $value) {
                 $response = \Mail::to($value)->queue(new Mail($email_content));
-                if($response){
-                    echo 'Mail sent to '.$value;
-                }
+                // if($response){
+                //     echo 'Mail sent to '.$value;
+                // }
             }
             // dispatch($job);
             // echo "Mail send successfully !!";
-            // return response()->json([
-            //     'message' => 'Email sent',
-            //     'status' => 200
-            // ], 200);
+            return response()->json([
+                'message' => 'Email sent',
+                'status' => 200
+            ], 200);
         } catch (\Throwable $th) {
             throw $th;
         }

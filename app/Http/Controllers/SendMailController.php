@@ -12,7 +12,6 @@ class SendMailController extends Controller
     {
         // $details = "Hello";
         // dd($request->all());
-        try {
             $email_content = [
                 $subject = $request->subject,
                 $template = $request->template,
@@ -36,9 +35,6 @@ class SendMailController extends Controller
                 'message' => 'Email sent',
                 'status' => 200
             ], 200);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
     }
 
     public function imageUrl(Request $request)

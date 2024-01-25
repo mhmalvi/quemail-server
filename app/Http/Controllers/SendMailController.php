@@ -29,7 +29,7 @@ class SendMailController extends Controller
             // dd($value);
             try {
                 
-                $result = Mail::to($email)->send(new MarketingMail($email_content));
+                $result = Mail::to($email)->queue(new MarketingMail($email_content));
                 // dd(Mail::flushMacros());
                 if($result){
                     // dd("wrong");

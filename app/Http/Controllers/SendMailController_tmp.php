@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Mail;
+// use App\Mail\Mail;
+use App\Mail\MarketingMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class SendMailController extends Controller
 {
@@ -24,7 +26,7 @@ class SendMailController extends Controller
         $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com'];
         // dd($emails);
         foreach ($emails as $key => $value) {
-            $response = \Mail::to($value)->queue(new Mail($email_content));
+            $response = Mail::to($value)->queue(new MarketingMail($email_content));
             // if($response){
             //     echo 'Mail sent to '.$value;
             // }

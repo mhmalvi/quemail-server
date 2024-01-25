@@ -56,6 +56,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'mail_from_address' => env('MAIL_FROM_ADDRESS', 'info@quadque.tech'),
 
     'asset_url' => env('ASSET_URL'),
 

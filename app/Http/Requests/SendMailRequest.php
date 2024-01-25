@@ -24,7 +24,8 @@ class SendMailRequest extends FormRequest
         return [
             'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             'subject' => 'required',
-            'template' => 'required'
+            'template' => 'required',
+            'id'=>''
         ];
     }
 }

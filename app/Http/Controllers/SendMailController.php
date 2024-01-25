@@ -18,7 +18,7 @@ class SendMailController extends Controller
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
-            $emails = $request->email
+            $email = $request->email
         ];
         // dd($email_content[2]);
         // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
@@ -27,18 +27,23 @@ class SendMailController extends Controller
         // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
         // dd($emails);
         try {
-            foreach ($emails as $key => $email) {
-                // dd($value);
-                $result = Mail::to($email)->send(new MarketingMail($email_content));
-            }
+            // foreach ($emails as $key => $email) {
+            // dd($value);
+            $result = Mail::to($email)->send(new MarketingMail($email_content));
+            return response()->json([
+                'message' => "Mail sent",
+                'status' => 200,
+                'data' => $email
+            ]);
+            // }
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Email not valid',
-                'status' => 500
+                'status' => 500,
+                'data' => $email
             ], 500);
         }
         // dispatch($job);
-        echo "Mail send successfully !!";
     }
 
     public function imageUrl(Request $request)

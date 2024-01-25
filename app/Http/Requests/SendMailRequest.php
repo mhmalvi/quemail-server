@@ -22,7 +22,7 @@ class SendMailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email.*' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             'subject' => 'required',
             'template' => 'required'
         ];

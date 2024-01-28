@@ -47,12 +47,13 @@ class SendMailController extends Controller
                     EmailRecordsDetails::create([
                         'recipients_mail' => $email,
                         'sender' => config('app.mail_from_address'),
-                        'email_records_id' => 1
+                        'email_records_id' => $records->id
                     ]);
                     return response()->json([
                         'message' => "Mail sent",
                         'status' => 200,
-                        'data' => $email
+                        'data' => $email,
+                        'id'=>$records->id
                     ]);
                 }
             } else {

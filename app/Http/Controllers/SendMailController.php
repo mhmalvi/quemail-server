@@ -24,32 +24,32 @@ class SendMailController extends Controller
             $template = $request->template,
             $email = $request->email
         ];
-        $mail = DynamicMail::where('user_id',$request->user_id)->first();
-        if($mail){
+        $mail = DynamicMail::where('user_id', $request->user_id)->first();
+        if ($mail) {
             $smtpSettings = [
                 'default' => $mail->driver,
-                'host'=>$mail->host,
-                'port'=>$mail->port,
-                'username'=>$mail->username,
-                'password'=>$mail->password,
-                'encryption'=>$mail->encryption,
-                'from_mail_address'=>$mail->from_mail_address,
-                'from_name'=>$mail->from_name
+                'host' => $mail->host,
+                'port' => $mail->port,
+                'username' => $mail->username,
+                'password' => $mail->password,
+                'encryption' => $mail->encryption,
+                'from_mail_address' => $mail->from_mail_address,
+                'from_name' => $mail->from_name
             ];
 
-            config([
-            'mail.mailers.smtp.host'=>$smtpSettings['host'],
-            'mail.mailers.smtp.port'=>$smtpSettings['port'],
-            'mail.mailers.smtp.username'=>$smtpSettings['username'],
-            'mail.mailers.smtp.password'=>$smtpSettings['password'],
-            'mail.mailers.smtp.encryption'=>$smtpSettings['encryption'],
-            'mail.from.address'=>$smtpSettings['from_mail_address'],
-            'mail.from.name'=>$smtpSettings['from_name']
-        ]);
+            
         }
 
-        
-        
+config([
+                'mail.mailers.smtp.host' => $smtpSettings['host'],
+                'mail.mailers.smtp.port' => $smtpSettings['port'],
+                'mail.mailers.smtp.username' => $smtpSettings['username'],
+                'mail.mailers.smtp.password' => $smtpSettings['password'],
+                'mail.mailers.smtp.encryption' => $smtpSettings['encryption'],
+                'mail.from.address' => $smtpSettings['from_mail_address'],
+                'mail.from.name' => $smtpSettings['from_name']
+            ]);
+
         // dd($email_content[2]);
         // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
         // $emails = $request->email;
@@ -57,53 +57,53 @@ class SendMailController extends Controller
         // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
         // dd($emails);
         // try {
-            // foreach ($emails as $key => $email) {
-            // dd($value);           
+        // foreach ($emails as $key => $email) {
+        // dd($value);           
 
-            if ($request->id == 0) {
-                // dd(config('app.mail_from_address'));
-                $result = Mail::to($email)->send(new MarketingMail($email_content));
-                // dd($email);
-                $records = new EmailRecords();
-                $count = 0;
-                $records->sender = config('app.mail_from_address');
-                $records->counts = $count + 1;
-                $response = $records->save();
-                // dd(json_decode($records));
-                if ($response) {
-                    EmailRecordsDetails::create([
-                        'recipients_mail' => $email,
-                        'sender' => config('app.mail_from_address'),
-                        'email_records_id' => $records->id
-                    ]);
-                    return response()->json([
-                        'message' => "Mail sent",
-                        'status' => 200,
-                        'data' => $email,
-                        'id'=>$records->id
-                    ]);
-                }
-            } else {
-                $result = Mail::to($email)->send(new MarketingMail($email_content));
-                $record = EmailRecords::findOrFail($request->id);
-                $record->sender = config('app.mail_from_address');
-                $record->counts = $record->counts + 1;
-                $response = $record->save();
-                if ($response) {
-                    EmailRecordsDetails::create([
-                        'recipients_mail' => $email,
-                        'sender' => config('app.mail_from_address'),
-                        'email_records_id' => $request->id
-                    ]);
-                    return response()->json([
-                        'message' => "Mail sent",
-                        'status' => 200,
-                        'data' => $email,
-                        'id'=>$record->id
-                    ]);
-                }
+        if ($request->id == 0) {
+            // dd(config('app.mail_from_address'));
+            $result = Mail::to($email)->send(new MarketingMail($email_content));
+            // dd($email);
+            $records = new EmailRecords();
+            $count = 0;
+            $records->sender = config('app.mail_from_address');
+            $records->counts = $count + 1;
+            $response = $records->save();
+            // dd(json_decode($records));
+            if ($response) {
+                EmailRecordsDetails::create([
+                    'recipients_mail' => $email,
+                    'sender' => config('app.mail_from_address'),
+                    'email_records_id' => $records->id
+                ]);
+                return response()->json([
+                    'message' => "Mail sent",
+                    'status' => 200,
+                    'data' => $email,
+                    'id' => $records->id
+                ]);
             }
-            // }
+        } else {
+            $result = Mail::to($email)->send(new MarketingMail($email_content));
+            $record = EmailRecords::findOrFail($request->id);
+            $record->sender = config('app.mail_from_address');
+            $record->counts = $record->counts + 1;
+            $response = $record->save();
+            if ($response) {
+                EmailRecordsDetails::create([
+                    'recipients_mail' => $email,
+                    'sender' => config('app.mail_from_address'),
+                    'email_records_id' => $request->id
+                ]);
+                return response()->json([
+                    'message' => "Mail sent",
+                    'status' => 200,
+                    'data' => $email,
+                    'id' => $record->id
+                ]);
+            }
+        }
+        // }
         // } catch (Exception $e) {
         //     return response()->json([
         //         'message' => 'Email not valid',

@@ -46,7 +46,7 @@ class DynamicMailController extends Controller
     public function getMail($user_id)
     {
         if ($user_id) {
-            $response = DynamicMail::findOrFail($user_id);
+            $response = DynamicMail::where('user_id',$user_id)->first();
             if ($response) {
                 return response()->json([
                     'message' => 'success',

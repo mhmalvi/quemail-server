@@ -25,7 +25,7 @@ Route::post('/save-template', [MailTemplate::class, 'saveTemplate']);
 Route::get('/get-template', [MailTemplate::class, 'getTemplate']);
 Route::post('/delete-template', [MailTemplate::class, 'destroy']);
 Route::post('/update-template', [MailTemplate::class, 'updateTemplate']);
-Route::get('/email-history'.[EmailHistoryController::class,'emailHistory']);
+Route::get('/email-history',[EmailHistoryController::class,'emailHistory']);
 
 Route::post('/upload-image',[SendMailController::class, 'imageUrl']);
 Route::get('/get-image', [UploadedImageController::class, 'getImages']);

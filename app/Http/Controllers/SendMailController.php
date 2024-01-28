@@ -58,21 +58,21 @@ class SendMailController extends Controller
         // try {
         // foreach ($emails as $key => $email) {
         // dd($value);           
-
+// dd(config('mail.from.address'));
         if ($request->id == 0) {
             // dd(config('app.mail_from_address'));
             $result = Mail::to($email)->send(new MarketingMail($email_content));
             // dd($email);
             $records = new EmailRecords();
             $count = 0;
-            $records->sender = config('app.mail.from.address');
+            $records->sender = config('mail.from.address');
             $records->counts = $count + 1;
             $response = $records->save();
             // dd(json_decode($records));
             if ($response) {
                 EmailRecordsDetails::create([
                     'recipients_mail' => $email,
-                    'sender' => config('app.mail.from.address'),
+                    'sender' => config('mail.from.address'),
                     'email_records_id' => $records->id
                 ]);
                 return response()->json([
@@ -85,13 +85,13 @@ class SendMailController extends Controller
         } else {
             $result = Mail::to($email)->send(new MarketingMail($email_content));
             $record = EmailRecords::findOrFail($request->id);
-            $record->sender = config('app.mail.from.address');
+            $record->sender = config('mail.from.address');
             $record->counts = $record->counts + 1;
             $response = $record->save();
             if ($response) {
                 EmailRecordsDetails::create([
                     'recipients_mail' => $email,
-                    'sender' => config('app.mail.from.address'),
+                    'sender' => config('mail.from.address'),
                     'email_records_id' => $request->id
                 ]);
                 return response()->json([

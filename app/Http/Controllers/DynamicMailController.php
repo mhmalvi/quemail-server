@@ -68,7 +68,7 @@ class DynamicMailController extends Controller
         }
     }
 
-    public function updateMail(Request $request, $id)
+    public function updateMail(EditMailRequest $request, $id)
     {
         $response = DynamicMail::findOrFail($id);
         if ($response) {

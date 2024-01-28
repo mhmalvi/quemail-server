@@ -25,10 +25,10 @@ class EditMailRequest extends FormRequest
             'driver' => 'required',
             'host' => 'required',
             'port' => 'required',
-            'username' => 'required|regex:/(.+)@(.+)\.(.+)/i|unique:dynamic_mails',
+            'username' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             'password' => 'required',
             'encryption' => 'required',
-            'from_mail_address' => 'required|regex:/(.+)@(.+)\.(.+)/i|unique:dynamic_mails',
+            'from_mail_address' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             'from_name' => 'required',
             'user_id' => 'required'
         ];

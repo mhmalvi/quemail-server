@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DynamicMailController;
 use App\Http\Controllers\MailTemplate;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\UploadedImageController;
@@ -28,6 +29,8 @@ Route::post('/delete-template', [MailTemplate::class, 'destroy']);
 Route::post('/update-template', [MailTemplate::class, 'updateTemplate']);
 Route::get('/email-history',[EmailHistoryController::class,'emailHistory']);
 Route::get('/email-history-details',[EmailHistoryController::class,'emailHistoryDetails']);
+
+Route::post('/save-mail', [DynamicMailController::class, 'saveMail']);
 
 Route::post('/upload-image',[SendMailController::class, 'imageUrl']);
 Route::get('/get-image', [UploadedImageController::class, 'getImages']);

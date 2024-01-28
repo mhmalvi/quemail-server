@@ -25,10 +25,10 @@ class DynamicMailRequest extends FormRequest
             'driver'=>'required',
             'host'=>'required',
             'port'=>'required',
-            'username'=>'required|email',
+            'username'=>'required|email|unique:dynamic_mails',
             'password'=>'required',
             'encryption'=>'required',
-            'from_mail_address'=> 'required|email',
+            'from_mail_address'=> 'required|email|unique:dynamic_mails',
             'from_name'=>'required',
             'user_id'=>'required'
         ];

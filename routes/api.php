@@ -3,6 +3,7 @@
 use App\Http\Controllers\MailTemplate;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\UploadedImageController;
+use App\Http\Controllers\EmailHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

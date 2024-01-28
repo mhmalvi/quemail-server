@@ -11,8 +11,9 @@ class DynamicMailController extends Controller
 {
     public function saveMail(DynamicMailRequest $request)
     {
-        $mails = DynamicMail::where('user_id', $request->user_id)->get();
-        if (count($mails) > 1) {
+        $mails = DynamicMail::where('user_id', $request->user_id)->get()->toArray();
+        dd($mails);
+        if ($mails) {
             $response = DynamicMail::create([
                 'driver' => $request->driver,
                 'host' => $request->host,

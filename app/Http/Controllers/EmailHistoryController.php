@@ -19,7 +19,7 @@ class EmailHistoryController extends Controller
             return response()->json([
                 'message'=>'failed',
                 'status'=>500
-            ],500)
+            ],500);
         }
     }
 }

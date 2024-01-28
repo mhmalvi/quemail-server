@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DynamicMail;
 use Illuminate\Http\Request;
 use App\Http\Requests\DynamicMailRequest;
+use App\Http\Requests\EditMailRequest;
 
 class DynamicMailController extends Controller
 {
@@ -46,7 +47,7 @@ class DynamicMailController extends Controller
     public function getMail($user_id)
     {
         if ($user_id) {
-            $response = DynamicMail::where('user_id',$user_id)->first();
+            $response = DynamicMail::where('user_id', $user_id)->first();
             if ($response) {
                 return response()->json([
                     'message' => 'success',
@@ -64,6 +65,39 @@ class DynamicMailController extends Controller
                 'message' => 'User id needed',
                 'status' => 500
             ], 500);
+        }
+    }
+
+    public function updateMail(Request $request, $id)
+    {
+        $response = DynamicMail::findOrFail($id);
+        if ($response) {
+            $response->driver = $request->driver;
+            $response->host = $request->host;
+            $response->port = $request->port;
+            $response->username = $request->username;
+            $response->password = $request->password;
+            $response->encryption = $request->encryption;
+            $response->from_mail_address = $request->from_mail_address;
+            $response->from_name = $request->from_name;
+            $result = $response->save();
+            if ($result) {
+                return response()->json([
+                    'message' => 'Updated',
+                    'status' => 201,
+                    'data' => $response
+                ], 201);
+            } else {
+                return response()->json([
+                    'message' => 'Update failed',
+                    'status' => 500,
+                ], 500);
+            }
+        } else {
+            return response()->json([
+                'message' => 'No data found',
+                'status' => 404,
+            ], 404);
         }
     }
 }

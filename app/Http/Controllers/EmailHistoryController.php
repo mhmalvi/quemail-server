@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmailRecords;
+use App\Models\EmailRecordsDetails;
 
 class EmailHistoryController extends Controller
 {

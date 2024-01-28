@@ -42,4 +42,28 @@ class DynamicMailController extends Controller
             ], 500);
         }
     }
+
+    public function getMail($user_id)
+    {
+        if ($user_id) {
+            $response = DynamicMail::findOrFail($user_id);
+            if ($response) {
+                return response()->json([
+                    'message' => 'success',
+                    'status' => 200,
+                    'data' => $response
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'No data found',
+                    'status' => 404
+                ], 404);
+            }
+        } else {
+            return response()->json([
+                'message' => 'User id needed',
+                'status' => 500
+            ], 500);
+        }
+    }
 }

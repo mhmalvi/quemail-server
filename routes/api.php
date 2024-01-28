@@ -31,6 +31,7 @@ Route::get('/email-history',[EmailHistoryController::class,'emailHistory']);
 Route::get('/email-history-details',[EmailHistoryController::class,'emailHistoryDetails']);
 
 Route::post('/save-mail', [DynamicMailController::class, 'saveMail']);
+Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);
 
 Route::post('/upload-image',[SendMailController::class, 'imageUrl']);
 Route::get('/get-image', [UploadedImageController::class, 'getImages']);

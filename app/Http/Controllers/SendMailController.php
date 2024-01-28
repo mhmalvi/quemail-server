@@ -71,7 +71,7 @@ class SendMailController extends Controller
                     return response()->json([
                         'message' => "Mail sent",
                         'status' => 200,
-                        'data' => $email.
+                        'data' => $email,
                         'id'=>$record->id
                     ]);
                 }

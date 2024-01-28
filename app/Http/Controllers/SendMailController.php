@@ -8,6 +8,7 @@ use App\Models\EmailRecords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\SendMailRequest;
+use App\Models\DynamicMail;
 use App\Models\EmailRecordsDetails;
 use Illuminate\Support\Facades\Storage;
 // use Illuminate\Support\Facades\Mail;
@@ -23,6 +24,30 @@ class SendMailController extends Controller
             $template = $request->template,
             $email = $request->email
         ];
+        $mail = DynamicMail::where('user_id',$request->user_id)->first();
+        if($mail){
+            $smtpSettings = [
+                'default' => $mail->driver,
+                'host'=>$mail->host,
+                'port'=>$mail->port,
+                'username'=>$mail->username,
+                'password'=>$mail->password,
+                'encryption'=>$mail->encryption,
+                'from_mail_address'=>$mail->from_mail_address,
+                'from_name'=>$mail->from_name
+            ];
+        }
+
+        config([
+            'mail.mailers.smtp.host'=>$smtpSettings['host'],
+            'mail.mailers.smtp.port'=>$smtpSettings['port'],
+            'mail.mailers.smtp.username'=>$smtpSettings['username'],
+            'mail.mailers.smtp.password'=>$smtpSettings['password'],
+            'mail.mailers.smtp.encryption'=>$smtpSettings['encryption'],
+            'mail.from.address'=>$smtpSettings['from_mail_address'],
+            'mail.from.name'=>$smtpSettings['from_name']
+        ]);
+        
         // dd($email_content[2]);
         // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
         // $emails = $request->email;

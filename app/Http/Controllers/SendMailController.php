@@ -36,9 +36,8 @@ class SendMailController extends Controller
                 'from_mail_address'=>$mail->from_mail_address,
                 'from_name'=>$mail->from_name
             ];
-        }
 
-        config([
+            config([
             'mail.mailers.smtp.host'=>$smtpSettings['host'],
             'mail.mailers.smtp.port'=>$smtpSettings['port'],
             'mail.mailers.smtp.username'=>$smtpSettings['username'],
@@ -47,6 +46,9 @@ class SendMailController extends Controller
             'mail.from.address'=>$smtpSettings['from_mail_address'],
             'mail.from.name'=>$smtpSettings['from_name']
         ]);
+        }
+
+        
         
         // dd($email_content[2]);
         // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');

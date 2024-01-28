@@ -11,14 +11,11 @@ use App\Http\Requests\SendMailRequest;
 use App\Models\DynamicMail;
 use App\Models\EmailRecordsDetails;
 use Illuminate\Support\Facades\Storage;
-// use Illuminate\Support\Facades\Mail;
 
 class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
-        // dd($request->all());
-        // $request->validated();
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
@@ -49,26 +46,13 @@ class SendMailController extends Controller
             'mail.from.name' => $smtpSettings['from_name']
         ]);
 
-        // dd($email_content[2]);
-        // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
-        // $emails = $request->email;
-        // dd($emails);
-        // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
-        // dd($emails);
-        // try {
-        // foreach ($emails as $key => $email) {
-        // dd($value);           
-// dd(config('mail.from.address'));
         if ($request->id == 0) {
-            // dd(config('app.mail_from_address'));
             $result = Mail::to($email)->send(new MarketingMail($email_content));
-            // dd($email);
             $records = new EmailRecords();
             $count = 0;
             $records->sender = config('mail.from.address');
             $records->counts = $count + 1;
             $response = $records->save();
-            // dd(json_decode($records));
             if ($response) {
                 EmailRecordsDetails::create([
                     'recipients_mail' => $email,
@@ -102,15 +86,6 @@ class SendMailController extends Controller
                 ]);
             }
         }
-        // }
-        // } catch (Exception $e) {
-        //     return response()->json([
-        //         'message' => 'Email not valid',
-        //         'status' => 500,
-        //         'data' => $email
-        //     ], 500);
-        // }
-        // dispatch($job);
     }
 
     public function imageUrl(Request $request)

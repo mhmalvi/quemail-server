@@ -89,7 +89,7 @@ class SendMailController extends Controller
             foreach($files as $file){
                 $fileName = $file->getClientOriginalName();
                 // unlink(public_path("/assets/email_attachment/".$fileName));
-                unlink(public_path("/assets/email_attachment/"$fileName));
+                unlink(public_path("/assets/email_attachment/".$fileName));
             }
             if ($response) {
                 EmailRecordsDetails::create([

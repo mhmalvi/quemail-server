@@ -91,8 +91,15 @@ class SendMailController extends Controller
     public function imageUrl(Request $request)
     {
         $path = $request->file('image')->store('uploads', 'public');
-        return response()->json([
-            'location' => "https://emailmarketing.queleadscrm.com" . Storage::url($path)
-        ]);
+        if ($path) {
+            return response()->json([
+                'location' => "https://emailmarketing.queleadscrm.com" . Storage::url($path)
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Failed',
+                'status' => 500
+            ], 500);
+        }
     }
 }

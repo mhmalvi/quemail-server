@@ -9,7 +9,8 @@ use App\Models\EmailRecordsDetails;
 class EmailHistoryController extends Controller
 {
     public function emailHistory(Request $request){
-        $records=EmailRecords::all();
+        // dd($request->per_page);
+        $records=EmailRecords::orderBy('id','desc')->paginate($request->per_page);
         if(count($records)>0){
              return response()->json([
                  'message'=>'success',

@@ -25,10 +25,11 @@ class SendMailController extends Controller
         ];
         // dd($email_content[3]);
         foreach($email_content[3] as $file){
-            $fileMainUrl = Storage::files('public/email_attachment');
-            $fileUrl = str_replace('public', 'storage', $fileMainUrl);
-            $fileUrl = "https://emailmarketing.queleadscrm.com/" . $fileUrl;
-            array_push($file_urls, $fileUrl);
+            $fileName = $file->getClientOriginalName();
+            $fileExt = time() . '.' . $file->getClientOriginalExtension();
+            $request->pay_slip->move(public_path('assets/email_attachment'), $fileExt);
+            $file_path = "assets/email_attachment/" . $fileExt;
+            array_push($file_urls, $file_path);
         }
         $mail = DynamicMail::where('user_id', $request->user_id)->first();
         if ($mail) {

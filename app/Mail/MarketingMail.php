@@ -20,13 +20,15 @@ class MarketingMail extends Mailable
      * Get the message envelope.
      */
     public $email_content;
+    public $file_url;
     /**
      * Create a new message instance.
      */
-    public function __construct($email_content)
+    public function __construct($email_content,$file_url)
     {
 
         $this->email_content = $email_content;
+        $this->file_url = $file_url;
         // dd($this->email_content);
     }
 
@@ -58,8 +60,15 @@ class MarketingMail extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
+    public function attachments()
     {
-        return [];
+        // return [
+            if($this->file_url){
+                foreach($this->file_url as $file){
+                    $this->attach(public_path($file));
+                }
+            }
+            
+        // ];
     }
 }

@@ -16,11 +16,19 @@ class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
+        $file_urls=[];
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
-            $email = $request->email
+            $email = $request->email,
+            $files = $request->files ? $request->files : ""
         ];
+        // dd($email_content[3]);
+        foreach($email_content[3] as $file){
+            $fileMainUrl = Storage::files('public/email_attachment');
+            $fileUrl = str_replace('public', 'storage', $fileMainUrl);
+            array_push($file_urls, $fileUrl);
+        }
         $mail = DynamicMail::where('user_id', $request->user_id)->first();
         if ($mail) {
             $smtpSettings = [
@@ -47,7 +55,7 @@ class SendMailController extends Controller
         ]);
 
         if ($request->id == 0) {
-            $result = Mail::to($email)->send(new MarketingMail($email_content));
+            $result = Mail::to($email)->send(new MarketingMail($email_content,$file_urls));
             $records = new EmailRecords();
             $count = 0;
             $records->sender = config('mail.from.address');
@@ -67,7 +75,7 @@ class SendMailController extends Controller
                 ]);
             }
         } else {
-            $result = Mail::to($email)->send(new MarketingMail($email_content));
+            $result = Mail::to($email)->send(new MarketingMail($email_content,$file_urls));
             $record = EmailRecords::findOrFail($request->id);
             $record->sender = config('mail.from.address');
             $record->counts = $record->counts + 1;

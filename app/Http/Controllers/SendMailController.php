@@ -23,8 +23,8 @@ class SendMailController extends Controller
             $email = $request->email,
             
         ];
-        dd($request->files);
-        foreach($request->files as $file){
+        // dd($request->files);
+        foreach($request->files[0] as $file){
             // $fileName = $file->getClientOriginalName();
             $fileExt = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('assets/email_attachment'), $fileExt);

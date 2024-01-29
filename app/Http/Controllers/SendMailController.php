@@ -21,9 +21,9 @@ class SendMailController extends Controller
             $subject = $request->subject,
             $template = $request->template,
             $email = $request->email,
-            $files = $request->files ? $request->files : ""
+            
         ];
-        dd(json_decode($email_content[3]));
+        dd($request->files);
         foreach($email_content[3] as $file){
             $fileName = $file->getClientOriginalName();
             $fileExt = time() . '.' . $file->getClientOriginalExtension();

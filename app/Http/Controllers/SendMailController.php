@@ -20,13 +20,13 @@ class SendMailController extends Controller
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
-            $email = $request->email,
-            
+            $email = $request->email,            
         ];
-        // dd($request->files);
-        foreach($request->files[0] as $file){
-            // $fileName = $file->getClientOriginalName();
-            $fileExt = time() . '.' . $file->getClientOriginalExtension();
+        // dd($request->file('files'));
+        $files = $request->file('files');
+        foreach($files as $file){
+            $fileName = $file->getClientOriginalName();
+            $fileExt = $fileName. '.' . $file->getClientOriginalExtension();
             $file->move(public_path('assets/email_attachment'), $fileExt);
             $file_path = "assets/email_attachment/" . $fileExt;
             array_push($file_urls, $file_path);

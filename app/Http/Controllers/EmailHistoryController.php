@@ -26,7 +26,7 @@ class EmailHistoryController extends Controller
     }
 
     public function emailHistoryDetails(Request $request){
-        $records = EmailRecordsDetails::where('email_records_id',$request->id)->get();
+        $records = EmailRecordsDetails::where('email_records_id',$request->id)->orderBy('id','desc')->paginate($request->per_page);
         if(count($records)>0){
             return response()->json([
                  'message'=>'success',

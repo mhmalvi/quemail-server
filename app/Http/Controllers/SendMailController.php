@@ -22,11 +22,10 @@ class SendMailController extends Controller
             $template = $request->template,
             $email = $request->email,            
         ];
-        // dd($request->file('files'));
         $files = $request->file('files');
         foreach($files as $file){
             $fileName = $file->getClientOriginalName();
-            $fileExt = $fileName. '.' . $file->getClientOriginalExtension();
+            $fileExt = $fileName;
             $file->move(public_path('assets/email_attachment'), $fileExt);
             $file_path = "assets/email_attachment/" . $fileExt;
             array_push($file_urls, $file_path);
@@ -44,7 +43,6 @@ class SendMailController extends Controller
                 'from_name' => $mail->from_name
             ];
         }
-
         config([
             'mail.default' => $smtpSettings['default'],
             'mail.mailers.smtp.host' => $smtpSettings['host'],
@@ -55,7 +53,7 @@ class SendMailController extends Controller
             'mail.from.address' => $smtpSettings['from_mail_address'],
             'mail.from.name' => $smtpSettings['from_name']
         ]);
-
+        
         if ($request->id == 0) {
             $result = Mail::to($email)->send(new MarketingMail($email_content,$file_urls));
             $records = new EmailRecords();
@@ -63,12 +61,18 @@ class SendMailController extends Controller
             $records->sender = config('mail.from.address');
             $records->counts = $count + 1;
             $response = $records->save();
+            foreach($files as $file){
+                $fileName = $file->getClientOriginalName();
+                unlink(public_path("/assets/email_attachment/".$fileName));
+            }
             if ($response) {
                 EmailRecordsDetails::create([
                     'recipients_mail' => $email,
                     'sender' => config('mail.from.address'),
                     'email_records_id' => $records->id
                 ]);
+
+
                 return response()->json([
                     'message' => "Mail sent",
                     'status' => 200,
@@ -82,6 +86,11 @@ class SendMailController extends Controller
             $record->sender = config('mail.from.address');
             $record->counts = $record->counts + 1;
             $response = $record->save();
+            foreach($files as $file){
+                $fileName = $file->getClientOriginalName();
+                // unlink(public_path("/assets/email_attachment/".$fileName));
+                unlink(public_path("/assets/email_attachment/"$fileName));
+            }
             if ($response) {
                 EmailRecordsDetails::create([
                     'recipients_mail' => $email,

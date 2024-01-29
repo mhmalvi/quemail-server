@@ -27,6 +27,7 @@ class SendMailController extends Controller
         foreach($email_content[3] as $file){
             $fileMainUrl = Storage::files('public/email_attachment');
             $fileUrl = str_replace('public', 'storage', $fileMainUrl);
+            $fileUrl = "https://emailmarketing.queleadscrm.com/" . $fileUrl;
             array_push($file_urls, $fileUrl);
         }
         $mail = DynamicMail::where('user_id', $request->user_id)->first();

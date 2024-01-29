@@ -27,7 +27,7 @@ Route::post('/save-template', [MailTemplate::class, 'saveTemplate']);
 Route::get('/get-template', [MailTemplate::class, 'getTemplate']);
 Route::post('/delete-template', [MailTemplate::class, 'destroy']);
 Route::post('/update-template', [MailTemplate::class, 'updateTemplate']);
-Route::post('/email-history/per_page={per_page}',[EmailHistoryController::class,'emailHistory']);
+Route::post('/email-history',[EmailHistoryController::class,'emailHistory']);
 Route::post('/email-history-details',[EmailHistoryController::class,'emailHistoryDetails']);
 
 Route::post('/save-mail', [DynamicMailController::class, 'saveMail']);

@@ -91,12 +91,10 @@ class SendMailController extends Controller
         //         ]);
 
 
-        //         return response()->json([
-        //             'message' => "Mail sent",
-        //             'status' => 200,
-        //             'data' => $email,
-        //             'id' => $records->id
-        //         ]);
+                return response()->json([
+                    'message' => "Mail sent",
+                    'status' => 200,
+                ]);
         //     }
         // }
 

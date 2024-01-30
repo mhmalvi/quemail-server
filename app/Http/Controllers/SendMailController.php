@@ -24,7 +24,7 @@ class SendMailController extends Controller
             $template = $request->template,
         ];
         $email=$request->email;
-
+dd($email);
         if ($request->file('files')) {
             $files = $request->file('files');
             foreach ($files as $file) {
@@ -62,7 +62,7 @@ class SendMailController extends Controller
 
         // if ($request->id == 0) {
         foreach ($email as $key=>$mail_to) {
-            $result = \Mail::to($mail_to)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
+            $result = Mail::to($mail_to)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
             $records = new EmailRecords();
             $count = 0;
             $records->sender = config('mail.from.address');

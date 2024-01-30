@@ -17,13 +17,14 @@ class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
+        dd($email);
         $file_urls = [];
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
             $email = $request->email,
         ];
-        dd($email);
+        
         if ($request->file('files')) {
             $files = $request->file('files');
             foreach ($files as $file) {

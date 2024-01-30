@@ -16,20 +16,23 @@ class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
-        $file_urls=[];
+        $file_urls = [];
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
-            $email = $request->email,            
+            $email = $request->email,
         ];
-        $files = $request->file('files');
-        foreach($files as $file){
-            $fileName = $file->getClientOriginalName();
-            $fileExt = $fileName;
-            $file->move(public_path('assets/email_attachment'), $fileExt);
-            $file_path = "assets/email_attachment/" . $fileExt;
-            array_push($file_urls, $file_path);
+        if ($request->file('files')) {
+            $files = $request->file('files');
+            foreach ($files as $file) {
+                $fileName = $file->getClientOriginalName();
+                $fileExt = $fileName;
+                $file->move(public_path('assets/email_attachment'), $fileExt);
+                $file_path = "assets/email_attachment/" . $fileExt;
+                array_push($file_urls, $file_path);
+            }
         }
+
         $mail = DynamicMail::where('user_id', $request->user_id)->first();
         if ($mail) {
             $smtpSettings = [
@@ -53,18 +56,24 @@ class SendMailController extends Controller
             'mail.from.address' => $smtpSettings['from_mail_address'],
             'mail.from.name' => $smtpSettings['from_name']
         ]);
-        
+
         if ($request->id == 0) {
-            $result = Mail::to($email)->send(new MarketingMail($email_content,$file_urls));
+            $result = Mail::to($email)->send(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
             $records = new EmailRecords();
             $count = 0;
             $records->sender = config('mail.from.address');
             $records->counts = $count + 1;
             $response = $records->save();
-            foreach($files as $file){
-                $fileName = $file->getClientOriginalName();
-                unlink(public_path("/assets/email_attachment/".$fileName));
+            if ($request->file('files')) {
+                $files = $request->file('files');
+                if ($files) {
+                    foreach ($files as $file) {
+                        $fileName = $file->getClientOriginalName();
+                        unlink(public_path("/assets/email_attachment/" . $fileName));
+                    }
+                }
             }
+
             if ($response) {
                 EmailRecordsDetails::create([
                     'recipients_mail' => $email,
@@ -81,15 +90,20 @@ class SendMailController extends Controller
                 ]);
             }
         } else {
-            $result = Mail::to($email)->send(new MarketingMail($email_content,$file_urls));
+            $result = Mail::to($email)->send(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
             $record = EmailRecords::findOrFail($request->id);
             $record->sender = config('mail.from.address');
             $record->counts = $record->counts + 1;
             $response = $record->save();
-            foreach($files as $file){
-                $fileName = $file->getClientOriginalName();
-                // unlink(public_path("/assets/email_attachment/".$fileName));
-                unlink(public_path("/assets/email_attachment/".$fileName));
+            if ($request->file('files')) {
+                $files = $request->file('files');
+                if ($files) {
+                    foreach ($files as $file) {
+                        $fileName = $file->getClientOriginalName();
+                        // unlink(public_path("/assets/email_attachment/".$fileName));
+                        unlink(public_path("/assets/email_attachment/" . $fileName));
+                    }
+                }
             }
             if ($response) {
                 EmailRecordsDetails::create([

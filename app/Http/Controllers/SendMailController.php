@@ -61,6 +61,8 @@ class SendMailController extends Controller
 
         // if ($request->id == 0) {
         foreach($email as $mail_to) {
+
+            dd($mail_to);
             $result = Mail::to($mail_to)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
             $records = new EmailRecords();
             $count = 0;

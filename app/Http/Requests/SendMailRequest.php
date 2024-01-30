@@ -23,7 +23,7 @@ class SendMailRequest extends FormRequest
     {
         return [
             'files.*' => 'max:500|mimes:doc,docx,pdf,jpg,jpeg,png',
-            'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            'email.*' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             'subject' => 'required',
             'template' => 'required'
         ];

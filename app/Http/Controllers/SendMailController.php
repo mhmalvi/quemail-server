@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Mail\MarketingMail;
+use App\Models\DynamicMail;
 use App\Models\EmailRecords;
 use Illuminate\Http\Request;
+use App\Models\EmailRecordsDetails;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\SendMailRequest;
-use App\Models\DynamicMail;
-use App\Models\EmailRecordsDetails;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ImageUploadRequest;
 
 class SendMailController extends Controller
 {
@@ -121,7 +122,7 @@ class SendMailController extends Controller
         }
     }
 
-    public function imageUrl(Request $request)
+    public function imageUrl(ImageUploadRequest $request)
     {
         $path = $request->file('image')->store('uploads', 'public');
         if ($path) {

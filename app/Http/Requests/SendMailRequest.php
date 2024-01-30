@@ -25,8 +25,7 @@ class SendMailRequest extends FormRequest
             'files.*' => 'max:500|mimes:doc,docx,pdf,jpg,jpeg,png',
             'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
             'subject' => 'required',
-            'template' => 'required',
-            'id' => ''
+            'template' => 'required'
         ];
     }
 }

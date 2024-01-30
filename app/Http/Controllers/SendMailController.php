@@ -58,8 +58,8 @@ class SendMailController extends Controller
             'mail.from.name' => $smtpSettings['from_name']
         ]);
 
-        if ($request->id == 0) {
-            $result = Mail::to($email)->send(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
+        // if ($request->id == 0) {
+            $result = \Mail::to($email)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
             $records = new EmailRecords();
             $count = 0;
             $records->sender = config('mail.from.address');
@@ -90,36 +90,36 @@ class SendMailController extends Controller
                     'id' => $records->id
                 ]);
             }
-        } else {
-            $result = Mail::to($email)->send(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
-            $record = EmailRecords::findOrFail($request->id);
-            $record->sender = config('mail.from.address');
-            $record->counts = $record->counts + 1;
-            $response = $record->save();
-            if ($request->file('files')) {
-                $files = $request->file('files');
-                if ($files) {
-                    foreach ($files as $file) {
-                        $fileName = $file->getClientOriginalName();
-                        // unlink(public_path("/assets/email_attachment/".$fileName));
-                        unlink(public_path("/assets/email_attachment/" . $fileName));
-                    }
-                }
-            }
-            if ($response) {
-                EmailRecordsDetails::create([
-                    'recipients_mail' => $email,
-                    'sender' => config('mail.from.address'),
-                    'email_records_id' => $request->id
-                ]);
-                return response()->json([
-                    'message' => "Mail sent",
-                    'status' => 200,
-                    'data' => $email,
-                    'id' => $record->id
-                ]);
-            }
-        }
+        // } else {
+        //     $result = Mail::to($email)->send(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
+        //     $record = EmailRecords::findOrFail($request->id);
+        //     $record->sender = config('mail.from.address');
+        //     $record->counts = $record->counts + 1;
+        //     $response = $record->save();
+        //     if ($request->file('files')) {
+        //         $files = $request->file('files');
+        //         if ($files) {
+        //             foreach ($files as $file) {
+        //                 $fileName = $file->getClientOriginalName();
+        //                 // unlink(public_path("/assets/email_attachment/".$fileName));
+        //                 unlink(public_path("/assets/email_attachment/" . $fileName));
+        //             }
+        //         }
+        //     }
+        //     if ($response) {
+        //         EmailRecordsDetails::create([
+        //             'recipients_mail' => $email,
+        //             'sender' => config('mail.from.address'),
+        //             'email_records_id' => $request->id
+        //         ]);
+        //         return response()->json([
+        //             'message' => "Mail sent",
+        //             'status' => 200,
+        //             'data' => $email,
+        //             'id' => $record->id
+        //         ]);
+        //     }
+        // }
     }
 
     public function imageUrl(ImageUploadRequest $request)

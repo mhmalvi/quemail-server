@@ -24,8 +24,6 @@ class SendMailController extends Controller
             $template = $request->template,
             $email = $request->email,
         ];
-
-        dd($email);
         
         if ($request->file('files')) {
             $files = $request->file('files');
@@ -63,37 +61,40 @@ class SendMailController extends Controller
         ]);
 
         // if ($request->id == 0) {
-            $result = \Mail::to($email)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
-            $records = new EmailRecords();
-            $count = 0;
-            $records->sender = config('mail.from.address');
-            $records->counts = $count + 1;
-            $response = $records->save();
-            if ($request->file('files')) {
+            foreach($email as $mail_to){
+                $result = \Mail::to($mail_to)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
+                $records = new EmailRecords();
+                $count = 0;
+                $records->sender = config('mail.from.address');
+                $records->counts = $count + 1;
+                $response = $records->save();
+                if ($request->file('files')) {
                 $files = $request->file('files');
                 if ($files) {
-                    foreach ($files as $file) {
-                        $fileName = $file->getClientOriginalName();
-                        unlink(public_path("/assets/email_attachment/" . $fileName));
-                    }
+                foreach ($files as $file) {
+                $fileName = $file->getClientOriginalName();
+                unlink(public_path("/assets/email_attachment/" . $fileName));
                 }
-            }
+                }
+                }
 
-            if ($response) {
+                if ($response) {
                 EmailRecordsDetails::create([
-                    'recipients_mail' => $email,
-                    'sender' => config('mail.from.address'),
-                    'email_records_id' => $records->id
+                'recipients_mail' => $email,
+                'sender' => config('mail.from.address'),
+                'email_records_id' => $records->id
                 ]);
 
 
                 return response()->json([
-                    'message' => "Mail sent",
-                    'status' => 200,
-                    'data' => $email,
-                    'id' => $records->id
+                'message' => "Mail sent",
+                'status' => 200,
+                'data' => $email,
+                'id' => $records->id
                 ]);
+                }
             }
+            
         // } else {
         //     $result = Mail::to($email)->send(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
         //     $record = EmailRecords::findOrFail($request->id);

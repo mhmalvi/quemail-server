@@ -17,13 +17,14 @@ class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
-        $email = [];
+        // $email = [];
         $file_urls = [];
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
+            $email = $request->email
         ];
-        $email=$request->email;
+        // $email=$request->email;
         if ($request->file('files')) {
             $files = $request->file('files');
             foreach ($files as $file) {
@@ -60,41 +61,44 @@ class SendMailController extends Controller
         ]);
 
         // if ($request->id == 0) {
-        foreach($email as $mail_to) {
+            // dd($email_content[2]);
+        $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
+        dispatch($job);
+        // foreach($request->email as $key => $mail_to) {
+        //     // dd($mail_to);
+        //     $result = Mail::to($mail_to)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
+        //     // dd($mail_to);
+        //     $records = new EmailRecords();
+        //     $count = 0;
+        //     $records->sender = config('mail.from.address');
+        //     $records->counts = $count + 1;
+        //     $response = $records->save();
+        //     if ($request->file('files')) {
+        //         $files = $request->file('files');
+        //         if ($files) {
+        //             foreach ($files as $file) {
+        //                 $fileName = $file->getClientOriginalName();
+        //                 unlink(public_path("/assets/email_attachment/" . $fileName));
+        //             }
+        //         }
+        //     }
 
-            // dd($mail_to);
-            $result = Mail::to($mail_to)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
-            $records = new EmailRecords();
-            $count = 0;
-            $records->sender = config('mail.from.address');
-            $records->counts = $count + 1;
-            $response = $records->save();
-            if ($request->file('files')) {
-                $files = $request->file('files');
-                if ($files) {
-                    foreach ($files as $file) {
-                        $fileName = $file->getClientOriginalName();
-                        unlink(public_path("/assets/email_attachment/" . $fileName));
-                    }
-                }
-            }
-
-            if ($response) {
-                EmailRecordsDetails::create([
-                    'recipients_mail' => $email,
-                    'sender' => config('mail.from.address'),
-                    'email_records_id' => $records->id
-                ]);
+        //     if ($response) {
+        //         EmailRecordsDetails::create([
+        //             'recipients_mail' => $email,
+        //             'sender' => config('mail.from.address'),
+        //             'email_records_id' => $records->id
+        //         ]);
 
 
-                return response()->json([
-                    'message' => "Mail sent",
-                    'status' => 200,
-                    'data' => $email,
-                    'id' => $records->id
-                ]);
-            }
-        }
+        //         return response()->json([
+        //             'message' => "Mail sent",
+        //             'status' => 200,
+        //             'data' => $email,
+        //             'id' => $records->id
+        //         ]);
+        //     }
+        // }
 
         // } else {
         //     $result = Mail::to($email)->send(new MarketingMail($email_content, $file_urls ? $file_urls : ''));

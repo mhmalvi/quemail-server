@@ -13,13 +13,15 @@ use Mail;
 class SendQueueEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    // public $email_content;
+    public $email_content;
+    public $file_urls;
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct($email_content,$file_urls)
     {
-        // $this->email_content = $email_content;
+        $this->email_content = $email_content;
+        $this->file_urls = $file_urls;
     }
 
     /**
@@ -34,9 +36,9 @@ class SendQueueEmail implements ShouldQueue
         // dd($emails);
         // $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'zulker@quadque.tech'];
         // dd($emails);
-        $obj = new MarketingMail();
-        foreach ($emails as $key => $value) {
-            \Mail::to('tanjib@quadque.tech')->send($obj);
+        // $obj = new MarketingMail();
+        foreach ($email_content[2] as $key => $value) {
+            \Mail::to($value)->send(new MarketingMail($this->email_content, $this->file_urls ? $this->file_urls : ''));
         }
 
         // foreach ($data as $key => $value) {

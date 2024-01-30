@@ -17,53 +17,57 @@ class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
-        $file_urls = [];
-        $email_content = [
-            $subject = $request->subject,
-            $template = $request->template,
-            $email = $request->email
-        ];
-        if ($request->file('files')) {
-            $files = $request->file('files');
-            foreach ($files as $file) {
-                $fileName = $file->getClientOriginalName();
-                $fileExt = $fileName;
-                $file->move(public_path('assets/email_attachment'), $fileExt);
-                $file_path = "assets/email_attachment/" . $fileExt;
-                array_push($file_urls, $file_path);
-            }
-        }
-
-        $mail = DynamicMail::where('user_id', $request->user_id)->first();
-        if ($mail) {
-            $smtpSettings = [
-                'default' => $mail->driver,
-                'host' => $mail->host,
-                'port' => $mail->port,
-                'username' => $mail->username,
-                'password' => $mail->password,
-                'encryption' => $mail->encryption,
-                'from_mail_address' => $mail->from_mail_address,
-                'from_name' => $mail->from_name
+        try {
+            $file_urls = [];
+            $email_content = [
+                $subject = $request->subject,
+                $template = $request->template,
+                $email = $request->email
             ];
+            if ($request->file('files')) {
+                $files = $request->file('files');
+                foreach ($files as $file) {
+                    $fileName = $file->getClientOriginalName();
+                    $fileExt = $fileName;
+                    $file->move(public_path('assets/email_attachment'), $fileExt);
+                    $file_path = "assets/email_attachment/" . $fileExt;
+                    array_push($file_urls, $file_path);
+                }
+            }
+
+            $mail = DynamicMail::where('user_id', $request->user_id)->first();
+            if ($mail) {
+                $smtpSettings = [
+                    'default' => $mail->driver,
+                    'host' => $mail->host,
+                    'port' => $mail->port,
+                    'username' => $mail->username,
+                    'password' => $mail->password,
+                    'encryption' => $mail->encryption,
+                    'from_mail_address' => $mail->from_mail_address,
+                    'from_name' => $mail->from_name
+                ];
+            }
+            config([
+                'mail.default' => $smtpSettings['default'],
+                'mail.mailers.smtp.host' => $smtpSettings['host'],
+                'mail.mailers.smtp.port' => $smtpSettings['port'],
+                'mail.mailers.smtp.username' => $smtpSettings['username'],
+                'mail.mailers.smtp.password' => $smtpSettings['password'],
+                'mail.mailers.smtp.encryption' => $smtpSettings['encryption'],
+                'mail.from.address' => $smtpSettings['from_mail_address'],
+                'mail.from.name' => $smtpSettings['from_name']
+            ]);
+            $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
+            dispatch($job);
+
+            return response()->json([
+                'message' => "Mail sent",
+                'status' => 200,
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
         }
-        config([
-            'mail.default' => $smtpSettings['default'],
-            'mail.mailers.smtp.host' => $smtpSettings['host'],
-            'mail.mailers.smtp.port' => $smtpSettings['port'],
-            'mail.mailers.smtp.username' => $smtpSettings['username'],
-            'mail.mailers.smtp.password' => $smtpSettings['password'],
-            'mail.mailers.smtp.encryption' => $smtpSettings['encryption'],
-            'mail.from.address' => $smtpSettings['from_mail_address'],
-            'mail.from.name' => $smtpSettings['from_name']
-        ]);
-        $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
-        dispatch($job);
-        
-                return response()->json([
-                    'message' => "Mail sent",
-                    'status' => 200,
-                ]);
     }
 
     public function imageUrl(ImageUploadRequest $request)

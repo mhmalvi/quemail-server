@@ -23,6 +23,7 @@ class SendMailController extends Controller
             $template = $request->template,
             $email = $request->email,
         ];
+        dd($email);
         if ($request->file('files')) {
             $files = $request->file('files');
             foreach ($files as $file) {

@@ -17,7 +17,7 @@ class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
-
+        $email = [];
         $file_urls = [];
         $email_content = [
             $subject = $request->subject,
@@ -61,7 +61,7 @@ dd($email);
         ]);
 
         // if ($request->id == 0) {
-        foreach ($email as $key=>$mail_to) {
+        for ($i;$i<count($email)) {
             $result = Mail::to($mail_to)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
             $records = new EmailRecords();
             $count = 0;

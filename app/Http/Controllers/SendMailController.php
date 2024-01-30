@@ -61,7 +61,7 @@ dd($email);
         ]);
 
         // if ($request->id == 0) {
-        for ($i;$i<count($email)) {
+        for($i;$i<count($email);$i++) {
             $result = Mail::to($mail_to)->queue(new MarketingMail($email_content, $file_urls ? $file_urls : ''));
             $records = new EmailRecords();
             $count = 0;

@@ -17,7 +17,7 @@ class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
-             set_time_limit(1800);
+             set_time_limit(8000);
             $file_urls = [];
             $email_content = [
                 $subject = $request->subject,

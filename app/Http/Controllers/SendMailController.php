@@ -17,7 +17,6 @@ class SendMailController extends Controller
 {
     public function send_mail(SendMailRequest $request)
     {
-        try {
             $file_urls = [];
             $email_content = [
                 $subject = $request->subject,
@@ -65,9 +64,7 @@ class SendMailController extends Controller
                 'message' => "Mail sent",
                 'status' => 200,
             ]);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        
     }
 
     public function imageUrl(ImageUploadRequest $request)

@@ -30,7 +30,7 @@ class SendQueueEmail implements ShouldQueue
     public function handle(): void
     {
         foreach ($this->email_content[2] as $key => $value) {
-            \Mail::to($value)->queue(new MarketingMail($this->email_content, $this->file_urls ? $this->file_urls : ''));
+            \Mail::to($value)->send(new MarketingMail($this->email_content, $this->file_urls ? $this->file_urls : ''));
         }
     }
 }

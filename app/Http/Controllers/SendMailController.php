@@ -77,13 +77,14 @@ class SendMailController extends Controller
         dispatch($job);
         $count = EmailRecords::create([
             'sender' => $mail->from_mail_address,
-            'counts' => count($email_content[2])
+            'counts' => count($email_content[2]),
+            'user_id'=>$request->user_id
         ]);
         foreach ($email_content[2] as $email) {
             EmailRecordsDetails::create([
                 'recipients_mail' => $email,
                 'sender' => $mail->from_mail_address,
-                'email_records_id' => $count->id
+                'email_records_id' => $count->id,
             ]);
         }
         return response()->json([

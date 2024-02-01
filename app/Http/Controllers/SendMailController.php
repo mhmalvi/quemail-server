@@ -33,7 +33,9 @@ class SendMailController extends Controller
                     $file_path = "assets/email_attachment/" . $fileExt;
                     array_push($file_urls, $file_path);
                 }
-            }            
+            }
+
+            
 
             $mail = DynamicMail::where('user_id', $request->user_id)->first();
             if ($mail) {
@@ -58,9 +60,8 @@ class SendMailController extends Controller
                 'mail.from.address' => $smtpSettings['from_mail_address'],
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
-            
-            // $records = new EmailRecords();
-            // $records->sender = $smtpSettings['from_mail_address']
+            $records = new EmailRecords();
+            $records->sender = $smtpSettings['from_mail_address']
             $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
             dispatch($job);
 

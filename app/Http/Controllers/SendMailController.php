@@ -60,8 +60,6 @@ class SendMailController extends Controller
                 'mail.from.address' => $smtpSettings['from_mail_address'],
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
-            $records = new EmailRecords();
-            $records->sender = $smtpSettings['from_mail_address']
             $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
             dispatch($job);
 

@@ -33,9 +33,7 @@ class SendMailController extends Controller
                     $file_path = "assets/email_attachment/" . $fileExt;
                     array_push($file_urls, $file_path);
                 }
-            }
-dd(count($email_content[2]));
-            
+            }            
 
             $mail = DynamicMail::where('user_id', $request->user_id)->first();
             if ($mail) {

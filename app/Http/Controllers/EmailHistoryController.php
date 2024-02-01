@@ -19,8 +19,8 @@ class EmailHistoryController extends Controller
              ],200);
         }else{
             return response()->json([
-                'message'=>'failed',
-                'status'=>500
+                'message'=>'No data found',
+                'status'=>404
             ],500);
         }
     }

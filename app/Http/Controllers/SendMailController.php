@@ -34,9 +34,6 @@ class SendMailController extends Controller
                     array_push($file_urls, $file_path);
                 }
             }
-
-            
-
             $mail = DynamicMail::where('user_id', $request->user_id)->first();
             if ($mail) {
                 $smtpSettings = [
@@ -49,6 +46,17 @@ class SendMailController extends Controller
                     'from_mail_address' => $mail->from_mail_address,
                     'from_name' => $mail->from_name
                 ];
+            }
+            $count = EmailRecords::create([
+                'sender'=>$mail->from_mail_address,
+                'counts'=>count($email_content[2])
+            ]);
+            foreach($email_content[2] as $email){
+                EmailRecordsDetails::create([
+                    'recipients_mail'=>$email,
+                    'sender'=>$mail->from_mail_address,
+                    'email_records_id'=>$count->id
+                ]);
             }
             config([
                 'mail.default' => $smtpSettings['default'],

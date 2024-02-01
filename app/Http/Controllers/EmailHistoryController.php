@@ -10,7 +10,7 @@ class EmailHistoryController extends Controller
 {
     public function emailHistory(Request $request){
         // dd($request->per_page);
-        $records=EmailRecords::orderBy('id','desc')->paginate($request->per_page);
+        $records=EmailRecords::orderBy('id','desc')->where('user_id',$request->user_id)->paginate($request->per_page);
         if(count($records)>0){
              return response()->json([
                  'message'=>'success',

@@ -62,17 +62,7 @@ class SendMailController extends Controller
             }
         }
 
-        $count = EmailRecords::create([
-            'sender' => $mail->from_mail_address,
-            'counts' => count($email_content[2])
-        ]);
-        foreach ($email_content[2] as $email) {
-            EmailRecordsDetails::create([
-                'recipients_mail' => $email,
-                'sender' => $mail->from_mail_address,
-                'email_records_id' => $count->id
-            ]);
-        }
+        
         config([
             'mail.default' => $smtpSettings['default'],
             'mail.mailers.smtp.host' => $smtpSettings['host'],
@@ -85,6 +75,17 @@ class SendMailController extends Controller
         ]);
         $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
         dispatch($job);
+        $count = EmailRecords::create([
+            'sender' => $mail->from_mail_address,
+            'counts' => count($email_content[2])
+        ]);
+        foreach ($email_content[2] as $email) {
+            EmailRecordsDetails::create([
+                'recipients_mail' => $email,
+                'sender' => $mail->from_mail_address,
+                'email_records_id' => $count->id
+            ]);
+        }
         return response()->json([
             'message' => "Mail sent",
             'status' => 200,

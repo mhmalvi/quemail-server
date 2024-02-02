@@ -41,4 +41,4 @@ Route::post('/delete-image', [UploadedImageController::class, 'deleteImage']);
 
 
 Route::get('images',[CampaignController::class,'index']);
-Route::post('send-mail',[CampaignController::class,'send_mail']);
+Route::post('send-mail-test',[CampaignController::class,'send_mail']);

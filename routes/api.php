@@ -40,5 +40,5 @@ Route::get('/get-image', [UploadedImageController::class, 'getImages']);
 Route::post('/delete-image', [UploadedImageController::class, 'deleteImage']);
 
 
-Route::post('/images',[CampaignController::class,'index'])->name('track_open');
+Route::post('/images/{email}',[CampaignController::class,'index'])->name('track_open');
 Route::post('send-mail-test',[CampaignController::class,'send_mail']);

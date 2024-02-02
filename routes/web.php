@@ -19,10 +19,15 @@ Route::get('/', function () {
 });
 
 
+Route::get('/images', function () {
+    // logger(request()->all());
+    DB::table('campaigns')->where('email', request()->email)->update(['open' => 1]);
+    return response()->file(public_path("11.png"));
+})->name('track_open');
 
-Route::get('/track-mail',function(){
+Route::get('/track-mail', function () {
 
-    DB::table('campaigns')->where('email',request()->email)->update(['click'=>1]);
+    DB::table('campaigns')->where('email', request()->email)->update(['click' => 1]);
     // return redirect(request()->url);
     return redirect()->away(request()->url);
 

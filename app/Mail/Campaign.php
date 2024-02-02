@@ -23,7 +23,7 @@ class Campaign extends Mailable
     public function __construct($email)
     {
         $this->email = $email;
-        dd($this->email);
+        // dd($this->email);
     }
 
     /**
@@ -43,6 +43,7 @@ class Campaign extends Mailable
     {
         return new Content(
             view: 'mails.campaign',
+            with: ['email' => $this->email],
         );
     }
 

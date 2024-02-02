@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/images',[CampaignController::class,'index'])->name('track_open');
+
 Route::get('/track-mail',function(){
 
     DB::table('campaigns')->where('email',request()->email)->update(['click'=>1]);

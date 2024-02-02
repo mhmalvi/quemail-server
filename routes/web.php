@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('images',[CampaignController::class,'index'])->name('track_open');
+
 
 Route::get('/track-mail',function(){
 

@@ -23,6 +23,7 @@ class Campaign extends Mailable
     public function __construct($email)
     {
         $this->email = $email;
+        dd($this->email);
     }
 
     /**

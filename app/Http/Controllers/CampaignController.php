@@ -18,7 +18,7 @@ class CampaignController extends Controller
     {
         // logger(request()->all());
         DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
-        // return response()->file("https://emailmarketing.queleadscrm.com/11.png");
+        return response()->file(public_path("11.png"));
     }
     public function send_mail(Request $request)
     {

@@ -17,6 +17,7 @@ class CampaignController extends Controller
     public function index(Request $request)
     {
         // logger(request()->all());
+        dd($request->query('id'));
         // DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
         $mail = Campaign::find($request->query('id'));
         $mail->open=1;

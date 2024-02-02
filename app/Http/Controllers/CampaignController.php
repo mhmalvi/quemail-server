@@ -18,7 +18,7 @@ class CampaignController extends Controller
     {
         // logger(request()->all());
         // DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
-        $mail = Campaign::where('email',$request->email)->first();
+        $mail = Campaign::find($request->id);
         $mail->open=1;
         $res = $mail->save();
         if($res){
@@ -31,12 +31,13 @@ class CampaignController extends Controller
     public function send_mail(Request $request)
     {
         // dd($request->email);
-        Campaign::create([
+        $id = Campaign::create([
             'email' => $request->email,
             'open' => 0,
             'click' => 0
         ]);
-        Mail::to($request->email)->queue(new \App\Mail\Campaign($request->email));
+        // dd($id);
+        Mail::to($request->email)->queue(new \App\Mail\Campaign($id->id));
     }
 
     /**

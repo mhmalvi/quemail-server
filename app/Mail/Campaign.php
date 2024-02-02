@@ -16,13 +16,13 @@ class Campaign extends Mailable
     /**
      * Create a new message instance.
      */
-    public $email;
+    public $id;
     /**
      * Create a new message instance.
      */
-    public function __construct($email)
+    public function __construct($id)
     {
-        $this->email = $email;
+        $this->id = $id;
         // dd($this->email);
     }
 
@@ -43,7 +43,7 @@ class Campaign extends Mailable
     {
         return new Content(
             view: 'mails.campaign',
-            with: ['email' => $this->email],
+            with: ['email' => $this->id],
         );
     }
 

@@ -22,7 +22,7 @@ class CampaignController extends Controller
         $mail->open=1;
         $res = $mail->save();
         if($res){
-            return redirect()->file(public_path("11.png"));
+            return response()->file(public_path("11.png"));
         }else{
             return "failed";
         }

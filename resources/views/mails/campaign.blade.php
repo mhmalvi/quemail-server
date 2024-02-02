@@ -16,7 +16,7 @@
         </style>
     </head>
     <body class="antialiased">
-        <img src="https://emailmarketing.queleadscrm.com/api/images/{email}">
+        <img src="https://emailmarketing.queleadscrm.com/api/images/".$email>
 
         <a href=" {{ route('track_click',['url' => 'https://www.templatebench.com','email' => $email ]) }}" target="_blank">READ MORE</a>
     </body>

@@ -14,8 +14,8 @@ use App\Http\Controllers\CampaignController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/view', function () {
+    return view('mails.campaign');
 });
 
 

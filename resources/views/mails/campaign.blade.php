@@ -16,8 +16,8 @@
         </style>
     </head>
     <body class="antialiased">
-        <img src="{{ route('track_open',['id' => $id]) }}">
-        {{$id}}
+        <img src="{{ route('track_open',['id' => 46]) }}">
+        {{-- {{$id}} --}}
         <a href=" {{ route('track_click',['url' => 'https://www.templatebench.com','email' => $email ]) }}" target="_blank">READ MORE</a>
     </body>
 </html>

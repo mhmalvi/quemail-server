@@ -19,12 +19,12 @@ Route::get('/', function () {
 });
 
 
-Route::get('/images', function () {
-    // logger(request()->all());
-    // dd(request()->email);
-    DB::table('campaigns')->where('email', request()->email)->update(['open' => 1]);
-    return response()->file(public_path("11.png"));
-})->name('track_open');
+// Route::get('/images', function () {
+//     // logger(request()->all());
+//     // dd(request()->email);
+//     DB::table('campaigns')->where('email', request()->email)->update(['open' => 1]);
+//     return response()->file(public_path("11.png"));
+// })->name('track_open');
 
 Route::get('/track-mail', function () {
 

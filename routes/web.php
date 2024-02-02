@@ -25,7 +25,7 @@ Route::get('/view', function () {
 //     DB::table('campaigns')->where('email', request()->email)->update(['open' => 1]);
 //     return response()->file(public_path("11.png"));
 // })->name('track_open');
-Route::get('/images',[CampaignController::class,'index'])->name('track_open');
+
 Route::get('/track-mail', function () {
 
     DB::table('campaigns')->where('email', request()->email)->update(['click' => 1]);

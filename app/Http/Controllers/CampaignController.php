@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Campaign;
+use Illuminate\Http\Request;
+use App\Http\Requests\StoreCampaignRequest;
+use App\Http\Requests\UpdateCampaignRequest;
+
+class CampaignController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        // logger(request()->all());
+        \DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
+        return response()->file(public_path("download.jpg"));
+    }
+    public function send_mail(Request $request)
+    {
+        // dd($request->email);
+        Campaign::create([
+            'email' => $request->email,
+            'open' => 0,
+            'click' => 0
+        ]);
+        Mail::to($request->email)->queue(new \App\Mail\Campaign($request->email));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreCampaignRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Campaign $campaign)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Campaign $campaign)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateCampaignRequest $request, Campaign $campaign)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Campaign $campaign)
+    {
+        //
+    }
+}

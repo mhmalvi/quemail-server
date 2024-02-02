@@ -17,7 +17,10 @@ class CampaignController extends Controller
     public function index(Request $request,$email)
     {
         // logger(request()->all());
-        DB::table('campaigns')->where('email', $email)->update(['open' => 1]);
+        // DB::table('campaigns')->where('email', $email)->update(['open' => 1]);
+        $mail = Campaign::where('email',$email)->first();
+        $mail->open=1;
+        $mail->save();
         return redirect()->file(public_path("11.png"));
     }
     public function send_mail(Request $request)

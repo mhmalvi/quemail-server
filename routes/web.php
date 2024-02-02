@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/track-mail',function(){
+
+    \DB::table('campaigns')->where('email',request()->email)->update(['click'=>1]);
+    // return redirect(request()->url);
+    return redirect()->away(request()->url);
+
+})->name('track_click');

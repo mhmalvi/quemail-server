@@ -18,7 +18,7 @@ class CampaignController extends Controller
     {
         // logger(request()->all());
         // DB::table('campaigns')->where('email', $email)->update(['open' => 1]);
-        $mail = Campaign::where('email',$email)->first();
+        $mail = Campaign::where('email',$request->email)->first();
         $mail->open=1;
         $mail->save();
         return redirect()->file(public_path("11.png"));

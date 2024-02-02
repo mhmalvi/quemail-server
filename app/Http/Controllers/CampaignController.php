@@ -17,7 +17,7 @@ class CampaignController extends Controller
     {
         // logger(request()->all());
         \DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
-        return response()->file(public_path("download.jpg"));
+        return response()->file(public_path("11.jpg"));
     }
     public function send_mail(Request $request)
     {

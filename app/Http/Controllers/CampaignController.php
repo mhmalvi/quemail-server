@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Campaign;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StoreCampaignRequest;
 use App\Http\Requests\UpdateCampaignRequest;
@@ -16,7 +17,7 @@ class CampaignController extends Controller
     public function index(Request $request)
     {
         // logger(request()->all());
-        \DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
+        DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
         return response()->file(public_path("11.png"));
     }
     public function send_mail(Request $request)

@@ -19,7 +19,7 @@
         @php
             $id=46;
         @endphp
-        <img src="{{ route('track_open',['id' => $id]) }}">
+        <img src="{{ route('track_open',['id' => $id]) }}" alt="{{$id}}">
         {{$id}}
         <a href=" {{ route('track_click',['url' => 'https://www.templatebench.com','id' => 46 ]) }}" target="_blank">READ MORE</a>
     </body>

@@ -19,7 +19,7 @@ class CampaignController extends Controller
         // logger(request()->all());
         // dd($request->query('id'));
         // DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
-        $mail = Campaign::find($request->query('id'));
+        $mail = Campaign::find($request->id);
         $mail->open=1;
         $res = $mail->save();
         // if($res){

@@ -23,7 +23,7 @@ class CampaignController extends Controller
         $mail->open=1;
         $res = $mail->save();
         // if($res){
-            return response()->file(public_path("1x1.png"));
+            return response(file_get_contents(public_path("1x1.png")));
         // }else{
         //     return "failed";
         // }

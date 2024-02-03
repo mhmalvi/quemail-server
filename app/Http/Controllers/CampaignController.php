@@ -14,20 +14,12 @@ class CampaignController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,$id)
     {
-        // logger(request()->all());
-        // dd($request->query('id'));
-        // DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
-        $mail = Campaign::find($request->id);
-        $mail->open=1;
+        $mail = Campaign::find($id);
+        $mail->open = 1;
         $res = $mail->save();
-        // if($res){
-            return response(file_get_contents(public_path("1x1.png")));
-        // }else{
-        //     return "failed";
-        // }
-
+        return response(file_get_contents(public_path("1x1.png")));
     }
     public function send_mail(Request $request)
     {

@@ -16,9 +16,6 @@
         </style>
     </head>
     <body class="antialiased">
-        {{-- @php
-            $id=46;
-        @endphp --}}
         <img src="{{ route('track_open',['id' => $id]) }}" alt="{{$id}}">
         {{$id}}
         <a href=" {{ route('track_click',['url' => 'https://www.templatebench.com','id' => $id ]) }}" target="_blank">READ MORE</a>

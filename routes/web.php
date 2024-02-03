@@ -30,6 +30,6 @@ Route::get('/track-mail', function () {
 
     DB::table('campaigns')->where('email', request()->email)->update(['click' => 1]);
     // return redirect(request()->url);
-    return redirect()->away(request()->url);
-
+    // return redirect()->away(request()->url);
+    return response()->file(public_path('1x1.png'));
 })->name('track_click');

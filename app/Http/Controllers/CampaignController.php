@@ -17,16 +17,16 @@ class CampaignController extends Controller
     public function index(Request $request)
     {
         // logger(request()->all());
-        dd($request->query('id'));
+        // dd($request->query('id'));
         // DB::table('campaigns')->where('email', $request->email)->update(['open' => 1]);
         $mail = Campaign::find($request->query('id'));
         $mail->open=1;
         $res = $mail->save();
-        if($res){
+        // if($res){
             return response()->file(public_path("11.png"));
-        }else{
-            return "failed";
-        }
+        // }else{
+        //     return "failed";
+        // }
 
     }
     public function send_mail(Request $request)

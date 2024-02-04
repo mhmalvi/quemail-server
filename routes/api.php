@@ -6,6 +6,7 @@ use App\Http\Controllers\MailTemplate;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\DynamicMailController;
+use App\Http\Controllers\EmailCounter;
 use App\Http\Controllers\EmailHistoryController;
 use App\Http\Controllers\UploadedImageController;
 
@@ -30,6 +31,7 @@ Route::post('/delete-template', [MailTemplate::class, 'destroy']);
 Route::post('/update-template', [MailTemplate::class, 'updateTemplate']);
 Route::post('/email-history',[EmailHistoryController::class,'emailHistory']);
 Route::post('/email-history-details',[EmailHistoryController::class,'emailHistoryDetails']);
+Route::get('/email-counts-on-today',[EmailCounter::class,'number_of_emails_sent_today']);
 
 Route::post('/save-mail', [DynamicMailController::class, 'saveMail']);
 Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);

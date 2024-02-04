@@ -77,7 +77,7 @@ class SendMailController extends Controller
             'user_id'=>$request->user_id
         ]);
         foreach ($email_content[2] as $email) {
-            $id = EmailRecordsDetails::create([
+            EmailRecordsDetails::create([
                 'recipients_mail' => $email,
                 'sender' => $mail->from_mail_address,
                 'email_records_id' => $count->id,

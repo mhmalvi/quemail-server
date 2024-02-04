@@ -31,7 +31,6 @@ class SendQueueEmail implements ShouldQueue
     {
         foreach ($this->email_content[2] as $key => $value) {
             \Mail::to($value)->send(new MarketingMail($this->email_content, $this->file_urls ? $this->file_urls : ''));
-            // EmailRecords
         }
     }
 }

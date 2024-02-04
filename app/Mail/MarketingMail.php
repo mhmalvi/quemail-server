@@ -51,7 +51,7 @@ class MarketingMail extends Mailable
         // dd($this->template);
         return new Content(
             view: 'mail.mail',
-            with: ['template' => $this->email_content[1]],
+            with: ['template' => $this->email_content[1], 'email'=>$this->email_content[2]],
         );
     }
 

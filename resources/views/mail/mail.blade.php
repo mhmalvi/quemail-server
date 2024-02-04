@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <img src="https://emailmarketing.queleadscrm.com/api/get-view/{}"
+    <img src="{{ route('track_open',['email' => $email]) }}">
     {!! $template !!}
 </body>
 </html>

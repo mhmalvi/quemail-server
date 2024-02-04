@@ -71,15 +71,13 @@ class SendMailController extends Controller
             'mail.from.address' => $smtpSettings['from_mail_address'],
             'mail.from.name' => $smtpSettings['from_name']
         ]);
-        $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
-        dispatch($job);
         $count = EmailRecords::create([
             'sender' => $mail->from_mail_address,
             'counts' => count($email_content[2]),
             'user_id'=>$request->user_id
         ]);
         foreach ($email_content[2] as $email) {
-            EmailRecordsDetails::create([
+            $id = EmailRecordsDetails::create([
                 'recipients_mail' => $email,
                 'sender' => $mail->from_mail_address,
                 'email_records_id' => $count->id,
@@ -87,6 +85,9 @@ class SendMailController extends Controller
                 'click'=>0
             ]);
         }
+        $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
+        dispatch($job);
+        
         return response()->json([
             'message' => "Mail sent",
             'status' => 200,

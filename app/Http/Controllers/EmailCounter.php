@@ -12,7 +12,7 @@ class EmailCounter extends Controller
 {
     public function number_of_emails_sent_today(Request $request)
     {
-        $counts = EmailRecords::where(DB::raw('CAST(created_at as
+        $counts = EmailRecords::where('user_id',$request->user_id)->where(DB::raw('CAST(created_at as
             date)'), Carbon::now()->toDateString())->sum('counts');
         if ($counts) {
             return response()->json([

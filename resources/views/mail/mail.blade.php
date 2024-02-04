@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <img src="https://emailmarketing.queleadscrm.com/api/get-view/{}"
     {!! $template !!}
 </body>
 </html>

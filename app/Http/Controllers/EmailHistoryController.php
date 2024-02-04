@@ -8,36 +8,37 @@ use App\Models\EmailRecordsDetails;
 
 class EmailHistoryController extends Controller
 {
-    public function emailHistory(Request $request){
-        // dd($request->per_page);
-        $records=EmailRecords::orderBy('id','desc')->where('user_id',$request->user_id)->paginate($request->per_page);
-        if(count($records)>0){
-             return response()->json([
-                 'message'=>'success',
-                 'status'=>200,
-                 'data'=>$records
-             ],200);
-        }else{
+    public function emailHistory(Request $request)
+    {
+        $records = EmailRecords::orderBy('id', 'desc')->where('user_id', $request->user_id)->paginate($request->per_page);
+        if (count($records) > 0) {
             return response()->json([
-                'message'=>'No data found',
-                'status'=>404
-            ],500);
+                'message' => 'success',
+                'status' => 200,
+                'data' => $records
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'No data found',
+                'status' => 404
+            ], 404);
         }
     }
 
-    public function emailHistoryDetails(Request $request){
-        $records = EmailRecordsDetails::where('email_records_id',$request->id)->orderBy('id','desc')->paginate($request->per_page);
-        if(count($records)>0){
+    public function emailHistoryDetails(Request $request)
+    {
+        $records = EmailRecordsDetails::where('email_records_id', $request->id)->orderBy('id', 'desc')->paginate($request->per_page);
+        if (count($records) > 0) {
             return response()->json([
-                 'message'=>'success',
-                 'status'=>200,
-                 'data'=>$records
-             ],200);
-        }else{
+                'message' => 'success',
+                'status' => 200,
+                'data' => $records
+            ], 200);
+        } else {
             return response()->json([
-                'message'=>'No data found',
-                'status'=>404
-            ],404);
+                'message' => 'No data found',
+                'status' => 404
+            ], 404);
         }
     }
 }

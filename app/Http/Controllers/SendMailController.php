@@ -60,9 +60,7 @@ class SendMailController extends Controller
                 $file_path = "assets/email_attachment/" . $fileExt;
                 array_push($file_urls, $file_path);
             }
-        }
-
-        
+        }        
         config([
             'mail.default' => $smtpSettings['default'],
             'mail.mailers.smtp.host' => $smtpSettings['host'],
@@ -85,6 +83,8 @@ class SendMailController extends Controller
                 'recipients_mail' => $email,
                 'sender' => $mail->from_mail_address,
                 'email_records_id' => $count->id,
+                'open'=>0,
+                'click'=>0
             ]);
         }
         return response()->json([

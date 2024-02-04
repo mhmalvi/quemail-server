@@ -20,7 +20,7 @@ Route::get('/view', function () {
     return view('mails.campaign');
 });
 
-Route::get('/images/{email}',[EmailHistoryController::class,'index'])->name('track_open');
+Route::get('/images/{email}',[EmailHistoryController::class,'update_open_in_email_details'])->name('track_open');
 Route::get('/track-mail', function () {
     DB::table('email_records_details')->where('email', request()->email)->update(['click' => 1]);
     return response()->file(public_path('1x1.png'));

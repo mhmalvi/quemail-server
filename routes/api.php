@@ -31,7 +31,7 @@ Route::post('/delete-template', [MailTemplate::class, 'destroy']);
 Route::post('/update-template', [MailTemplate::class, 'updateTemplate']);
 Route::post('/email-history',[EmailHistoryController::class,'emailHistory']);
 Route::post('/email-history-details',[EmailHistoryController::class,'emailHistoryDetails']);
-Route::get('/email-counts-on-today',[EmailCounter::class,'number_of_emails_sent_today']);
+Route::post('/email-counts-on-today',[EmailCounter::class,'number_of_emails_sent_today']);
 
 Route::post('/save-mail', [DynamicMailController::class, 'saveMail']);
 Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);

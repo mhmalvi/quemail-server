@@ -21,17 +21,18 @@ class MarketingMail extends Mailable
      */
     public $email_content;
     public $email;
+    public $id;
     public $file_url;
     /**
      * Create a new message instance.
      */
-    public function __construct($email_content,$email,$file_url)
+    public function __construct($email_content,$email,$id,$file_url)
     {
 
         $this->email_content = $email_content;
         $this->email = $email;
+        $this->id = $id;
         $this->file_url = $file_url;
-        // dd($this->email_content);
     }
 
     /**
@@ -40,7 +41,6 @@ class MarketingMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            // from: new Address('jeffrey@example.com', 'Jeffrey Way'),
             subject: $this->email_content[0],
         );
     }
@@ -53,7 +53,7 @@ class MarketingMail extends Mailable
         // dd($this->template);
         return new Content(
             view: 'mail.mail',
-            with: ['template' => $this->email_content[1], 'email'=>$this->email],
+            with: ['template' => $this->email_content[1], 'id'=>$this->id],
         );
     }
 
@@ -64,13 +64,10 @@ class MarketingMail extends Mailable
      */
     public function attachments()
     {
-        // return [
             if($this->file_url){
                 foreach($this->file_url as $file){
                     $this->attach(public_path($file));
                 }
             }
-            
-        // ];
     }
 }

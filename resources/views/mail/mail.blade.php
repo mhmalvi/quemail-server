@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <img src="{{ route('track_open',['email' => $email]) }}">
+    <img src="{{ route('track_open',['id' => $id]) }}">
     {!! $template !!}
 </body>
 </html>

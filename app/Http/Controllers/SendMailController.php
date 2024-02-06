@@ -77,16 +77,17 @@ class SendMailController extends Controller
             'user_id'=>$request->user_id
         ]);
         foreach ($email_content[2] as $email) {
-            EmailRecordsDetails::create([
+            $result = EmailRecordsDetails::create([
                 'recipients_mail' => $email,
                 'sender' => $mail->from_mail_address,
                 'email_records_id' => $count->id,
                 'open'=>0,
                 'click'=>0
             ]);
-        }
-        $job = (new \App\Jobs\SendQueueEmail($email_content, $file_urls ? $file_urls : ''));
+            $job = (new \App\Jobs\SendQueueEmail($email_content, $result->id, $email, $file_urls ? $file_urls : ''));
         dispatch($job);
+        }
+        
         
         return response()->json([
             'message' => "Mail sent",

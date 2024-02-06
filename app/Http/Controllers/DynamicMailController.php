@@ -101,4 +101,23 @@ class DynamicMailController extends Controller
             ], 404);
         }
     }
+
+    public function deleteEmailSettings(Request $request)
+    {
+        $result = DynamicMail::find($request->id);
+        if ($result) {
+            $response = $result->delete();
+            if ($response) {
+                return response()->json([
+                    'message' => 'Deleted',
+                    'status' => 201
+                ], 201);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Not found',
+                'status' => 404
+            ], 404);
+        }
+    }
 }

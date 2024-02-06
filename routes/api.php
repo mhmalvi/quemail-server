@@ -36,6 +36,7 @@ Route::post('/email-counts-on-today',[EmailCounter::class,'number_of_emails_sent
 Route::post('/save-mail', [DynamicMailController::class, 'saveMail']);
 Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);
 Route::put('/update-mail/{id}', [DynamicMailController::class, 'updateMail']);
+Route::post('/delete-mail', [DynamicMailController::class, 'deleteEmailSettings']);
 
 Route::post('/upload-image',[SendMailController::class, 'imageUrl']);
 Route::get('/get-image', [UploadedImageController::class, 'getImages']);

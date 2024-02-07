@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EmailRecordsDetails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\EmailRecordsDetails;
 
 class SubscriberController extends Controller
 {
-    public function unsubscribe(Request $request,$email)
+    public function unsubscribe(Request $request, $email)
     {
-        $result = EmailRecordsDetails::where('recipients_mail', $email)->get();
-        // dd($result);
-        foreach($result as $data){
-            $data->subscribed_or_unsubscribed = 0;
-            $data->save();
-        }
-        if ($result) {
-            return response()->json([
-                'message' => 'Unsubscribed',
-                'status' => 201
-            ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Failed',
-                'status' => 500
-            ], 500);
-        }
+        DB::table('email_records_details')->where('recipients_mail', $email)->update(['subscribed_or_unsubscribed' => 0]);
+        return response()->file(public_path('1x1.png'));
+        // if ($result) {
+        //     return response()->json([
+        //         'message' => 'Unsubscribed',
+        //         'status' => 201
+        //     ], 201);
+        // } else {
+        //     return response()->json([
+        //         'message' => 'Failed',
+        //         'status' => 500
+        //     ], 500);
+        // }
     }
 }

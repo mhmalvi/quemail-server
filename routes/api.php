@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmailCounter;
 use App\Http\Controllers\MailTemplate;
 use App\Http\Controllers\SendMailController;
-use App\Http\Controllers\DynamicMailController;
-use App\Http\Controllers\EmailCounter;
-use App\Http\Controllers\EmailHistoryController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\DynamicMailController;
+use App\Http\Controllers\EmailHistoryController;
 use App\Http\Controllers\UploadedImageController;
 
 /*
@@ -38,10 +39,7 @@ Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);
 Route::put('/update-mail/{id}', [DynamicMailController::class, 'updateMail']);
 Route::post('/delete-mail', [DynamicMailController::class, 'deleteEmailSettings']);
 
-Route::get('/unsubscribe/{email}', function () {
-    DB::table('email_records_details')->where('email', request()->email)->update(['subscribed_or_unsubscribed' => 0]);
-    return response()->file(public_path('1x1.png'));
-})->name('unsubscribe');
+Route::get('/unsubscribe/{email}', [SubscriberController::class,'unsubscribe']);
 
 Route::post('/upload-image', [SendMailController::class, 'imageUrl']);
 Route::get('/get-image', [UploadedImageController::class, 'getImages']);

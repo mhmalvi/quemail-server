@@ -41,6 +41,7 @@ Route::put('/update-mail/{id}', [DynamicMailController::class, 'updateMail']);
 Route::post('/delete-mail', [DynamicMailController::class, 'deleteEmailSettings']);
 
 Route::post('/queleads-subscribe',[QueleadsSubscribeController::class,'subscribe']);
+Route::post('/queleads-unsubscribe',[QueleadsSubscribeController::class,'unsubscribe']);
 Route::post('/unsubscribe', [SubscriberController::class,'unsubscribe']);
 
 Route::post('/upload-image', [SendMailController::class, 'imageUrl']);

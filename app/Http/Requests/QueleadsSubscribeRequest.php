@@ -22,7 +22,7 @@ class QueleadsSubscribeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|unique:queleads_subscribes'
+            'recipients_mail' => 'required|regex:/(.+)@(.+)\.(.+)/i|unique:queleads_subscribes'
         ];
     }
 }

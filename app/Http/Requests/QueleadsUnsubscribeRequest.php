@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UnsubscribeRequest extends FormRequest
+class QueleadsUnsubscribeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class UnsubscribeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'recipients_mail' => 'required|regex:/(.+)@(.+)\.(.+)/i|exists:email_records_details'
+            'recipients_mail' => 'required|regex:/(.+)@(.+)\.(.+)/i|exists:queleads_subscribes'
         ];
     }
 }

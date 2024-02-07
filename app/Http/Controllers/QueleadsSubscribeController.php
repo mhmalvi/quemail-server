@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\QueleadsSubscribe;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\QueleadsSubscribeRequest;
+use App\Http\Requests\QueleadsUnsubscribeRequest;
 use App\Http\Requests\StoreQueleadsSubscribeRequest;
 use App\Http\Requests\UpdateQueleadsSubscribeRequest;
 
@@ -16,7 +17,7 @@ class QueleadsSubscribeController extends Controller
     public function subscribe(QueleadsSubscribeRequest $request)
     {
         $result = QueleadsSubscribe::create([
-            'email' => $request->email
+            'recipients_mail' => $request->recipients_mail
         ]);
         if ($result) {
             return response()->json([
@@ -34,9 +35,21 @@ class QueleadsSubscribeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function unsubscribe(QueleadsUnsubscribeRequest $request)
     {
-        //
+        $result = QueleadsSubscribe::where('recipients_mail',$request->recipients_mail)->first();
+        $res = $result->delete();
+        if ($res) {
+            return response()->json([
+                'message' => 'Unsubscribed',
+                'status' => 201
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Failed',
+                'status' => 500
+            ], 500);
+        }
     }
 
     /**

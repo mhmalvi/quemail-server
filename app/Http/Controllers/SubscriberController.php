@@ -12,7 +12,7 @@ class SubscriberController extends Controller
     public function unsubscribe(UnsubscribeRequest $request)
     {
         $result = DB::table('email_records_details')->where('recipients_mail',
-        $request->recipients_mail)->update(['subscribed_or_unsubscribed' => 0]);
+        $request->recipients_mail)->update(['subscribed_or_unsubscribed' => 1]);
         if ($result) {
             return response()->json([
                 'message' => 'Unsubscribed',

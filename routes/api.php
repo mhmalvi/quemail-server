@@ -9,6 +9,7 @@ use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\DynamicMailController;
 use App\Http\Controllers\EmailHistoryController;
+use App\Http\Controllers\QueleadsSubscribeController;
 use App\Http\Controllers\UploadedImageController;
 
 /*
@@ -39,6 +40,7 @@ Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);
 Route::put('/update-mail/{id}', [DynamicMailController::class, 'updateMail']);
 Route::post('/delete-mail', [DynamicMailController::class, 'deleteEmailSettings']);
 
+Route::post('/queleads-subscribe',[QueleadsSubscribeController::class,'subscribe']);
 Route::post('/unsubscribe', [SubscriberController::class,'unsubscribe']);
 
 Route::post('/upload-image', [SendMailController::class, 'imageUrl']);

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\EmailHistoryController;
+use App\Http\Controllers\SubscriberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,9 @@ Route::get('/view', function () {
     return view('mails.campaign');
 });
 
-Route::get('/images/{id}',[EmailHistoryController::class,'update_open_in_email_details'])->name('track_open');
+Route::get('/images/{id}', [EmailHistoryController::class, 'update_open_in_email_details'])->name('track_open');
 Route::get('/track-mail', function () {
     DB::table('email_records_details')->where('email', request()->email)->update(['click' => 1]);
     return response()->file(public_path('1x1.png'));
 })->name('track_click');
+

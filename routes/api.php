@@ -39,7 +39,7 @@ Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);
 Route::put('/update-mail/{id}', [DynamicMailController::class, 'updateMail']);
 Route::post('/delete-mail', [DynamicMailController::class, 'deleteEmailSettings']);
 
-Route::get('/unsubscribe', [SubscriberController::class,'unsubscribe']);
+Route::post('/unsubscribe', [SubscriberController::class,'unsubscribe']);
 
 Route::post('/upload-image', [SendMailController::class, 'imageUrl']);
 Route::get('/get-image', [UploadedImageController::class, 'getImages']);

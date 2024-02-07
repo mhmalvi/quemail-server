@@ -22,7 +22,7 @@ class UnsubscribeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rcipients_mail' => 'required|exists:email_records_details'
+            'email' => 'required|exists:email_records_details'
         ];
     }
 }

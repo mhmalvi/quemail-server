@@ -20,18 +20,18 @@ class MarketingMail extends Mailable
      * Get the message envelope.
      */
     public $email_content;
-    public $email;
     public $id;
+    public $email;    
     public $file_url;
     /**
      * Create a new message instance.
      */
-    public function __construct($email_content,$email,$id,$file_url)
+    public function __construct($email_content,$id,$email,$file_url)
     {
 
         $this->email_content = $email_content;
-        $this->email = $email;
         $this->id = $id;
+        $this->email = $email;        
         $this->file_url = $file_url;
     }
 

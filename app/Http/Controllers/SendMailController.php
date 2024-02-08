@@ -41,7 +41,7 @@ class SendMailController extends Controller
                 return response()->json([
                     'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
                     'status' => 305
-                ],305);
+                ], 305);
             }
         }
 
@@ -60,7 +60,7 @@ class SendMailController extends Controller
                 $file_path = "assets/email_attachment/" . $fileExt;
                 array_push($file_urls, $file_path);
             }
-        }        
+        }
         config([
             'mail.default' => $smtpSettings['default'],
             'mail.mailers.smtp.host' => $smtpSettings['host'],
@@ -74,21 +74,22 @@ class SendMailController extends Controller
         $count = EmailRecords::create([
             'sender' => $mail->from_mail_address,
             'counts' => count($email_content[2]),
-            'user_id'=>$request->user_id
+            'user_id' => $request->user_id
         ]);
         foreach ($email_content[2] as $email) {
             $result = EmailRecordsDetails::create([
                 'recipients_mail' => $email,
                 'sender' => $mail->from_mail_address,
                 'email_records_id' => $count->id,
-                'open'=>0,
-                'click'=>0
+                'open' => 0,
+                'click' => 0,
+                'subscribed_or_unsubscribed' => 1
             ]);
             $job = (new \App\Jobs\SendQueueEmail($email_content, $result->id, $email, $file_urls ? $file_urls : ''));
-        dispatch($job);
+            dispatch($job);
         }
-        
-        
+
+
         return response()->json([
             'message' => "Mail sent",
             'status' => 200,

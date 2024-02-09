@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('queleads_subscribes', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
+            $table->string('recipients_mail');
             $table->timestamps();
         });
     }

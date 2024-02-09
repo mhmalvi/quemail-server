@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('sender');
             $table->integer('counts');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

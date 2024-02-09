@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
             $table->text('name');
-            $table->text('template');
+            $table->longText('template');
             $table->timestamps();
         });
     }

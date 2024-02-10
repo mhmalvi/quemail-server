@@ -61,6 +61,7 @@ class SendMailController extends Controller
                 array_push($file_urls, $file_path);
             }
         }
+
         config([
             'mail.default' => $smtpSettings['default'],
             'mail.mailers.smtp.host' => $smtpSettings['host'],

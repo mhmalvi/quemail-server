@@ -75,7 +75,7 @@ class SendMailController extends Controller
 
         foreach ($email_content[2] as $email) {
 
-            $job = (new \App\Jobs\SendQueueEmail($email_content,$mail,$request->user_id, $email, $file_urls ? $file_urls : ''));
+            $job = (new \App\Jobs\SendQueueEmail($email_content,$mail,$request->user_id, $email, $file_urls ? $file_urls : ''))->onQueue('send-mail');
             dispatch($job);
         }
 

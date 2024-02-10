@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class SendQueueEmail implements ShouldQueue
 {
@@ -35,7 +35,7 @@ class SendQueueEmail implements ShouldQueue
     {
         // foreach ($this->email_content[2] as $key => $value) {
             // dd($this->id);
-            \Mail::to($this->email)->send(new MarketingMail($this->email_content,$this->id, $this->email, $this->file_urls ? $this->file_urls : ''));
+            Mail::to($this->email)->send(new MarketingMail($this->email_content,$this->id, $this->email, $this->file_urls ? $this->file_urls : ''));
         // }
     }
 }

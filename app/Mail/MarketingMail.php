@@ -21,7 +21,7 @@ class MarketingMail extends Mailable
      */
     public $email_content;
     public $id;
-    public $email;    
+    public $email;
     public $file_url;
     /**
      * Create a new message instance.
@@ -31,7 +31,7 @@ class MarketingMail extends Mailable
 
         $this->email_content = $email_content;
         $this->id = $id;
-        $this->email = $email;        
+        $this->email = $email;
         $this->file_url = $file_url;
     }
 

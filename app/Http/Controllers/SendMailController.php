@@ -85,7 +85,7 @@ class SendMailController extends Controller
                 'click' => 0,
                 'subscribed_or_unsubscribed' => 1
             ]);
-            $job = (new \App\Jobs\SendQueueEmail($email_content, $result->id, $email, $file_urls ? $file_urls : ''));
+            $job = (new \App\Jobs\SendQueueEmail($email_content, $result->id, $email, $file_urls ? $file_urls : ''))->onQueue('send-mail');
             dispatch($job);
         }
 

@@ -6,8 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-{{-- {{$id}} --}}
-    <img src="{{ route('track_open',['id' => $id=1397]) }}">
-    {!! $template="grfghrdgrdg" !!}
+    <img src="{{ route('track_open',['id' => $id]) }}">
+    {!! $template !!}
 </body>
 </html>

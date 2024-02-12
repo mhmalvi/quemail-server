@@ -17,20 +17,18 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class SendQueueEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $email_details_id;
+    public $id;
     public $email_content;
-    public $mail;
     public $user_id;
     public $email;
     public $file_urls;
     /**
      * Create a new job instance.
      */
-    public function __construct($email_details_id,$email_content, $mail,$user_id,$email, $file_urls)
+    public function __construct($id,$email_content,$user_id,$email, $file_urls)
     {
-        $this->email_details_id = $email_details_id;
+        $this->id = $id;
         $this->email_content = $email_content;
-        $this->mail = $mail;
         $this->user_id = $user_id;
         $this->email = $email;
         $this->file_urls = $file_urls;
@@ -41,16 +39,17 @@ class SendQueueEmail implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->mail) {
+        $mail = DynamicMail::where('user_id', $this->user_id)->first();
+        if ($mail) {
             $smtpSettings = [
-                'default' => $this->mail->driver,
-                'host' => $this->mail->host,
-                'port' => $this->mail->port,
-                'username' => $this->mail->username,
-                'password' => $this->mail->password,
-                'encryption' => $this->mail->encryption,
-                'from_mail_address' => $this->mail->from_mail_address,
-                'from_name' => $this->mail->from_name
+                'default' => $mail->driver,
+                'host' => $mail->host,
+                'port' => $mail->port,
+                'username' => $mail->username,
+                'password' => $mail->password,
+                'encryption' => $mail->encryption,
+                'from_mail_address' => $mail->from_mail_address,
+                'from_name' => $mail->from_name
             ];
             config([
                 'mail.default' => $smtpSettings['default'],
@@ -63,7 +62,7 @@ class SendQueueEmail implements ShouldQueue
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
             
-            Mail::to($this->email)->send(new MarketingMail($this->email_content, $this->email_details_id, $this->email, $this->file_urls ? $this->file_urls : ''));
+            Mail::to($this->email)->send(new MarketingMail($this->email_content, $this->id, $this->email, $this->file_urls ? $this->file_urls : ''));
         }
     }
 }

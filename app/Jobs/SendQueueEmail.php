@@ -33,7 +33,6 @@ class SendQueueEmail implements ShouldQueue
         $this->email = $email;
         $this->file_urls = $file_urls;
     }
-
     /**
      * Execute the job.
      */
@@ -51,7 +50,6 @@ class SendQueueEmail implements ShouldQueue
                 'from_mail_address' => $mail->from_mail_address,
                 'from_name' => $mail->from_name
             ];
-            // dd($smtpSettings);
             config([
                 'mail.default' => $smtpSettings['default'],
                 'mail.mailers.smtp.host' => $smtpSettings['host'],
@@ -63,7 +61,7 @@ class SendQueueEmail implements ShouldQueue
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
             
-            Mail::to($this->email)->send(new MarketingMail($this->id,$this->email_content,  $this->email, $this->file_urls ? $this->file_urls : ''));
+            Mail::to($this->email)->send(new MarketingMail($this->id, $this->email_content,  $this->email, $this->file_urls ? $this->file_urls : ''));
         }
     }
 }

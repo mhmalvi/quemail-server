@@ -21,18 +21,6 @@ class SendMailController extends Controller
     {
         set_time_limit(8000);
         $mail = DynamicMail::where('user_id', $request->user_id)->first();
-        // if ($mail) {
-        //     $smtpSettings = [
-        //         'default' => $mail->driver,
-        //         'host' => $mail->host,
-        //         'port' => $mail->port,
-        //         'username' => $mail->username,
-        //         'password' => $mail->password,
-        //         'encryption' => $mail->encryption,
-        //         'from_mail_address' => $mail->from_mail_address,
-        //         'from_name' => $mail->from_name
-        //     ];
-        // }
         $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
             date)'), Carbon::now()->toDateString())->sum('counts');
         if ($counts) {
@@ -61,25 +49,25 @@ class SendMailController extends Controller
                 array_push($file_urls, $file_path);
             }
         }
-// dd($smtpSettings['default']);
-        // config([
-        //     'mail.default' => $smtpSettings['default'],
-        //     'mail.mailers.smtp.host' => $smtpSettings['host'],
-        //     'mail.mailers.smtp.port' => $smtpSettings['port'],
-        //     'mail.mailers.smtp.username' => $smtpSettings['username'],
-        //     'mail.mailers.smtp.password' => $smtpSettings['password'],
-        //     'mail.mailers.smtp.encryption' => $smtpSettings['encryption'],
-        //     'mail.from.address' => $smtpSettings['from_mail_address'],
-        //     'mail.from.name' => $smtpSettings['from_name']
-        // ]);
-
-        foreach ($email_content[2] as $email) {
-
-            $job = (new \App\Jobs\SendQueueEmail($email_content,$mail,$request->user_id, $email, $file_urls ? $file_urls : ''))->onQueue('send-mail');
+            $count = new EmailRecords();
+            $count->sender = $mail->username;
+            $count->user_id = $mail->user_id;
+            $count->counts = 0;
+            $count->save();
+        foreach ($email_content[2] as $email) {            
+            $result = EmailRecordsDetails::create([
+                'recipients_mail' => $email,
+                'sender' => $mail->username,
+                'email_records_id' => $count->id,
+                'open' => 0,
+                'click' => 0,
+                'subscribed_or_unsubscribed' => 1
+            ]);
+            $count->counts = $count->counts+1;
+            $count->save();
+            $job = (new \App\Jobs\SendQueueEmail($result->id,$email_content,$mail,$request->user_id, $email, $file_urls ? $file_urls : ''))->onQueue('send-mail');
             dispatch($job);
         }
-
-
         return response()->json([
             'message' => "Mail sent",
             'status' => 200,

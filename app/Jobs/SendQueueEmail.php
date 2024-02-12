@@ -17,6 +17,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class SendQueueEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    public $email_details_id;
     public $email_content;
     public $mail;
     public $user_id;
@@ -25,8 +26,9 @@ class SendQueueEmail implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct($email_content, $mail,$user_id,$email, $file_urls)
+    public function __construct($email_details_id,$email_content, $mail,$user_id,$email, $file_urls)
     {
+        $this->email_details_id = $email_details_id;
         $this->email_content = $email_content;
         $this->mail = $mail;
         $this->user_id = $user_id;
@@ -63,25 +65,13 @@ class SendQueueEmail implements ShouldQueue
                 'mail.from.address' => $smtpSettings['from_mail_address'],
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
-            $count = EmailRecords::create([
-                'sender' => $this->mail->from_mail_address,
-                'counts' => count($this->email_content[2]),
-                'user_id' => $this->user_id
-            ]);
-            $result = EmailRecordsDetails::create([
-                'recipients_mail' => $this->email,
-                'sender' => $this->mail->from_mail_address,
-                'email_records_id' => $count->id,
-                'open' => 0,
-                'click' => 0,
-                'subscribed_or_unsubscribed' => 1
-            ]);
+            
 
             // dd($smtpSettings['from_mail_address']);
             // foreach ($this->email_content[2] as $key => $value) {
             // dd($this->id);
             // dd($smtpSettings['from_mail_address']);
-            Mail::to($this->email)->send(new MarketingMail($this->email_content, $result->id, $this->email, $this->file_urls ? $this->file_urls : ''));
+            Mail::to($this->email)->send(new MarketingMail($this->email_content, $this->email_details_id, $this->email, $this->file_urls ? $this->file_urls : ''));
             // }
         }
 

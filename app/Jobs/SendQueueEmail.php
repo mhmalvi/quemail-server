@@ -51,7 +51,7 @@ class SendQueueEmail implements ShouldQueue
                 'from_mail_address' => $mail->from_mail_address,
                 'from_name' => $mail->from_name
             ];
-            dd($smtpSettings);
+            // dd($smtpSettings);
             config([
                 'mail.default' => $smtpSettings['default'],
                 'mail.mailers.smtp.host' => $smtpSettings['host'],

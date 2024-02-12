@@ -66,13 +66,7 @@ class SendQueueEmail implements ShouldQueue
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
             
-
-            // dd($smtpSettings['from_mail_address']);
-            // foreach ($this->email_content[2] as $key => $value) {
-            // dd($this->id);
-            // dd($smtpSettings['from_mail_address']);
             Mail::to($this->email)->send(new MarketingMail($this->email_content, $this->email_details_id, $this->email, $this->file_urls ? $this->file_urls : ''));
-            // }
         }
 
 

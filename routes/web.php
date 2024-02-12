@@ -18,7 +18,7 @@ use App\Http\Controllers\SubscriberController;
 */
 
 Route::get('/view', function () {
-    return view('mails.campaign');
+    return view('mail.mail');
 });
 
 Route::get('/images/{id}', [EmailHistoryController::class, 'update_open_in_email_details'])->name('track_open');

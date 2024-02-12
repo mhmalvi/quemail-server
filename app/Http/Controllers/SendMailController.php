@@ -32,7 +32,6 @@ class SendMailController extends Controller
                 ], 305);
             }
         }
-
         $file_urls = [];
         $email_content = [
             $subject = $request->subject,

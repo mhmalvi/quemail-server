@@ -42,9 +42,9 @@ class EmailHistoryController extends Controller
         }
     }
 
-    public function update_open_in_email_details(Request $request, $id)
+    public function update_open_in_email_details(Request $request)
     {
-        $mail = EmailRecordsDetails::where('id', $id)->first();
+        $mail = EmailRecordsDetails::where('id', $request->id)->first();
         $mail->open = 1;
         $mail->save();
         return response()->file(public_path("1x1.png"));

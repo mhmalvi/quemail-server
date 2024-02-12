@@ -21,7 +21,7 @@ Route::get('/view', function () {
     return view('mail.mail');
 });
 
-Route::get('/images/{id}', [EmailHistoryController::class, 'update_open_in_email_details'])->name('track_open');
+Route::get('/images', [EmailHistoryController::class, 'update_open_in_email_details'])->name('track_open');
 Route::get('/track-mail/{id}', [EmailHistoryController::class, 'update_click_in_email_details'])->name('track_click');
 // Route::get('/track-mail/{id}', function () {
 //     DB::table('email_records_details')->where('email', request()->email)->update(['click' => 1]);

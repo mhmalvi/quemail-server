@@ -47,7 +47,7 @@ class EmailHistoryController extends Controller
         $mail = EmailRecordsDetails::where('id', $id)->first();
         $mail->open = 1;
         $mail->save();
-        return response(file_get_contents(public_path("1x1.png")));
+        return response()->file(public_path("1x1.png"));
     }
 
     public function update_click_in_email_details(Request $request, $id)

@@ -16,18 +16,17 @@ class MarketingMail extends Mailable
     /**
      * Get the message envelope.
      */
-    public $email_content;
     public $id;
+    public $email_content;
     public $email;
     public $file_url;
     /**
      * Create a new message instance.
      */
-    public function __construct($email_content,$id,$email,$file_url)
+    public function __construct($id, $email_content, $email, $file_url)
     {
-
-        $this->email_content = $email_content;
         $this->id = $id;
+        $this->email_content = $email_content;
         $this->email = $email;
         $this->file_url = $file_url;
     }
@@ -49,7 +48,7 @@ class MarketingMail extends Mailable
     {
         return new Content(
             view: 'mail.mail',
-            with: ['template' => $this->email_content[1], 'id'=>$this->id],
+            with: ['template' => $this->email_content[1], 'id' => $this->id],
         );
     }
 
@@ -60,10 +59,10 @@ class MarketingMail extends Mailable
      */
     public function attachments()
     {
-            if($this->file_url){
-                foreach($this->file_url as $file){
-                    $this->attach(public_path($file));
-                }
+        if ($this->file_url) {
+            foreach ($this->file_url as $file) {
+                $this->attach(public_path($file));
             }
+        }
     }
 }

@@ -22,7 +22,7 @@ Route::get('/view', function () {
 });
 
 Route::get('/images/{id}', [EmailHistoryController::class, 'update_open_in_email_details'])->name('track_open');
-Route::get('/track-mail/{id}', [EmailHistoryController::class, 'update_click_in_email_details'])->name('track_open');
+Route::get('/track-mail/{id}', [EmailHistoryController::class, 'update_click_in_email_details'])->name('track_click');
 // Route::get('/track-mail/{id}', function () {
 //     DB::table('email_records_details')->where('email', request()->email)->update(['click' => 1]);
 //     return response()->file(public_path('1x1.png'));

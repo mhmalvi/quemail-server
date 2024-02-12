@@ -7,6 +7,7 @@
 </head>
 <body>
     <img src="{{ route('track_open',['id' => $id]) }}">
+    <a href="{{ route('track_click',['id' => $id]) }}">Quadque</a>
     {!! $template !!}
 </body>
 </html>

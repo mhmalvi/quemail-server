@@ -41,9 +41,6 @@ class SendQueueEmail implements ShouldQueue
      */
     public function handle()
     {
-
-
-        // dd($this->mail);
         if ($this->mail) {
             $smtpSettings = [
                 'default' => $this->mail->driver,
@@ -68,8 +65,5 @@ class SendQueueEmail implements ShouldQueue
             
             Mail::to($this->email)->send(new MarketingMail($this->email_content, $this->email_details_id, $this->email, $this->file_urls ? $this->file_urls : ''));
         }
-
-
-
     }
 }

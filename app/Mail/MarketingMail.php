@@ -13,9 +13,6 @@ use Illuminate\Queue\SerializesModels;
 class MarketingMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-
-
     /**
      * Get the message envelope.
      */

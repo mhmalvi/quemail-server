@@ -16,6 +16,7 @@ class MarketingMail extends Mailable
     /**
      * Get the message envelope.
      */
+    public $template;
     public $id;
     public $email_content;
     public $email;
@@ -23,8 +24,9 @@ class MarketingMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($id, $email_content, $email, $file_url)
+    public function __construct($template,$id, $email_content, $email, $file_url)
     {
+        $this->template = $template;
         $this->id = $id;
         $this->email_content = $email_content;
         $this->email = $email;
@@ -48,7 +50,7 @@ class MarketingMail extends Mailable
     {
         return new Content(
             view: 'mail.mail',
-            with: ['template' => $this->email_content[1], 'id' => $this->id],
+            with: ['template' => $this->template, 'id' => $this->id],
         );
     }
 

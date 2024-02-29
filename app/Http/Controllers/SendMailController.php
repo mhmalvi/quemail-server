@@ -48,23 +48,24 @@ class SendMailController extends Controller
                 array_push($file_urls, $file_path);
             }
         }
-            $count = new EmailRecords();
-            $count->sender = $mail->username;
-            $count->user_id = $mail->user_id;
-            $count->counts = 0;
-            $count->save();
-        foreach ($email_content[2] as $email) {            
+        $count = new EmailRecords();
+        $count->sender = $mail->username;
+        $count->user_id = $mail->user_id;
+        $count->counts = 0;
+        $count->save();
+        for ($i = 0; $i < count($email_content[2]); $i++) {
             $result = EmailRecordsDetails::create([
-                'recipients_mail' => $email,
+                'recipients_mail' => $email_content[2][$i],
                 'sender' => $mail->username,
                 'email_records_id' => $count->id,
                 'open' => 0,
                 'click' => 0,
                 'subscribed_or_unsubscribed' => 1
             ]);
-            $count->counts = $count->counts+1;
+            $count->counts = $count->counts + 1;
             $count->save();
-            $job = (new \App\Jobs\SendQueueEmail($result->id,$email_content,$request->user_id, $email, $file_urls ? $file_urls : ''));
+            $template = $email_content[1][$i];
+            $job = (new \App\Jobs\SendQueueEmail($template,$result->id, $email_content, $request->user_id, $email, $file_urls ? $file_urls : ''));
             dispatch($job);
         }
         return response()->json([

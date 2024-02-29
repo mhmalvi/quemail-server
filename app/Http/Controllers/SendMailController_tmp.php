@@ -2,63 +2,89 @@
 
 namespace App\Http\Controllers;
 
-// use App\Mail\Mail;
+use Exception;
+use Carbon\Carbon;
 use App\Mail\MarketingMail;
+use App\Models\DynamicMail;
+use App\Models\EmailRecords;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use App\Models\EmailRecordsDetails;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\SendMailRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ImageUploadRequest;
 
 class SendMailController extends Controller
 {
-    public function send_mail(Request $request)
+    public function send_mail(SendMailRequest $request)
     {
-        // $details = "Hello";
-        // dd($request->all());
+        set_time_limit(8000);
+        $mail = DynamicMail::where('user_id', $request->user_id)->first();
+        $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
+            date)'), Carbon::now()->toDateString())->sum('counts');
+        if ($counts) {
+            $counts_array = json_decode($counts);
+            if ($counts_array >= 1000) {
+                return response()->json([
+                    'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
+                    'status' => 305
+                ], 305);
+            }
+        }
+        $file_urls = [];
         $email_content = [
             $subject = $request->subject,
             $template = $request->template,
-            $emails = $request->email
+            $email = $request->email
         ];
-        // dd($email_content[2]);
-        // $job = (new \App\Jobs\SendQueueEmail($email_content))->onQueue('send_mail');
-        $emails = $request->email;
-        // dd($emails);
-        $emails = ['tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com', 'tanjib@quadque.tech', 'tanjibrubyat@gmail.com', 'tanjibrubyat@gmail.com'];
-        // dd($emails);
-        foreach ($emails as $key => $value) {
-            $response = Mail::to($value)->queue(new MarketingMail($email_content));
-            // if($response){
-            //     echo 'Mail sent to '.$value;
-            // }
+        if ($request->file('files')) {
+            $files = $request->file('files');
+            foreach ($files as $file) {
+                $fileName = $file->getClientOriginalName();
+                $fileExt = $fileName;
+                $file->move(public_path('assets/email_attachment'), $fileExt);
+                $file_path = "assets/email_attachment/" . $fileExt;
+                array_push($file_urls, $file_path);
+            }
         }
-        // dispatch($job);
-        // echo "Mail send successfully !!";
+            $count = new EmailRecords();
+            $count->sender = $mail->username;
+            $count->user_id = $mail->user_id;
+            $count->counts = 0;
+            $count->save();
+        foreach ($email_content[2] as $email) {            
+            $result = EmailRecordsDetails::create([
+                'recipients_mail' => $email,
+                'sender' => $mail->username,
+                'email_records_id' => $count->id,
+                'open' => 0,
+                'click' => 0,
+                'subscribed_or_unsubscribed' => 1
+            ]);
+            $count->counts = $count->counts+1;
+            $count->save();
+            $job = (new \App\Jobs\SendQueueEmail($result->id,$email_content,$request->user_id, $email, $file_urls ? $file_urls : ''));
+            dispatch($job);
+        }
         return response()->json([
-            'message' => 'Email sent',
-            'status' => 200
-        ], 200);
+            'message' => "Mail sent",
+            'status' => 200,
+        ]);
     }
 
-    public function imageUrl(Request $request)
+    public function imageUrl(ImageUploadRequest $request)
     {
-        // $file = $request->file('image');
-        // $path = url('/uploads/') . '/' . $file->getClientOriginalName();
-        // $imgpath = $file->move(public_path('/uploads/'), $file->getClientOriginalName());
-        // $fileNameToStore = $path;
-
-
-        // return json_encode(['location' => $fileNameToStore]);
-
-        // $image = $request->image->getClientOriginalName();
-        // $fileName = time() . '.' . $request->image->getClientOriginalExtension();
-        // // dd(public_path('assets/image'), $fileName);
-        // $request->image->move(public_path('assets/image'), $fileName);
-        // public_path("assets/image/". $fileName);
         $path = $request->file('image')->store('uploads', 'public');
-        // dd(public_path(Storage::url($path)));
-        // return ['location' => Storage::url($path)];
-        return response()->json([
-            'location' => "https://emailmarketing.queleadscrm.com" . Storage::url($path)
-        ]);
+        if ($path) {
+            return response()->json([
+                'location' => "https://emailmarketing.queleadscrm.com" . Storage::url($path)
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Failed',
+                'status' => 500
+            ], 500);
+        }
     }
 }

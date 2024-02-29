@@ -63,7 +63,7 @@ class SendQueueEmail implements ShouldQueue
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
             
-            Mail::to($this->email)->send(new MarketingMail($template,$this->id, $this->email_content,  $this->email, $this->file_urls ? $this->file_urls : ''));
+            Mail::to($this->email)->send(new MarketingMail($this->template,$this->id, $this->email_content,  $this->email, $this->file_urls ? $this->file_urls : ''));
         }
     }
 }

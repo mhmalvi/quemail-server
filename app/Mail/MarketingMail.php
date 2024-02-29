@@ -29,7 +29,6 @@ class MarketingMail extends Mailable
         $this->subject = $subject;
         $this->template = $template;
         $this->id = $id;
-        $this->email_content = $email_content;
         $this->email = $email;
         $this->file_url = $file_url;
     }

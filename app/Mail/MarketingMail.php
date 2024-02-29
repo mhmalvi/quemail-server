@@ -19,13 +19,12 @@ class MarketingMail extends Mailable
     public $subject;
     public $template;
     public $id;
-    public $email_content;
     public $email;
     public $file_url;
     /**
      * Create a new message instance.
      */
-    public function __construct($subject,$template,$id, $email_content, $email, $file_url)
+    public function __construct($subject,$template,$id, $email, $file_url)
     {
         $this->subject = $subject;
         $this->template = $template;

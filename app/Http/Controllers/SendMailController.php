@@ -66,7 +66,7 @@ class SendMailController extends Controller
             $count->save();
             $template = $email_content[1][$i];
             $subject = $email_content[0][$i]
-            $job = (new \App\Jobs\SendQueueEmail($subject, $template,$result->id, $email_content, $request->user_id, $email_content[2][$i], $file_urls ? $file_urls : ''));
+            $job = (new \App\Jobs\SendQueueEmail($subject, $template,$result->id, $request->user_id, $email_content[2][$i], $file_urls ? $file_urls : ''));
             dispatch($job);
         }
         return response()->json([

@@ -20,19 +20,17 @@ class SendQueueEmail implements ShouldQueue
     public $subject;
     public $template;
     public $id;
-    public $email_content;
     public $user_id;
     public $email;
     public $file_urls;
     /**
      * Create a new job instance.
      */
-    public function __construct($subject,$template,$id,$email_content,$user_id,$email, $file_urls)
+    public function __construct($subject,$template,$id,$user_id,$email, $file_urls)
     {
         $this->subject = $subject;
         $this->template = $template;
         $this->id = $id;
-        $this->email_content = $email_content;
         $this->user_id = $user_id;
         $this->email = $email;
         $this->file_urls = $file_urls;
@@ -65,7 +63,7 @@ class SendQueueEmail implements ShouldQueue
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
             
-            Mail::to($this->email)->send(new MarketingMail($this->subject,$this->template,$this->id, $this->email_content,  $this->email, $this->file_urls ? $this->file_urls : ''));
+            Mail::to($this->email)->send(new MarketingMail($this->subject,$this->template,$this->id,  $this->email, $this->file_urls ? $this->file_urls : ''));
         }
     }
 }

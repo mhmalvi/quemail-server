@@ -17,6 +17,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class SendQueueEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    public $subject;
     public $template;
     public $id;
     public $email_content;
@@ -26,8 +27,9 @@ class SendQueueEmail implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct($template,$id,$email_content,$user_id,$email, $file_urls)
+    public function __construct($subject,$template,$id,$email_content,$user_id,$email, $file_urls)
     {
+        $this->subject = $subject;
         $this->template = $template;
         $this->id = $id;
         $this->email_content = $email_content;
@@ -63,7 +65,7 @@ class SendQueueEmail implements ShouldQueue
                 'mail.from.name' => $smtpSettings['from_name']
             ]);
             
-            Mail::to($this->email)->send(new MarketingMail($this->template,$this->id, $this->email_content,  $this->email, $this->file_urls ? $this->file_urls : ''));
+            Mail::to($this->email)->send(new MarketingMail($this->subject,$this->template,$this->id, $this->email_content,  $this->email, $this->file_urls ? $this->file_urls : ''));
         }
     }
 }

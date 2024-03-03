@@ -23,10 +23,10 @@ class CompanyMiddleware
             if ($auth->role_id == 3) {
                 return $next($request);
             } else {
-                return response()->json(['Unauthenticated']);
+                return response()->json(['Unauthenticated'],401);
             }
         } else {
-            return response()->json(['Unauthenticated']);
+            return response()->json(['Unauthenticated'],401);
         }
     }
 }

@@ -16,10 +16,15 @@ class CompanyMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $auth = Auth::where('token', $request->bearerToken())->first();
+        $auth_exists = Auth::where('token', $request->bearerToken())->exists();
         // dd($request->bearerToken());
-        if ($auth->role_id == 3) {
-            return $next($request);
+        if ($auth_exists) {
+            $auth = Auth::where('token', $request->bearerToken())->first();
+            if ($auth->role_id == 3) {
+                return $next($request);
+            } else {
+                return response()->json(['Unauthenticated']);
+            }
         } else {
             return response()->json(['Unauthenticated']);
         }

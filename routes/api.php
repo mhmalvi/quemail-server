@@ -26,23 +26,25 @@ use App\Http\Controllers\UploadedImageController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/send-mail', [SendMailController::class, 'send_mail']);
-Route::post('/save-template', [MailTemplate::class, 'saveTemplate']);
-Route::get('/get-template', [MailTemplate::class, 'getTemplate']);
-Route::post('/delete-template', [MailTemplate::class, 'destroy']);
-Route::put('/update-template', [MailTemplate::class, 'updateTemplate']);
-Route::post('/email-history', [EmailHistoryController::class, 'emailHistory']);
-Route::post('/email-history-details', [EmailHistoryController::class, 'emailHistoryDetails']);
-Route::post('/email-counts-on-today', [EmailCounter::class, 'number_of_emails_sent_today']);
+Route::group(['middleware' => 'companyAuthentication'], function () {
+    Route::post('/send-mail', [SendMailController::class, 'send_mail']);
+    Route::post('/save-template', [MailTemplate::class, 'saveTemplate']);
+    Route::get('/get-template', [MailTemplate::class, 'getTemplate']);
+    Route::post('/delete-template', [MailTemplate::class, 'destroy']);
+    Route::put('/update-template', [MailTemplate::class, 'updateTemplate']);
+    Route::post('/email-history', [EmailHistoryController::class, 'emailHistory']);
+    Route::post('/email-history-details', [EmailHistoryController::class, 'emailHistoryDetails']);
+    Route::post('/email-counts-on-today', [EmailCounter::class, 'number_of_emails_sent_today']);
 
-Route::post('/save-mail', [DynamicMailController::class, 'saveMail']);
-Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);
-Route::put('/update-mail/{id}', [DynamicMailController::class, 'updateMail']);
-Route::post('/delete-mail', [DynamicMailController::class, 'deleteEmailSettings']);
+    Route::post('/save-mail', [DynamicMailController::class, 'saveMail']);
+    Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);
+    Route::put('/update-mail/{id}', [DynamicMailController::class, 'updateMail']);
+    Route::post('/delete-mail', [DynamicMailController::class, 'deleteEmailSettings']);
+});
 
-Route::post('/queleads-subscribe',[QueleadsSubscribeController::class,'subscribe']);
-Route::post('/queleads-unsubscribe',[QueleadsSubscribeController::class,'unsubscribe']);
-Route::post('/unsubscribe', [SubscriberController::class,'unsubscribe']);
+Route::post('/queleads-subscribe', [QueleadsSubscribeController::class, 'subscribe']);
+Route::post('/queleads-unsubscribe', [QueleadsSubscribeController::class, 'unsubscribe']);
+Route::post('/unsubscribe', [SubscriberController::class, 'unsubscribe']);
 
 Route::post('/upload-image', [SendMailController::class, 'imageUrl']);
 Route::get('/get-image', [UploadedImageController::class, 'getImages']);

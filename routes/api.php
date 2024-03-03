@@ -40,12 +40,12 @@ Route::group(['middleware' => 'companyAuthentication'], function () {
     Route::get('/get-mail/{user_id}', [DynamicMailController::class, 'getMail']);
     Route::put('/update-mail/{id}', [DynamicMailController::class, 'updateMail']);
     Route::post('/delete-mail', [DynamicMailController::class, 'deleteEmailSettings']);
+
+    Route::post('/upload-image', [SendMailController::class, 'imageUrl']);
+    Route::get('/get-image', [UploadedImageController::class, 'getImages']);
+    Route::post('/delete-image', [UploadedImageController::class, 'deleteImage']);
 });
 
 Route::post('/queleads-subscribe', [QueleadsSubscribeController::class, 'subscribe']);
 Route::post('/queleads-unsubscribe', [QueleadsSubscribeController::class, 'unsubscribe']);
 Route::post('/unsubscribe', [SubscriberController::class, 'unsubscribe']);
-
-Route::post('/upload-image', [SendMailController::class, 'imageUrl']);
-Route::get('/get-image', [UploadedImageController::class, 'getImages']);
-Route::post('/delete-image', [UploadedImageController::class, 'deleteImage']);

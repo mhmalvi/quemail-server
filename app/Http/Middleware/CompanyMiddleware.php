@@ -19,7 +19,7 @@ class CompanyMiddleware
         $auth_exists = Auth::where('token', $request->bearerToken())->exists();
         // dd($request->bearerToken());
         if ($auth_exists) {
-            $auth = Auth::where('token', $request->header())->first();
+            $auth = Auth::where('token', $request->bearerToken())->first();
             if ($auth->role_id == 3) {
                 return $next($request);
             } else {

@@ -17,6 +17,7 @@ class CompanyMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $auth = Auth::where('token', $request->bearerToken())->first();
+        dd($auth);
         if ($auth->role_id == 3) {
             return $next($request);
         } else {

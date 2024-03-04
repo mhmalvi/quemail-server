@@ -19,16 +19,14 @@ class MailScheduleController extends Controller
         DB::beginTransaction();
         try {
             $scheduler = new ScheduledMail();
-            if (count($request->email) > 0) {
-                foreach ($request->email as $email) {
-                    $scheduler->email = $email;
-                    $scheduler->bounce_status = 1;
-                    $scheduler->schedule = $request->schedule;
-                    $scheduler->user_id = $request->user_id;
-                    $scheduler->save();
-                }
+            foreach ($request->email as $email) {
+                $scheduler->email = $email;
+                $scheduler->bounce_status = 1;
+                $scheduler->schedule = $request->schedule;
+                $scheduler->user_id = $request->user_id;
+                $scheduler->save();
             }
-            if (count($request->bounced_email) > 0) {
+            if ($request->bounced_email && count($request->bounced_email) > 0) {
                 foreach ($request->bounced_email as $email) {
                     $scheduler->email = $email;
                     $scheduler->bounce_status = 0;

@@ -36,11 +36,12 @@ class MailScheduleController extends Controller
                     $scheduler->save();
                 }
             }
+            DB::commit();
             return response()->json([
                 'message' => 'success',
                 'status' => 201
             ], 201);
-            DB::commit();
+            
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([

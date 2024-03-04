@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ScheduledMail;
+use Illuminate\Support\Facades\DB;
 // use App\Services\MailScheduleService;
 
 class MailScheduleController extends Controller
@@ -15,22 +16,37 @@ class MailScheduleController extends Controller
     }
     public function schedule_mail(Request $request)
     {
-        $scheduler = new ScheduledMail();
-        $scheduler->email = $request->email;
-        $scheduler->bounce_status = 1;
-        $scheduler->schedule = $request->schedule;
-        $scheduler->user_id = $request->user_id;
-        $response = $scheduler->save();
-        if ($response) {
+        DB::beginTransaction();
+        try {
+            $scheduler = new ScheduledMail();
+            if (count($request->email) > 0) {
+                foreach ($request->email as $email) {
+                    $scheduler->email = $email;
+                    $scheduler->bounce_status = 1;
+                    $scheduler->schedule = $request->schedule;
+                    $scheduler->user_id = $request->user_id;
+                    $scheduler->save();
+                }
+            }
+            if (count($request->bounced_email) > 0) {
+                foreach ($request->bounced_email as $email) {
+                    $scheduler->email = $email;
+                    $scheduler->bounce_status = 0;
+                    $scheduler->schedule = $request->schedule;
+                    $scheduler->user_id = $request->user_id;
+                    $scheduler->save();
+                }
+            }
             return response()->json([
                 'message' => 'success',
-                'status' => 201,
-                'data' => $scheduler
+                'status' => 201
             ], 201);
-        } else {
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
             return response()->json([
-                'message' => 'failed',
-                'status' => 500
+                'status' => false,
+                'message' => $th->getMessage()
             ], 500);
         }
     }

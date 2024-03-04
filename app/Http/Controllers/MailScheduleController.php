@@ -17,7 +17,7 @@ class MailScheduleController extends Controller
     public function schedule_mail(Request $request)
     {
         // dd(count($request->email));
-        // DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $scheduler = new ScheduledMail();
             foreach ($request->email as $email) {
@@ -40,9 +40,9 @@ class MailScheduleController extends Controller
                 'message' => 'success',
                 'status' => 201
             ], 201);
-            // DB::commit();
+            DB::commit();
         } catch (\Throwable $th) {
-            // DB::rollback();
+            DB::rollback();
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()

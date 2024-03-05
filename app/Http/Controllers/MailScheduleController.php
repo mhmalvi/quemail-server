@@ -27,7 +27,7 @@ class MailScheduleController extends Controller
                 $scheduler->user_id = $request->user_id;
                 $scheduler->save();
             }
-            if ($request->bounced_email && count($request->bounced_email) > 0) {
+            if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
                 foreach ($request->bounced_email as $email) {
                     $scheduler->email = $email;
                     $scheduler->bounce_status = 0;

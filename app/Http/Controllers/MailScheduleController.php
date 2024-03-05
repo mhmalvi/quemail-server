@@ -15,9 +15,9 @@ class MailScheduleController extends Controller
     {
         // $this->scheduler = $scheduler;
     }
-    public function schedule_mail(ScheduleMailRequest $request)
+    public function schedule_mail(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         DB::beginTransaction();
         try {
             for ($i = 0; $i < count($request->email); $i++) {

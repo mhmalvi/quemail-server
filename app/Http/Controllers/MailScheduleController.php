@@ -23,7 +23,7 @@ class MailScheduleController extends Controller
                 $scheduler = new ScheduledMail();
                 if ($request->email[$i] != "undefined" || $request->subject[$i] != "undefined" || $request->email[$i] != "" || $request->subject[$i] != "") {
                     $scheduler->email = $request->email[$i];
-                    if (preg_match('/@.+\./', $request->email)) {
+                    if (preg_match('/@.+\./', $request->email[$i])) {
                         $scheduler->bounce_status = 1;
                     } else {
                         $scheduler->bounce_status = 0;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ScheduledMail;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ScheduleMailRequest;
 // use App\Services\MailScheduleService;
 
 class MailScheduleController extends Controller
@@ -14,25 +15,29 @@ class MailScheduleController extends Controller
     {
         // $this->scheduler = $scheduler;
     }
-    public function schedule_mail(Request $request)
+    public function schedule_mail(ScheduleMailRequest $request)
     {
         // dd(count($request->bounced_email));
         DB::beginTransaction();
         try {
             $scheduler = new ScheduledMail();
-            foreach ($request->email as $email) {
-                $scheduler->email = $email;
+            for ($i = 0; $i < count($request->email); $i++) {
+                $scheduler->email = $request->email[$i];
                 $scheduler->bounce_status = 1;
                 $scheduler->schedule = $request->schedule;
                 $scheduler->user_id = $request->user_id;
+                $scheduler->template = $request->template[$i];
+                $scheduler->subject = $request->subject[$i];
                 $scheduler->save();
             }
             if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
-                foreach ($request->bounced_email as $email) {
-                    $scheduler->email = $email;
+                for ($j = 0; $j < count($request->bounced_email); $j++) {
+                    $scheduler->email = $request->bounced_email[$j];
                     $scheduler->bounce_status = 0;
                     $scheduler->schedule = $request->schedule;
                     $scheduler->user_id = $request->user_id;
+                    $scheduler->template = $request->template[$j];
+                    $scheduler->subject = $request->subject[$j];
                     $scheduler->save();
                 }
             }
@@ -41,7 +46,6 @@ class MailScheduleController extends Controller
                 'message' => 'success',
                 'status' => 201
             ], 201);
-            
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json([

@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('scheduled_mails', function (Blueprint $table) {
-            $table->string('email')->nullable();
+        Schema::create('scheduled_jobs', function (Blueprint $table) {
+            $table->id();
+            $table->string('file_name');
+            $table->string('schedule');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('scheduled_mails', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('scheduled_jobs');
     }
 };

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->timestamp('schedule');
             $table->longText('template')->nullable();
             $table->text('subject')->nullable();
+            $table->unsignedBigInteger('scheduled_jobs_id');
+            $table->foreign('scheduled_jobs_id')->references('id')->on('scheduled_jobs')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@ class ScheduleMailFetchController extends Controller
 {
     public function scheduled_jobs_fetch(ScheduledJobsFetchRequest $request)
     {
-        $scheduledJobs = ScheduledJobs::where('user_id', $request->user_id)->paginate($request->per_page);
+        $scheduledJobs = ScheduledJobs::orderBy('id', 'desc')->where('user_id', $request->user_id)->paginate($request->per_page);
         if ($scheduledJobs) {
             return response()->json([
                 'message' => 'message',

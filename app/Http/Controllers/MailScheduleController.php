@@ -21,22 +21,26 @@ class MailScheduleController extends Controller
         try {
             for ($i = 0; $i < count($request->email); $i++) {
                 $scheduler = new ScheduledMail();
-                $scheduler->email = $request->email[$i];
-                $scheduler->bounce_status = 1;
-                $scheduler->schedule = $request->schedule;
-                $scheduler->user_id = $request->user_id;
-                $scheduler->template = $request->template[$i];
-                $scheduler->subject = $request->subject[$i];
-                $scheduler->save();
+                if ($request->email[$i] != "") {
+                    $scheduler->email = $request->email[$i];
+                    $scheduler->bounce_status = 1;
+                    $scheduler->schedule = $request->schedule;
+                    $scheduler->user_id = $request->user_id;
+                    $scheduler->template = $request->template[$i];
+                    $scheduler->subject = $request->subject[$i];
+                    $scheduler->save();
+                }
             }
             if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
                 for ($j = 0; $j < count($request->bounced_email); $j++) {
                     $scheduler = new ScheduledMail();
-                    $scheduler->email = $request->bounced_email[$j];
-                    $scheduler->bounce_status = 0;
-                    $scheduler->schedule = $request->schedule;
-                    $scheduler->user_id = $request->user_id;
-                    $scheduler->save();
+                    if ($request->bounced_email[$j] != "") {
+                        $scheduler->email = $request->bounced_email[$j];
+                        $scheduler->bounce_status = 0;
+                        $scheduler->schedule = $request->schedule;
+                        $scheduler->user_id = $request->user_id;
+                        $scheduler->save();
+                    }
                 }
             }
             DB::commit();

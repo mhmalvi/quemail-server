@@ -46,7 +46,7 @@ class ScheduleMailFetchController extends Controller
             }
         } else {
             return response()->json([
-                'message' => 'message',
+                'message' => 'Not found',
                 'status' => 404
             ], 404);
         }

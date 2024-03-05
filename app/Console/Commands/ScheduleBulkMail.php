@@ -25,6 +25,6 @@ class ScheduleBulkMail extends Command
      */
     public function handle()
     {
-        
+        // $mails = 
     }
 }

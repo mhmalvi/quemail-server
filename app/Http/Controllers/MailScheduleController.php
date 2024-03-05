@@ -19,7 +19,6 @@ class MailScheduleController extends Controller
     {
         DB::beginTransaction();
         try {
-            // $scheduler = new ScheduledMail();
             for ($i = 0; $i < count($request->email); $i++) {
                 $scheduler = new ScheduledMail();
                 $scheduler->email = $request->email[$i];

@@ -23,7 +23,8 @@ class MailScheduleController extends Controller
         try {
             $scheduleJob = ScheduledJobs::create([
                 'file_name' => $request->file_name,
-                'schedule' => $request->schedule
+                'schedule' => $request->schedule,
+                'user_id' => $request->user_id
             ]);
             // dd($scheduleJob->id);
             for ($i = 0; $i < count($request->email); $i++) {
@@ -33,7 +34,7 @@ class MailScheduleController extends Controller
                     // if (preg_match('/@.+\./', $request->email[$i])) {
                     //     $scheduler->bounce_status = 1; //// 1 = bounced
                     // } else {
-                        $scheduler->bounce_status = 0; //// 0 = not bounced
+                    $scheduler->bounce_status = 0; //// 0 = not bounced
                     // }
                     $scheduler->schedule = $request->schedule;
                     $scheduler->user_id = $request->user_id;

@@ -21,7 +21,7 @@ class MailScheduleController extends Controller
         try {
             for ($i = 0; $i < count($request->email); $i++) {
                 $scheduler = new ScheduledMail();
-                if ($request->email[$i] != "") {
+                if ($request->email[$i] != "" || $request->subject[$i] != "") {
                     $scheduler->email = $request->email[$i];
                     $scheduler->bounce_status = 1;
                     $scheduler->schedule = $request->schedule;
@@ -34,7 +34,7 @@ class MailScheduleController extends Controller
             if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
                 for ($j = 0; $j < count($request->bounced_email); $j++) {
                     $scheduler = new ScheduledMail();
-                    if ($request->bounced_email[$j] != "") {
+                    if ($request->bounced_email[$j] !="" || $request->subject[$i] != "") {
                         $scheduler->email = $request->bounced_email[$j];
                         $scheduler->bounce_status = 0;
                         $scheduler->schedule = $request->schedule;

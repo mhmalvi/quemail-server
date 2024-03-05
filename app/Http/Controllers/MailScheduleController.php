@@ -35,8 +35,6 @@ class MailScheduleController extends Controller
                     $scheduler->bounce_status = 0;
                     $scheduler->schedule = $request->schedule;
                     $scheduler->user_id = $request->user_id;
-                    $scheduler->template = $request->template[$j];
-                    $scheduler->subject = $request->subject[$j];
                     $scheduler->save();
                 }
             }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('bounce_status')->comment("1=bounced, 0=not bounced");
             $table->bigInteger('user_id');
             $table->timestamp('schedule');
-            $table->longText('template');
-            $table->text('subject');
+            $table->longText('template')->nullable();
+            $table->text('subject')->nullable();
             $table->timestamps();
         });
     }

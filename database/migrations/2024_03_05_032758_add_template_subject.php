@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('scheduled_mails', function (Blueprint $table) {
-            $table->longText('template')->nullable();
-            $table->text('subject')->nullable();
+            //
         });
     }
 

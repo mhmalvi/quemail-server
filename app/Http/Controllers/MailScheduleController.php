@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\ScheduledMail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ScheduleMailRequest;
+use App\Models\ScheduledJobs;
+
 // use App\Services\MailScheduleService;
 
 class MailScheduleController extends Controller
@@ -15,11 +17,15 @@ class MailScheduleController extends Controller
     {
         // $this->scheduler = $scheduler;
     }
-    public function schedule_mail(Request $request)
+    public function schedule_mail(ScheduledJobs $scheduleJob, Request $request)
     {
         DB::beginTransaction();
         try {
-            
+            $scheduleJob = ScheduledJobs::create([
+                'file_name' => $request->file_name,
+                'schedule' => $request->schedule
+            ]);
+            // dd($scheduleJob->id);
             for ($i = 0; $i < count($request->email); $i++) {
                 $scheduler = new ScheduledMail();
                 if ($request->email[$i] != "undefined" || $request->subject[$i] != "undefined" || $request->email[$i] != "" || $request->subject[$i] != "") {
@@ -33,6 +39,7 @@ class MailScheduleController extends Controller
                     $scheduler->user_id = $request->user_id;
                     $scheduler->template = $request->template[$i];
                     $scheduler->subject = $request->subject[$i];
+                    $scheduler->scheduled_jobs_id = $scheduleJob->id;
                     $scheduler->save();
                 }
             }

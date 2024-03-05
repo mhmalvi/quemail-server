@@ -17,14 +17,13 @@ class MailScheduleController extends Controller
     }
     public function schedule_mail(Request $request)
     {
-        // dd($request->all());
         DB::beginTransaction();
         try {
             for ($i = 0; $i < count($request->email); $i++) {
                 $scheduler = new ScheduledMail();
                 if ($request->email[$i] != "undefined" || $request->subject[$i] != "undefined" || $request->email[$i] != "" || $request->subject[$i] != "") {
                     $scheduler->email = $request->email[$i];
-                    if (filter_var($request->email, FILTER_VALIDATE_EMAIL) !== false) {
+                    if (preg_match('/@.+\./', $request->email)) {
                         $scheduler->bounce_status = 1;
                     } else {
                         $scheduler->bounce_status = 0;

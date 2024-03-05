@@ -29,13 +29,21 @@ class ScheduleMailFetchController extends Controller
 
     public function scheduled_mails_fetch(ScheduledMailsFetchRequest $request)
     {
-        $scheduledMails = ScheduledMail::orderBy('id', 'desc')->where('scheduled_jobs_id', $request->job_id)->where('user_id', $request->user_id)->paginate($request->per_page);
-        if ($scheduledMails) {
-            return response()->json([
-                'message' => 'message',
-                'status' => 200,
-                'data' => $scheduledMails
-            ], 200);
+        $scheduledMailsExist = ScheduledMail::orderBy('id', 'desc')->where('scheduled_jobs_id', $request->job_id)->where('user_id', $request->user_id)->exists();
+        if ($scheduledMailsExist) {
+            $scheduledMails = ScheduledMail::orderBy('id', 'desc')->where('scheduled_jobs_id', $request->job_id)->where('user_id', $request->user_id)->paginate($request->per_page);
+            if ($scheduledMails) {
+                return response()->json([
+                    'message' => 'message',
+                    'status' => 200,
+                    'data' => $scheduledMails
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'message',
+                    'status' => 404
+                ], 404);
+            }
         } else {
             return response()->json([
                 'message' => 'message',

@@ -24,7 +24,11 @@ class MailScheduleController extends Controller
                 $scheduler = new ScheduledMail();
                 if ($request->email[$i] != "undefined" || $request->subject[$i] != "undefined" || $request->email[$i] != "" || $request->subject[$i] != "") {
                     $scheduler->email = $request->email[$i];
-                    $scheduler->bounce_status = 1;
+                    if (filter_var($request->email, FILTER_VALIDATE_EMAIL) !== false) {
+                        $scheduler->bounce_status = 0;
+                    } else {
+                        $scheduler->bounce_status = 1;
+                    }
                     $scheduler->schedule = $request->schedule;
                     $scheduler->user_id = $request->user_id;
                     $scheduler->template = $request->template[$i];

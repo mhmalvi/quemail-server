@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('scheduled_mails', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->integer('bounce_status')->comment("1=bounced, 0=not bounced");
             $table->bigInteger('user_id');
             $table->timestamp('schedule');

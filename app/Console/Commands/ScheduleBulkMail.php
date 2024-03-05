@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\ScheduledMail;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class ScheduleBulkMail extends Command
@@ -19,7 +20,7 @@ class ScheduleBulkMail extends Command
      *
      * @var string
      */
-    protected $description = 'Bal Mail Schedule';
+    protected $description = 'MailSchedule';
 
     /**
      * Execute the console command.
@@ -27,5 +28,17 @@ class ScheduleBulkMail extends Command
     public function handle()
     {
         $mails = ScheduledMail::all();
+        if ($mails) {
+            foreach ($mails as $email) {
+                $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
+                $today_date = Carbon::now();
+                print_r($db_date);
+                print_r($today_date);
+                $db_time = Carbon::parse($email->schedule)->format('H:i');
+                $today_time = Carbon::now()->format('H:i');
+                print_r($db_time);
+                print_r($today_date->tz('UTC'));
+            }
+        }
     }
 }

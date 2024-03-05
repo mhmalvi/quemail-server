@@ -21,10 +21,18 @@ class MailScheduleController extends Controller
     {
         DB::beginTransaction();
         try {
+            $mail_count = count($request->email);
+            if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
+                $bounce_count = count($request->bounced_email);
+                $number_of_mails = $mail_count + $bounce_count;
+            } else {
+                $number_of_mails = $mail_count;
+            }
             $scheduleJob = ScheduledJobs::create([
                 'file_name' => $request->file_name,
                 'schedule' => $request->schedule,
-                'user_id' => $request->user_id
+                'user_id' => $request->user_id,
+                'number_of_mails' => $number_of_mails
             ]);
             // dd($scheduleJob->id);
             for ($i = 0; $i < count($request->email); $i++) {

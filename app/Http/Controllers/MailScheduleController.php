@@ -23,11 +23,11 @@ class MailScheduleController extends Controller
                 $scheduler = new ScheduledMail();
                 if ($request->email[$i] != "undefined" || $request->subject[$i] != "undefined" || $request->email[$i] != "" || $request->subject[$i] != "") {
                     $scheduler->email = $request->email[$i];
-                    if (preg_match('/@.+\./', $request->email[$i])) {
-                        $scheduler->bounce_status = 1;
-                    } else {
+                    // if (preg_match('/@.+\./', $request->email[$i])) {
+                    //     $scheduler->bounce_status = 1;
+                    // } else {
                         $scheduler->bounce_status = 0;
-                    }
+                    // }
                     $scheduler->schedule = $request->schedule;
                     $scheduler->user_id = $request->user_id;
                     $scheduler->template = $request->template[$i];
@@ -40,7 +40,7 @@ class MailScheduleController extends Controller
                     $scheduler = new ScheduledMail();
                     if ($request->bounced_email[$j] != "" || $request->bounced_email[$j] != "undefined" || $request->subject[$i] != "" || $request->subject[$i] != "undefined") {
                         $scheduler->email = $request->bounced_email[$j];
-                        $scheduler->bounce_status = 0;
+                        $scheduler->bounce_status = 1;
                         $scheduler->schedule = $request->schedule;
                         $scheduler->user_id = $request->user_id;
                         $scheduler->save();

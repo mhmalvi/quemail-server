@@ -51,6 +51,7 @@ class MailScheduleController extends Controller
                         $scheduler->bounce_status = 1; //// 1 = bounced
                         $scheduler->schedule = $request->schedule;
                         $scheduler->user_id = $request->user_id;
+                        $scheduler->scheduled_jobs_id = $scheduleJob->id;
                         $scheduler->save();
                     }
                 }

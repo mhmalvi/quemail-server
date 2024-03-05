@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ScheduledMail;
 use Illuminate\Console\Command;
 
 class ScheduleBulkMail extends Command
@@ -25,6 +26,6 @@ class ScheduleBulkMail extends Command
      */
     public function handle()
     {
-        // $mails = 
+        $mails = ScheduledMail::all();
     }
 }

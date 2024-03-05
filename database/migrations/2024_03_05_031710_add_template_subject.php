@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('scheduled_mails', function (Blueprint $table) {
-            $table->id();
-            $table->string('email');
-            $table->integer('bounce_status')->comment("1=bounced, 0=not bounced");
-            $table->bigInteger('user_id');
-            $table->timestamp('schedule');
+        Schema::table('scheduled_mails', function (Blueprint $table) {
             $table->longText('template');
             $table->text('subject');
-            $table->timestamps();
         });
     }
 
@@ -28,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('scheduled_mails');
+        Schema::table('scheduled_mails', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -22,7 +22,7 @@ class ScheduleMailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email.*"=> "required|regex:/(.+)@(.+)\.(.+)/i",
+            "email.*"=> "required",
             "schedule"=>"required",
             "user_id"=>"required",
             "template.*"=>"required",

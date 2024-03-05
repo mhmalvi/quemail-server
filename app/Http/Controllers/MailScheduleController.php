@@ -15,11 +15,11 @@ class MailScheduleController extends Controller
     {
         // $this->scheduler = $scheduler;
     }
-    public function schedule_mail(ScheduleMailRequest $request)
+    public function schedule_mail(ScheduledMail $scheduler, ScheduleMailRequest $request)
     {
         DB::beginTransaction();
         try {
-            $scheduler = new ScheduledMail();
+            // $scheduler = new ScheduledMail();
             for ($i = 0; $i < count($request->email); $i++) {
                 $scheduler->email = $request->email[$i];
                 $scheduler->bounce_status = 1;

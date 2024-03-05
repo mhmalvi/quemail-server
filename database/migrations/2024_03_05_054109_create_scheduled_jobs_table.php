@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('file_name');
             $table->dateTime('schedule');
             $table->integer('delivery_status')->default(0)->comment('0=pending, 1=sent, 2=canceled');
+            $table->bigInteger('user_id');
             $table->timestamps();
         });
     }

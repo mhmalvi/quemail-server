@@ -9,6 +9,7 @@ use App\Models\ScheduledMail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\Mail\ScheduledMarketingMail;
+use App\Services\EmailRecordsStoreService;
 use Illuminate\Support\Facades\Mail;
 
 class ScheduleBulkMail extends Command
@@ -39,6 +40,7 @@ class ScheduleBulkMail extends Command
         if ($mails) {
 
             foreach ($mails as $email) {
+                $records = new EmailRecords();
                 $mail = DynamicMail::where('user_id', $email->user_id)->first();
                 $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
                 date)'), Carbon::now()->toDateString())->sum('counts');
@@ -51,6 +53,9 @@ class ScheduleBulkMail extends Command
                         ], 305);
                     }
                 }
+                // $records = new EmailRecords();
+                // EmailRecordsStoreService->emailRecordsStore($email)
+
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
                 print_r($db_date);
@@ -59,9 +64,11 @@ class ScheduleBulkMail extends Command
                 $today_time = Carbon::now()->format('H:i');
                 print_r($db_time);
                 print_r($today_time);
-                if ($db_date <= $today_date && $email->delivery_status == 0 && $email->bounce_status == 0) {
-                    if ($db_time <= $today_time) {
+                if ($db_date <= $today_date && $email->delivery_status == 0) {
+                    if ($db_time <= $today_time) {                        
                         $mail = DynamicMail::where('user_id', $email->user_id)->first();
+                        
+
                         if ($mail) {
                             $smtpSettings = [
                                 'default' => $mail->driver,
@@ -86,10 +93,11 @@ class ScheduleBulkMail extends Command
 
                             Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject, $email->template, $email->id,  $email->email));
                         }
-                    } else if($email->bounce_status == 1) {
-                        // $record = new EmailRecords();
-
-                    }
+                    } 
+                    // else if($email->bounce_status == 1) {
+                    //     // $record = ;
+                        
+                    // }
                 } else {
                     print_r('false');
                 }

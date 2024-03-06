@@ -11,15 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('email_records', function (Blueprint $table) {
-            $table->id();
-            $table->text('sender');
-            $table->integer('counts');
-            $table->integer('user_id');
-            $table->dateTime('schedule')->nullable();
-            $table->integer('bounce')->nullable();
+        Schema::table('email_records', function (Blueprint $table) {
             $table->bigInteger('scheduled_jobs_id')->nullable();
-            $table->timestamps();
         });
     }
 
@@ -28,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('email_records');
+        Schema::table('email_records_table', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -9,6 +9,7 @@ use App\Models\ScheduledMail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\Mail\ScheduledMarketingMail;
+use App\Models\EmailRecordsDetails;
 use App\Services\EmailRecordsStoreService;
 use Illuminate\Support\Facades\Mail;
 
@@ -57,17 +58,23 @@ class ScheduleBulkMail extends Command
                 $email_records = "";
                 $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
                 if (!$isEmailRecordExists) {
-                    $emailRecordsStoreService = new EmailRecordsStoreService(
-                        $mail->username,
-                        $email->user_id,
-                        $email->schedule,
-                        $email->scheduled_jobs_id
-                    );
-                    $email_records = $emailRecordsStoreService->emailRecordsStore();
-                    print_r($email_records[0]);
+                    $email_records = new EmailRecords();
+                    $email_records->sender = $mail->email;
+                    $email_records->counts = 0;
+                    $email_records->user_id = $email->user_id;
+                    $email_records->schedule = $email->schedule;
+                    $email_records->bounce = 0;
+                    $email_records->scheduled_jobs_id = $email->scheduled_jobs_id;
+                    $email_records->save();
                 }
 
-                
+                $email_records_details = new EmailRecordsDetails();
+                $email_records_details->recipients_mail = $email->email;
+                $email_records_details->recipients_mail = $mail->from_mail_address;
+                $email_records_details->recipients_mail = $email_records->id;
+                $email_records_details->recipients_mail = $email->schedule;
+                $email_records_details->save();
+
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
                 print_r($db_date);
@@ -103,7 +110,7 @@ class ScheduleBulkMail extends Command
                                 'mail.from.name' => $smtpSettings['from_name']
                             ]);
 
-                            // Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject, $email->template, $email->id,  $email->email));
+                            Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject, $email->template, $email->id,  $email->email));
                         }
                     }
                     // else if($email->bounce_status == 1) {

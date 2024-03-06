@@ -76,6 +76,7 @@ class ScheduleBulkMail extends Command
                     $current_mail->save();
                 }
                 $email_records_id = json_decode($email_records->id);
+                dd($email_records_id);
                 $email_records_details = new EmailRecordsDetails();
                 $email_records_details->recipients_mail = $email->email;
                 $email_records_details->sender = $mail->from_mail_address;

@@ -4,8 +4,10 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use App\Models\DynamicMail;
+use App\Models\EmailRecords;
 use App\Models\ScheduledMail;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use App\Mail\ScheduledMarketingMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -29,15 +31,29 @@ class ScheduleBulkMail extends Command
      * Execute the console command.
      */
 
-     public function handle()
+    public function handle()
     {
+
         $mails = ScheduledMail::all();
         // print_r($mails);
         if ($mails) {
+
             foreach ($mails as $email) {
+                $mail = DynamicMail::where('user_id', $email->user_id)->first();
+                $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
+                date)'), Carbon::now()->toDateString())->sum('counts');
+                if ($counts) {
+                    $counts_array = json_decode($counts);
+                    if ($counts_array >= 1000) {
+                        return response()->json([
+                            'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
+                            'status' => 305
+                        ], 305);
+                    }
+                }
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
-                print_r($db_date); 
+                print_r($db_date);
                 print_r($today_date);
                 $db_time = Carbon::parse($email->schedule)->format('H:i');
                 $today_time = Carbon::now()->format('H:i');
@@ -70,8 +86,9 @@ class ScheduleBulkMail extends Command
 
                             Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject, $email->template, $email->id,  $email->email));
                         }
-                    } else {
-                        print_r('false');
+                    } else if($email->bounce_status == 1) {
+                        // $record = new EmailRecords();
+
                     }
                 } else {
                     print_r('false');

@@ -20,17 +20,17 @@ class ScheduledMarketingMail extends Mailable
     public $template;
     public $id;
     public $email;
-    public $file_url;
+    // public $file_url;
     /**
      * Create a new message instance.
      */
-    public function __construct($subject, $template, $id, $email, $file_url)
+    public function __construct($subject, $template, $id, $email)
     {
         $this->subject = $subject;
         $this->template = $template;
         $this->id = $id;
         $this->email = $email;
-        $this->file_url = $file_url;
+        // $this->file_url = $file_url;
     }
 
     /**

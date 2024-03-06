@@ -101,8 +101,11 @@ class ScheduleBulkMail extends Command
                     $email_records_details->schedule = $email->schedule;
                     $email_records_details->bounce_status = $email->bounce_status;
                     $email_records_details->save();
-                    $email_records->counts = $email_records->counts+1;
+                    if($email->bounce_status==0){
+                        $email_records->counts = $email_records->counts+1;
                     $email_records->save();
+                    }
+                    
                 }               
 
 

@@ -74,6 +74,7 @@ class ScheduleBulkMail extends Command
                         'scheduled_jobs_id',
                         $email->scheduled_jobs_id
                     )->first();
+                    dd($emailRecordsResult->id);
                     $email_records_id = $emailRecordsResult->id;
                 }
                 $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();

@@ -56,6 +56,7 @@ class ScheduleBulkMail extends Command
                 }
                 // $records = new EmailRecords();
                 $email_records = "";
+                $email_records_id = "";
                 $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
                 if (!$isEmailRecordExists) {
                     $email_records = new EmailRecords();
@@ -66,13 +67,21 @@ class ScheduleBulkMail extends Command
                     $email_records->bounce = 0;
                     $email_records->scheduled_jobs_id = $email->scheduled_jobs_id;
                     $email_records->save();
+                    $email_records_id = json_decode($email_records->id);
+                }
+                if ($isEmailRecordExists) {
+                    $emailRecordsResult = EmailRecords::where(
+                        'scheduled_jobs_id',
+                        $email->scheduled_jobs_id
+                    )->first();
+                    $email_records_id = $emailRecordsResult->id;
                 }
                 $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
                 if ($email->bounce_status == 0) {
                     $current_mail->delivery_status = 1;
                     $current_mail->save();
                 }
-                $email_records_id = json_decode($email_records->id);
+
                 // dd($email_records_id);
                 $email_records_details = new EmailRecordsDetails();
                 $email_records_details->recipients_mail = $email->email;
@@ -80,12 +89,12 @@ class ScheduleBulkMail extends Command
                 $email_records_details->email_records_id = $email_records_id;
                 $email_records_details->open = 0;
                 $email_records_details->click = 0;
-                if($email->bounce_status==1){
-                     $email_records_details->subscribed_or_unsubscribed = 1;
-                }else{
+                if ($email->bounce_status == 1) {
+                    $email_records_details->subscribed_or_unsubscribed = 1;
+                } else {
                     $email_records_details->subscribed_or_unsubscribed = 0;
                 }
-                
+
                 $email_records_details->schedule = $email->schedule;
                 $email_records_details->bounce_status = $email->bounce_status;
                 $email_records_details->save();

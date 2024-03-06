@@ -54,16 +54,19 @@ class ScheduleBulkMail extends Command
                     }
                 }
                 // $records = new EmailRecords();
-                $email_records="";
-                $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id',$email->scheduled_jobs_id)->exists();
-                if(!$isEmailRecordExists){
-                    $EmailRecordsStoreService = new EmailRecordsStoreService($mail->username, $email->user_id,
-                    $email->schedule,
-                    $email->scheduled_jobs_id);
-                    $email_records= $EmailRecordsStoreService->emailRecordsStore();
-                } 
-                
-                print_r(json_decode($email_records->body()));
+                $email_records = "";
+                $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
+                if (!$isEmailRecordExists) {
+                    $EmailRecordsStoreService = new EmailRecordsStoreService(
+                        $mail->username,
+                        $email->user_id,
+                        $email->schedule,
+                        $email->scheduled_jobs_id
+                    );
+                    $email_records = $EmailRecordsStoreService->emailRecordsStore();
+                }
+
+                print_r(json_decode($email_records->id));
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
                 print_r($db_date);
@@ -73,9 +76,9 @@ class ScheduleBulkMail extends Command
                 print_r($db_time);
                 print_r($today_time);
                 if ($db_date <= $today_date && $email->delivery_status == 0) {
-                    if ($db_time <= $today_time) {                        
+                    if ($db_time <= $today_time) {
                         $mail = DynamicMail::where('user_id', $email->user_id)->first();
-                        
+
 
                         if ($mail) {
                             $smtpSettings = [
@@ -101,10 +104,10 @@ class ScheduleBulkMail extends Command
 
                             Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject, $email->template, $email->id,  $email->email));
                         }
-                    } 
+                    }
                     // else if($email->bounce_status == 1) {
                     //     // $record = ;
-                        
+
                     // }
                 } else {
                     print_r('false');

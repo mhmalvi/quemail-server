@@ -28,7 +28,8 @@ class ScheduleBulkMail extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+
+     public function handle()
     {
         $mails = ScheduledMail::all();
         // print_r($mails);

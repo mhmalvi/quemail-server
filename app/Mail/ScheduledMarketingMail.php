@@ -61,10 +61,10 @@ class ScheduledMarketingMail extends Mailable
      */
     public function attachments()
     {
-        if ($this->file_url) {
-            foreach ($this->file_url as $file) {
-                $this->attach(public_path($file));
-            }
-        }
+        // if ($this->file_url) {
+        //     foreach ($this->file_url as $file) {
+        //         $this->attach(public_path($file));
+        //     }
+        // }
     }
 }

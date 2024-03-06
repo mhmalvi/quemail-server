@@ -64,9 +64,10 @@ class ScheduleBulkMail extends Command
                         $email->scheduled_jobs_id
                     );
                     $email_records = $EmailRecordsStoreService->emailRecordsStore();
+                    print_r($email_records);
                 }
 
-                print_r($email_records);
+                
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
                 print_r($db_date);

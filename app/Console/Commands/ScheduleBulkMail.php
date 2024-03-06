@@ -32,7 +32,7 @@ class ScheduleBulkMail extends Command
      * Execute the console command.
      */
 
-    public function handle(EmailRecordsStoreService $EmailRecordsStoreService)
+    public function handle()
     {
 
         $mails = ScheduledMail::all();
@@ -58,8 +58,10 @@ class ScheduleBulkMail extends Command
                 $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id',$email->scheduled_jobs_id)->exists();
                 if(!$isEmailRecordExists){
                     print_r($mail->username);
-                    $email_records= $EmailRecordsStoreService->emailRecordsStore($mail->username, $email->user_id, $email->schedule,
+                    $EmailRecordsStoreService = new EmailRecordsStoreService($mail->username, $email->user_id,
+                    $email->schedule,
                     $email->scheduled_jobs_id);
+                    $email_records= $EmailRecordsStoreService->emailRecordsStore();
                 } 
                 
                 print_r($email_records);

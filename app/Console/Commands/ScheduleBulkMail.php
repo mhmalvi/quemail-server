@@ -64,7 +64,7 @@ class ScheduleBulkMail extends Command
                         $email->scheduled_jobs_id
                     );
                     $email_records = $EmailRecordsStoreService->emailRecordsStore();
-                    print_r($email_records[0]->id);
+                    print_r($email_records[0][id]);
                 }
 
                 

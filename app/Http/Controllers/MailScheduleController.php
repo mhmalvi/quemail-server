@@ -49,6 +49,7 @@ class MailScheduleController extends Controller
                     $scheduler->template = $request->template[$i];
                     $scheduler->subject = $request->subject[$i];
                     $scheduler->scheduled_jobs_id = $scheduleJob->id;
+                    $scheduler->delivery_status = 0;
                     $scheduler->save();
                 }
             }

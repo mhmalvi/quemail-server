@@ -28,7 +28,7 @@ class ScheduleBulkMail extends Command
     public function handle()
     {
         $mails = ScheduledMail::all();
-        print_r($mails);
+        // print_r($mails);
         if ($mails) {
             foreach ($mails as $email) {
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
@@ -39,14 +39,14 @@ class ScheduleBulkMail extends Command
                 $today_time = Carbon::now()->format('H:i');
                 // print_r($db_time);
                 // print_r($today_time);
-                if ($db_date <= $today_date) {
+                if ($db_date <= $today_date && $email->delivery_status == 0 && $email->bounce_status == 0) {
                     if ($db_time <= $today_time) {
                         print_r('success');
                         print_r('true');
                     } else {
                         print_r('false');
                     }
-                }else{
+                } else {
                     print_r('false');
                 }
             }

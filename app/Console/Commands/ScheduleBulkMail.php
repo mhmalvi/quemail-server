@@ -83,27 +83,26 @@ class ScheduleBulkMail extends Command
                 }
 
                 // dd($email_records_id);
-                // $isEmailRecordsDetailsExists = EmailRecordsDetails::where('recipients_mail',$email->email)->where('email_records_id',$email_records_id)->exists();
-                // if(!$isEmailRecordsDetailsExists){
+                $isEmailRecordsDetailsExists = EmailRecordsDetails::where('recipients_mail',$email->email)->where('email_records_id',$email_records_id)->exists();
+                if(!$isEmailRecordsDetailsExists){
+                    $email_records_details = new EmailRecordsDetails();
+                    $email_records_details->recipients_mail = $email->email;
+                    $email_records_details->sender = $mail->from_mail_address;
+                    $email_records_details->email_records_id = $email_records_id;
+                    $email_records_details->open = 0;
+                    $email_records_details->click = 0;
+                    if ($email->bounce_status == 1) {
+                        $email_records_details->subscribed_or_unsubscribed = 1;
+                    } else {
+                        $email_records_details->subscribed_or_unsubscribed = 0;
+                    }
 
-                // }
-                $email_records_details = new EmailRecordsDetails();
-                $email_records_details->recipients_mail = $email->email;
-                $email_records_details->sender = $mail->from_mail_address;
-                $email_records_details->email_records_id = $email_records_id;
-                $email_records_details->open = 0;
-                $email_records_details->click = 0;
-                if ($email->bounce_status == 1) {
-                    $email_records_details->subscribed_or_unsubscribed = 1;
-                } else {
-                    $email_records_details->subscribed_or_unsubscribed = 0;
-                }
-
-                $email_records_details->schedule = $email->schedule;
-                $email_records_details->bounce_status = $email->bounce_status;
-                $email_records_details->save();
-                $email_records->counts = $email_records->counts+1;
-                 $email_records->save();
+                    $email_records_details->schedule = $email->schedule;
+                    $email_records_details->bounce_status = $email->bounce_status;
+                    $email_records_details->save();
+                    $email_records->counts = $email_records->counts+1;
+                    $email_records->save();
+                }               
 
 
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');

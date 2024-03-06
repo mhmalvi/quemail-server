@@ -68,10 +68,7 @@ class ScheduleBulkMail extends Command
                     $email_records->save();
                 }
                 $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
-                if ($email->delivery_status == 0) {
-                    $current_mail->delivery_status = 0;
-                    $current_mail->save();
-                } else if ($email->delivery_status == 1) {
+                if ($email->bounce_status == 0) {
                     $current_mail->delivery_status = 1;
                     $current_mail->save();
                 }

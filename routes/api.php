@@ -47,10 +47,11 @@ Route::group(['middleware' => 'companyAuthentication'], function () {
     Route::get('/get-image', [UploadedImageController::class, 'getImages']);
     Route::post('/delete-image', [UploadedImageController::class, 'deleteImage']);
 
-    Route::post('/mail-schedule-store', [MailScheduleController::class, 'schedule_mail']);
-    Route::post('/scheduled-jobs', [ScheduleMailFetchController::class, 'scheduled_jobs_fetch']);
-    Route::post('/scheduled-mails', [ScheduleMailFetchController::class, 'scheduled_mails_fetch']);
+    
 });
+Route::post('/mail-schedule-store', [MailScheduleController::class, 'schedule_mail']);
+Route::post('/scheduled-jobs', [ScheduleMailFetchController::class, 'scheduled_jobs_fetch']);
+Route::post('/scheduled-mails', [ScheduleMailFetchController::class, 'scheduled_mails_fetch']);
 
 Route::post('/queleads-subscribe', [QueleadsSubscribeController::class, 'subscribe']);
 Route::post('/queleads-unsubscribe', [QueleadsSubscribeController::class, 'unsubscribe']);

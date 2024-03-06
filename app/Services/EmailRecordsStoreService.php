@@ -25,6 +25,6 @@ class EmailRecordsStoreService{
             $email_records->bounce=0;
             $email_records->scheduled_jobs_id=$this->scheduled_jobs_id;
             $email_records->save();
-            return $email_records;
+            return response()->json([$email_records]);
     }
 }

@@ -18,7 +18,7 @@ class EmailRecordsStoreService{
     }
     public function emailRecordsStore(){
         $email_records = new EmailRecords();
-            $email_records->email=$this->email;
+            $email_records->sender=$this->email;
             $email_records->counts=0;
             $email_records->user_id=$this->user_id;
             $email_records->schedule=$this->schedule;

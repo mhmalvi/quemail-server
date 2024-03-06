@@ -57,14 +57,13 @@ class ScheduleBulkMail extends Command
                 $email_records="";
                 $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id',$email->scheduled_jobs_id)->exists();
                 if(!$isEmailRecordExists){
-                    print_r($mail->username);
                     $EmailRecordsStoreService = new EmailRecordsStoreService($mail->username, $email->user_id,
                     $email->schedule,
                     $email->scheduled_jobs_id);
                     $email_records= $EmailRecordsStoreService->emailRecordsStore();
                 } 
                 
-                print_r($email_records);
+                print_r($email_records->id);
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
                 print_r($db_date);

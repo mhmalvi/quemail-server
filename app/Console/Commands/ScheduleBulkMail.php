@@ -32,7 +32,7 @@ class ScheduleBulkMail extends Command
      * Execute the console command.
      */
 
-    public function handle(EmailRecordsStoreService $emailRecordsStoreService)
+    public function handle()
     {
 
         $mails = ScheduledMail::all();

@@ -75,11 +75,11 @@ class ScheduleBulkMail extends Command
                     $current_mail->delivery_status = 1;
                     $current_mail->save();
                 }
-                dd(json_decode($email_records));
+                // dd(json_decode($email_records->id));
                 $email_records_details = new EmailRecordsDetails();
                 $email_records_details->recipients_mail = $email->email;
                 $email_records_details->sender = $mail->from_mail_address;
-                $email_records_details->email_records_id = $email_records->id;
+                $email_records_details->email_records_id = json_decode($email_records->id);
                 $email_records_details->open = 0;
                 $email_records_details->click = 0;
                 if($email->bounce_status==1){

@@ -41,8 +41,7 @@ class ScheduleBulkMail extends Command
                 // print_r($today_time);
                 if ($db_date <= $today_date && $email->delivery_status == 0 && $email->bounce_status == 0) {
                     if ($db_time <= $today_time) {
-                        print_r('success');
-                        print_r('true');
+                        
                     } else {
                         print_r('false');
                     }

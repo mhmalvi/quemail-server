@@ -80,6 +80,14 @@ class ScheduleBulkMail extends Command
                 $email_records_details->recipients_mail = $email->email;
                 $email_records_details->sender = $mail->from_mail_address;
                 $email_records_details->email_records_id = $email_records->id;
+                $email_records_details->open = 0;
+                $email_records_details->click = 0;
+                if($email->bounce_status==1){
+                     $email_records_details->subscribed_or_unsubscribed = 1;
+                }else{
+                    $email_records_details->subscribed_or_unsubscribed = 0;
+                }
+                
                 $email_records_details->schedule = $email->schedule;
                 $email_records_details->bounce_status = $email->bounce_status;
                 $email_records_details->save();

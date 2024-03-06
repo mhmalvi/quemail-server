@@ -36,7 +36,7 @@ class ScheduleBulkMail extends Command
     public function handle()
     {
 
-        $mails = ScheduledMail::all();
+        $mails = ScheduledMail::where('delivery_status','=',0)->get();
         // print_r($mails);
         if ($mails) {
 
@@ -83,6 +83,10 @@ class ScheduleBulkMail extends Command
                 }
 
                 // dd($email_records_id);
+                // $isEmailRecordsDetailsExists = EmailRecordsDetails::where('recipients_mail',$email->email)->where('email_records_id',$email_records_id)->exists();
+                // if(!$isEmailRecordsDetailsExists){
+
+                // }
                 $email_records_details = new EmailRecordsDetails();
                 $email_records_details->recipients_mail = $email->email;
                 $email_records_details->sender = $mail->from_mail_address;

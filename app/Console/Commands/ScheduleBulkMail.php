@@ -59,7 +59,7 @@ class ScheduleBulkMail extends Command
                 $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
                 if (!$isEmailRecordExists) {
                     $email_records = new EmailRecords();
-                    $email_records->sender = $mail->email;
+                    $email_records->sender = $mail->from_mail_address;
                     $email_records->counts = 0;
                     $email_records->user_id = $email->user_id;
                     $email_records->schedule = $email->schedule;
@@ -67,13 +67,24 @@ class ScheduleBulkMail extends Command
                     $email_records->scheduled_jobs_id = $email->scheduled_jobs_id;
                     $email_records->save();
                 }
+                $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
+                if ($email->delivery_status == 0) {
+                    $current_mail->delivery_status = 0;
+                    $current_mail->save();
+                } else if ($email->delivery_status == 1) {
+                    $current_mail->delivery_status = 1;
+                    $current_mail->save();
+                }
 
                 $email_records_details = new EmailRecordsDetails();
                 $email_records_details->recipients_mail = $email->email;
-                $email_records_details->recipients_mail = $mail->from_mail_address;
-                $email_records_details->recipients_mail = $email_records->id;
-                $email_records_details->recipients_mail = $email->schedule;
+                $email_records_details->sender = $mail->from_mail_address;
+                $email_records_details->email_records_id = $email_records->id;
+                $email_records_details->schedule = $email->schedule;
+                $email_records_details->bounce_status = $email->bounce_status;
                 $email_records_details->save();
+
+
 
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');

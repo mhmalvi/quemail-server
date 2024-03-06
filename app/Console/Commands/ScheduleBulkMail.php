@@ -75,7 +75,7 @@ class ScheduleBulkMail extends Command
                     $current_mail->delivery_status = 1;
                     $current_mail->save();
                 }
-
+                dd($email_records);
                 $email_records_details = new EmailRecordsDetails();
                 $email_records_details->recipients_mail = $email->email;
                 $email_records_details->sender = $mail->from_mail_address;

@@ -139,8 +139,11 @@ class ScheduleBulkMail extends Command
                                 'mail.from.address' => $smtpSettings['from_mail_address'],
                                 'mail.from.name' => $smtpSettings['from_name']
                             ]);
-
-                            Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject, $email->template, $email->id,  $email->email));
+                            if($email->bounce_status==0){
+                                Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject,
+                                $email->template, $email->id, $email->email));
+                            }
+                            
                         }
                     }
                     // else if($email->bounce_status == 1) {

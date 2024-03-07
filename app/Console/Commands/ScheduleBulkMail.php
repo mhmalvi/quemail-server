@@ -54,6 +54,7 @@ class ScheduleBulkMail extends Command
                         ], 305);
                     }
                 }
+
                 // $records = new EmailRecords();
                 $email_records = "";
                 $email_records_id = "";
@@ -66,7 +67,7 @@ class ScheduleBulkMail extends Command
                     $email_records->counts = 0;
                     $email_records->user_id = $email->user_id;
                     $email_records->schedule = $email->schedule;
-                    $email_records->bounce = $email_records->bounce++;
+                    $email_records->bounce = 0;
                     $email_records->scheduled_jobs_id = $email->scheduled_jobs_id;
                     $email_records->save();
                     $email_records_id = json_decode($email_records->id);
@@ -115,6 +116,12 @@ class ScheduleBulkMail extends Command
                         $email_records_details->subscribed_or_unsubscribed = 1;
                     } else {
                         $email_records_details->subscribed_or_unsubscribed = 0;
+                        $emailRecordsResult = EmailRecords::where(
+                        'scheduled_jobs_id',
+                        $email->scheduled_jobs_id
+                    )->first();
+                    $emailRecordsResult->bounce = $emailRecordsResult->bounce + 1;
+                    $emailRecordsResult->save();
                     }
 
                     $email_records_details->schedule = $email->schedule;

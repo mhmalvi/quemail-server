@@ -91,8 +91,8 @@ class ScheduleBulkMail extends Command
                     $email_records_id = $emailRecordsResult->id;
                     if($email->bounce_status==0 && $email->delivery_status==0){
                         // print_r($email_records_count + 1);
-                    $count_increment=$email_records_count + 1;
-                        $emailRecordsResult->counts = $count_increment;
+                    // $count_increment=$email_records_count + 1;
+                        $emailRecordsResult->counts = $emailRecordsResult->counts+1;
                     $email_records->save();
                     }
                 }

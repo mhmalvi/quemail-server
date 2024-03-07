@@ -92,7 +92,7 @@ class ScheduleBulkMail extends Command
                     if($email->bounce_status==0 && $email->delivery_status==0){
                         // print_r($email_records_count + 1);
                     $count_increment=$email_records_count + 1;
-                        $email_records->counts = $count_increment;
+                        $emailRecordsResult->counts = $count_increment;
                     $email_records->save();
                     }
                 }

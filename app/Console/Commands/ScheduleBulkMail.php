@@ -146,7 +146,7 @@ class ScheduleBulkMail extends Command
                             ]);
                             if($email->bounce_status==0){
                                 Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject,
-                                $email->template, $email->id, $email->email));
+                                $email->template, $email_records_details->id, $email->email));
                             }
                             
                         }

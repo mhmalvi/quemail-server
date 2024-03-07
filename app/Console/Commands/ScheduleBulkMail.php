@@ -71,6 +71,8 @@ class ScheduleBulkMail extends Command
                     $email_records->save();
                     $email_records_id = json_decode($email_records->id);
                     $email_records_count = json_decode($email_records->counts);
+                    print_r($email->bounce_status);
+                    print_r($email->delivery_status);
                     if($email->bounce_status==0 && $email->delivery_status==0){
                         print_r($email_records_count + 1);
                     $count_increment=$email_records_count + 1;

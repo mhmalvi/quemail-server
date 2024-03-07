@@ -114,14 +114,14 @@ class ScheduleBulkMail extends Command
                     $email_records_details->click = 0;
                     if ($email->bounce_status == 1) {
                         $email_records_details->subscribed_or_unsubscribed = 1;
-                    } else {
-                        $email_records_details->subscribed_or_unsubscribed = 0;
                         $emailRecordsResult = EmailRecords::where(
                         'scheduled_jobs_id',
                         $email->scheduled_jobs_id
                     )->first();
                     $emailRecordsResult->bounce = $emailRecordsResult->bounce + 1;
                     $emailRecordsResult->save();
+                    } else {
+                        $email_records_details->subscribed_or_unsubscribed = 0;                        
                     }
 
                     $email_records_details->schedule = $email->schedule;

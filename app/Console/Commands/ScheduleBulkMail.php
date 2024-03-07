@@ -74,7 +74,7 @@ class ScheduleBulkMail extends Command
                     print_r($email->bounce_status);
                     print_r($email->delivery_status);
                     if($email->bounce_status==0 && $email->delivery_status==0){
-                        print_r($email_records_count + 1);
+                        // print_r($email_records_count + 1);
                     $count_increment=$email_records_count + 1;
                         $email_records->counts = $count_increment;
                     $email_records->save();
@@ -89,6 +89,12 @@ class ScheduleBulkMail extends Command
                     )->first();
                     // dd($emailRecordsResult->id);
                     $email_records_id = $emailRecordsResult->id;
+                    if($email->bounce_status==0 && $email->delivery_status==0){
+                        // print_r($email_records_count + 1);
+                    $count_increment=$email_records_count + 1;
+                        $email_records->counts = $count_increment;
+                    $email_records->save();
+                    }
                 }
                 $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
                 if ($email->bounce_status == 0) {

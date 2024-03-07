@@ -41,7 +41,7 @@ class ScheduleBulkMail extends Command
         if ($mails) {
 
             foreach ($mails as $email) {
-                $records = new EmailRecords();
+                // $records = new EmailRecords();
                 $mail = DynamicMail::where('user_id', $email->user_id)->first();
                 $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
                 date)'), Carbon::now()->toDateString())->sum('counts');
@@ -69,6 +69,10 @@ class ScheduleBulkMail extends Command
                     $email_records->save();
                     $email_records_id = json_decode($email_records->id);
                 }
+                if($email->bounce_status==0 && $email->delivery_status==0){
+                        $email_records->counts = $email_records->counts+1;
+                    $email_records->save();
+                    }
                 if ($isEmailRecordExists) {
                     $emailRecordsResult = EmailRecords::where(
                         'scheduled_jobs_id',
@@ -101,10 +105,7 @@ class ScheduleBulkMail extends Command
                     $email_records_details->schedule = $email->schedule;
                     $email_records_details->bounce_status = $email->bounce_status;
                     $email_records_details->save();
-                    if($email->bounce_status==0){
-                        $email_records->counts = $email_records->counts+1;
-                    $email_records->save();
-                    }
+                    
                     
                 }               
 

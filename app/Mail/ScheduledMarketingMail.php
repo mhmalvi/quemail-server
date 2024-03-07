@@ -49,7 +49,7 @@ class ScheduledMarketingMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.mail',
+            view: 'mail.scheduledMail',
             with: ['template' => $this->template, 'id' => $this->id],
         );
     }

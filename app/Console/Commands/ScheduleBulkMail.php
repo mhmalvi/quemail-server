@@ -57,6 +57,7 @@ class ScheduleBulkMail extends Command
                 // $records = new EmailRecords();
                 $email_records = "";
                 $email_records_id = "";
+                $email_records_count="";
                 $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
                 if (!$isEmailRecordExists) {
                     $email_records = new EmailRecords();
@@ -68,11 +69,12 @@ class ScheduleBulkMail extends Command
                     $email_records->scheduled_jobs_id = $email->scheduled_jobs_id;
                     $email_records->save();
                     $email_records_id = json_decode($email_records->id);
+                    $email_records_count = json_decode($email_records->counts);
                 }
-                // if($email->bounce_status==0 && $email->delivery_status==0){
-                //         $email_records->counts = $email_records->counts+1;
-                //     $email_records->save();
-                //     }
+                if($email->bounce_status==0 && $email->delivery_status==0){
+                        $email_records->counts = $email_records_count+1;
+                    $email_records->save();
+                    }
                 if ($isEmailRecordExists) {
                     $emailRecordsResult = EmailRecords::where(
                         'scheduled_jobs_id',

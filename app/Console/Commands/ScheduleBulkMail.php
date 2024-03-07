@@ -93,7 +93,7 @@ class ScheduleBulkMail extends Command
                         // print_r($email_records_count + 1);
                     // $count_increment=$email_records_count + 1;
                         $emailRecordsResult->counts = $emailRecordsResult->counts+1;
-                    $email_records->save();
+                    $emailRecordsResult->save();
                     }
                 }
                 $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();

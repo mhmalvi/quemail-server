@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Template;
+
 class GetTemplateService{
     public function getTemplate(){
-        return $templates = Template::all();        
+        $templates = Template::all();  
+        return $templates;
     }
 }

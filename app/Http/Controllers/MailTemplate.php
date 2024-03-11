@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Template;
 use Illuminate\Http\Request;
+use App\Services\GetTemplateService;
 
 class MailTemplate extends Controller
 {

@@ -6,7 +6,9 @@ use App\Models\Template;
 use Illuminate\Http\Request;
 use App\Services\GetTemplateService;
 use App\Services\CreateTemplateService;
+use App\Services\UpdateTemplateService;
 use App\Http\Requests\SaveTemplateRequest;
+use App\Http\Requests\UpdateTemplateRequest;
 
 class MailTemplate extends Controller
 {
@@ -49,17 +51,15 @@ class MailTemplate extends Controller
             ], 404);
         }
     }
-    public function updateTemplate(Request $request)
+    public function updateTemplate(UpdateTemplateRequest $request)
     {
-        $request->validate([
-            'id' => 'required',
-            'name' => 'required',
-            'template' => 'required'
-        ]);
-        $template = Template::find($request->id);
-        $template->name = $request->name;
-        $template->template = $request->template;
-        $response = $template->save();
+        $template_data = [
+            $name = $request->name,
+            $template = $request->template,
+            $id = $request->id
+        ];
+        $updateTemplateService = new UpdateTemplateService($template_data);
+        $response = $updateTemplateService->updateTemplate();
         if ($response) {
             return response()->json([
                 'message' => 'updated',

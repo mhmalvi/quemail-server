@@ -33,7 +33,7 @@ Route::group(['middleware' => 'companyAuthentication'], function () {
     Route::post('/save-template', [MailTemplate::class, 'saveTemplate']);
     Route::get('/get-template', [MailTemplate::class, 'getTemplate']);
     Route::post('/delete-template', [MailTemplate::class, 'destroy']);
-    Route::put('/update-template', [MailTemplate::class, 'updateTemplate']);
+    
     Route::post('/email-history', [EmailHistoryController::class, 'emailHistory']);
     Route::post('/email-history-details', [EmailHistoryController::class, 'emailHistoryDetails']);
     Route::post('/email-counts-on-today', [EmailCounter::class, 'number_of_emails_sent_today']);
@@ -49,7 +49,7 @@ Route::group(['middleware' => 'companyAuthentication'], function () {
 
     
 });
-
+Route::put('/update-template', [MailTemplate::class, 'updateTemplate']);
 Route::post('/mail-schedule-store', [MailScheduleController::class, 'schedule_mail']);
 Route::post('/scheduled-jobs', [ScheduleMailFetchController::class, 'scheduled_jobs_fetch']);
 Route::post('/scheduled-mails', [ScheduleMailFetchController::class, 'scheduled_mails_fetch']);

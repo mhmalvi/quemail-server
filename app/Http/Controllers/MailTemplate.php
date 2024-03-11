@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Template;
 use Illuminate\Http\Request;
 use App\Services\GetTemplateService;
+use App\Services\CreateTemplateService;
+use App\Http\Requests\SaveTemplateRequest;
 
 class MailTemplate extends Controller
 {
-    public function saveTemplate(Request $request)
+    public function saveTemplate(SaveTemplateRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'template' => 'required'
-        ]);
-        $response = Template::create([
-            'name' => $request->name,
-            'template' => $request->template
-        ]);
+        $template_data = [
+            $name = $request->name,
+            $template = $request->template
+        ];
+        $createTemplateService = new CreateTemplateService($template_data);
+        $response = $createTemplateService->saveTemplate();
         if ($response) {
             return response()->json([
                 'message' => 'Template saved',
@@ -53,8 +53,8 @@ class MailTemplate extends Controller
     {
         $request->validate([
             'id' => 'required',
-            'name'=>'required',
-            'template'=>'required'
+            'name' => 'required',
+            'template' => 'required'
         ]);
         $template = Template::find($request->id);
         $template->name = $request->name;

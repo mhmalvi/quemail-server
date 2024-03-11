@@ -49,6 +49,7 @@ Route::group(['middleware' => 'companyAuthentication'], function () {
 
     
 });
+
 Route::post('/mail-schedule-store', [MailScheduleController::class, 'schedule_mail']);
 Route::post('/scheduled-jobs', [ScheduleMailFetchController::class, 'scheduled_jobs_fetch']);
 Route::post('/scheduled-mails', [ScheduleMailFetchController::class, 'scheduled_mails_fetch']);

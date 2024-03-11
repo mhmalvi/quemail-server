@@ -31,9 +31,10 @@ class MailTemplate extends Controller
         }
     }
 
-    public function getTemplate()
+    public function getTemplate(GetTemplateService $getTemplateService)
     {
-        $response = Template::all();
+        // $response = Template::all();
+        $response = $getTemplateService->getTemplate();
         if ($response) {
             return response()->json([
                 'message' => 'success',

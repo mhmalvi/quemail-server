@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\EmailHistoryController;
+use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\EmailHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,6 @@ Route::get('/track-mail/{id}', [EmailHistoryController::class, 'update_click_in_
 //     return response()->file(public_path('1x1.png'));
 // })->name('track_click');
 
+////////////////////////////////////////////////////
+
+Route::get('/track/user/{user}', [TrackingController::class, 'track']);

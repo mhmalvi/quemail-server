@@ -10,8 +10,8 @@
 <body>
     {{$id}}
     {{-- <img src="{{ route('track_open',[$id]) }}" /> --}}
-    {{-- <img src="{{ 'https://emailmarketing.queleadscrm.com' . '/track/user/' . $id }}" /> --}}
-    <table background={{ 'https://emailmarketing.queleadscrm.com' . '/track/user/' . $id }}></table>
+    <img src="{{ 'https://emailmarketing.queleadscrm.com' . '/track/user/' . $id }}" />
+    {{-- <table background={{ 'https://emailmarketing.queleadscrm.com' . '/track/user/' . $id }}></table> --}}
     {!! $template !!}
 </body>
 

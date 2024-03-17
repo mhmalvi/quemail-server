@@ -10,7 +10,7 @@ class MyEmailSenderService
     public function sendTrackedEmail($email, $id)
     {
         $head = '<head>' . 'Email Tracker' . '</head>';
-        $body = '<body' >
+        $body = '<body >';
             $body .= '<img alt="" src="' . 'https://emailmarketing.queleadscrm.com' . '/track/user/' . $id . '">';
         $body .= 'Tanjib' . '</body>';
         $html = '<html>' . $head . $body . '</html>';

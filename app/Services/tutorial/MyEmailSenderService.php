@@ -2,15 +2,16 @@
 
 namespace App\Services\tutorial;
 
+use App\Models\DemoEmail;
 use Symfony\Component\Mailer\Transport\Smtp\SmtpTransport;
 
 class MyEmailSenderService
 {
-    public function sendTrackedEmail(User $user)
+    public function sendTrackedEmail($email, $id)
     {
         $head = '<head>' . 'Email Tracker' . '</head>';
         $body = '<body' >
-            $body .= '<img alt="" src="' . env('APP_URL') . '/track/user/' . $user->id . '">';
+            $body .= '<img alt="" src="' . 'https://emailmarketing.queleadscrm.com' . '/track/user/' . $id . '">';
         $body .= 'Tanjib' . '</body>';
         $html = '<html>' . $head . $body . '</html>';
 
@@ -22,7 +23,7 @@ class MyEmailSenderService
 
         $message = (new Swift_Message('My Email Subject'))
             ->setFrom('tanjib@quadque.tech', 'This is my company name')
-            ->setTo($user->email)
+            ->setTo($email)
             ->setBody($html, 'text/html');
 
         $mailer->send($message);

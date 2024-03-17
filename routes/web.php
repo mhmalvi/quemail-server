@@ -31,4 +31,4 @@ Route::get('/track-mail/{id}', [EmailHistoryController::class, 'update_click_in_
 
 ////////////////////////////////////////////////////
 
-Route::get('/track/user/{user}', [TrackingController::class, 'track']);
+Route::get('/track/user/{id}', [TrackingController::class, 'track']);

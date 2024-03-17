@@ -44,11 +44,11 @@ class EmailHistoryController extends Controller
 
     public function update_open_in_email_details($id)
     {
-        $mail = EmailRecordsDetails::where('id', $id)->first();
-        $mail->open = 1;
-        $mail->save();
-        // return response()->file(public_path("1x1.png"));
-        return redirect()->secure('https://emailmarketing.queleadscrm.com' . '1x1.png');
+        $mail = EmailRecordsDetails::where('id', $id)->update(['open'=>1]);
+        // $mail->open = 1;
+        // $mail->save();
+        return response()->file(public_path("1x1.png"));
+        // return redirect()->secure('https://emailmarketing.queleadscrm.com' . '1x1.png');
     }
 
     public function update_click_in_email_details(Request $request, $id)

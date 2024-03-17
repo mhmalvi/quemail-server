@@ -6,7 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <img src="{{ route('track_open',[$id]) }}" />
+    {{-- <img src="{{ route('track_open',[$id]) }}" /> --}}
+    <table background="' . 'https://emailmarketing.queleadscrm.com' . '/track/user/' . $id . '"></table>
     {!! $template !!}
 </body>
 </html>

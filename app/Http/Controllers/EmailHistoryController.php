@@ -55,6 +55,7 @@ class EmailHistoryController extends Controller
         $mail = EmailRecordsDetails::where('id', $id)->first();
         $mail->click = 1;
         $mail->save();
-        return response(file_get_contents(public_path("1x1.png")));
+        // return response(file_get_contents(public_path("1x1.png")));
+        return redirect()->secure('https://emailmarketing.queleadscrm.com' . '1x1.png');
     }
 }

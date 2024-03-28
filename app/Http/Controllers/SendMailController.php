@@ -31,6 +31,12 @@ class SendMailController extends Controller
                     'status' => 305
                 ], 305);
             }
+            // else if($counts_array >= 200 && ){
+            //     return response()->json([
+            //     'message' => '200 emails sent. You cannot send any mails for today. Come back tomorrow.',
+            //     'status' => 305
+            //     ], 305);
+            // }
         }
         $file_urls = [];
         $email_content = [

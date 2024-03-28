@@ -50,7 +50,7 @@ class ScheduledMarketingMail extends Mailable
     {
         return new Content(
             view: 'mail.scheduledMail',
-            with: ['template' => $this->template, 'id' => $this->id],
+            with: ['id' => $this->id, 'template' => $this->template],
         );
     }
 

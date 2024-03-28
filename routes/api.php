@@ -6,13 +6,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailCounter;
 use App\Http\Controllers\MailTemplate;
 use App\Http\Controllers\SendMailController;
+use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\DynamicMailController;
 use App\Http\Controllers\EmailHistoryController;
 use App\Http\Controllers\MailScheduleController;
+use App\Http\Controllers\UploadedImageController;
 use App\Http\Controllers\QueleadsSubscribeController;
 use App\Http\Controllers\ScheduleMailFetchController;
-use App\Http\Controllers\UploadedImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +57,9 @@ Route::post('/scheduled-mails', [ScheduleMailFetchController::class, 'scheduled_
 Route::post('/queleads-subscribe', [QueleadsSubscribeController::class, 'subscribe']);
 Route::post('/queleads-unsubscribe', [QueleadsSubscribeController::class, 'unsubscribe']);
 Route::post('/unsubscribe', [SubscriberController::class, 'unsubscribe']);
+
+
+
+//////////////////////////////////////////////////////////////////
+
+Route::post('/send-mail-test', [TrackingController::class, 'sendEmail']);

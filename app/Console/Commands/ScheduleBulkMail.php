@@ -128,6 +128,7 @@ class ScheduleBulkMail extends Command
                     $email_records_details->schedule = $email->schedule;
                     $email_records_details->bounce_status = $email->bounce_status;
                     $email_records_details->save();
+                    print_r($email_records_details);
                     
                     
                 }               

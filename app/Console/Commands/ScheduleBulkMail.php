@@ -141,8 +141,8 @@ class ScheduleBulkMail extends Command
                 // print_r($today_date);
                 $db_time = Carbon::parse($email->schedule)->format('H:i');
                 $today_time = Carbon::now()->format('H:i');
-                // print_r($db_time);
-                // print_r($today_time);
+                print_r($db_time);
+                print_r($today_time);
                 if ($db_date <= $today_date && $email->delivery_status == 0) {
                     if ($db_time <= $today_time) {
                         $mail = DynamicMail::where('user_id', $email->user_id)->first();

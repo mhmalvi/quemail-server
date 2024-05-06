@@ -105,7 +105,7 @@ class ScheduleBulkMail extends Command
                     $current_mail->save();
                 }
 
-                // dd($email_records_id);
+                print_r($email_records_id);
                 $isEmailRecordsDetailsExists = EmailRecordsDetails::where('recipients_mail',$email->email)->where('email_records_id',$email_records_id)->exists();
                 if(!$isEmailRecordsDetailsExists){
                     $email_records_details = new EmailRecordsDetails();
@@ -137,8 +137,8 @@ class ScheduleBulkMail extends Command
 
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
-                // print_r($db_date);
-                // print_r($today_date);
+                print_r($db_date);
+                print_r($today_date);
                 $db_time = Carbon::parse($email->schedule)->format('H:i');
                 $today_time = Carbon::now()->format('H:i');
                 print_r($db_time);

@@ -60,6 +60,7 @@ class ScheduleBulkMail extends Command
                 $email_records_id = "";
                 $email_records_count=0;
                 $count_increment=0;
+                $email_records_details="";
                 $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
                 if (!$isEmailRecordExists) {
                     $email_records = new EmailRecords();

@@ -35,13 +35,14 @@ class ScheduleBulkMail extends Command
 
     public function handle()
     {
-
+        
         $mails = ScheduledMail::where('delivery_status','=',0)->get();
         // print_r($mails);
         if ($mails) {
 
             foreach ($mails as $email) {
                 // $records = new EmailRecords();
+                /////////////////////////////////////check if email count is greater than 1000/////////
                 $mail = DynamicMail::where('user_id', $email->user_id)->first();
                 $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
                 date)'), Carbon::now()->toDateString())->sum('counts');
@@ -63,6 +64,7 @@ class ScheduleBulkMail extends Command
                 $email_records_details="";
                 $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
                 print_r($isEmailRecordExists);
+
                 if (!$isEmailRecordExists) {
                     $email_records = new EmailRecords();
                     $email_records->sender = $mail->from_mail_address;
@@ -137,12 +139,12 @@ class ScheduleBulkMail extends Command
 
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
-                // print_r($db_date);
-                // print_r($today_date);
+                print_r($db_date);
+                print_r($today_date);
                 $db_time = Carbon::parse($email->schedule)->format('H:i');
                 $today_time = Carbon::now()->format('H:i');
-                print_r($db_time);
-                print_r($today_time);
+                // print_r($db_time);
+                // print_r($today_time);
                 // dd('fgf');
                 if ($db_date <= $today_date && $email->delivery_status == 0) {
                     if ($db_time <= $today_time) {

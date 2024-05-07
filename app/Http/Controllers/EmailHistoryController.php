@@ -47,7 +47,7 @@ class EmailHistoryController extends Controller
         $mail = EmailRecordsDetails::where('id', $id)->update(['open'=>1]);
         // $mail->open = 1;
         // $mail->save();
-        dd(public_path("1x1.png"));
+        // dd(public_path("1x1.png"));
         return response()->file('https://emailmarketing.queleadscrm.com' . '1x1.png');
         // return redirect()->secure('https://emailmarketing.queleadscrm.com' . '1x1.png');
     }

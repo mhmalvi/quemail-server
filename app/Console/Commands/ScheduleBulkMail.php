@@ -35,8 +35,8 @@ class ScheduleBulkMail extends Command
 
     public function handle()
     {
-        
-        $mails = ScheduledMail::where('delivery_status','=',0)->get();
+
+        $mails = ScheduledMail::where('delivery_status', '=', 0)->get();
         // print_r($mails);
         if ($mails) {
 
@@ -55,104 +55,104 @@ class ScheduleBulkMail extends Command
                         ], 305);
                     }
                 }
-
-                // $records = new EmailRecords();
-                $email_records = "";
-                $email_records_id = "";
-                $email_records_count=0;
-                $count_increment=0;
-                $email_records_details="";
-                $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
-                print_r($isEmailRecordExists);
-
-                if (!$isEmailRecordExists) {
-                    $email_records = new EmailRecords();
-                    $email_records->sender = $mail->from_mail_address;
-                    $email_records->counts = 0;
-                    $email_records->user_id = $email->user_id;
-                    $email_records->schedule = $email->schedule;
-                    $email_records->bounce = 0;
-                    $email_records->scheduled_jobs_id = $email->scheduled_jobs_id;
-                    $email_records->save();
-                    $email_records_id = json_decode($email_records->id);
-                    $email_records_count = json_decode($email_records->counts);
-                    print_r($email->bounce_status);
-                    print_r($email->delivery_status);
-                    if($email->bounce_status==0 && $email->delivery_status==0){
-                        // print_r($email_records_count + 1);
-                    $count_increment=$email_records_count + 1;
-                        $email_records->counts = $count_increment;
-                    $email_records->save();
-                    }
-                }
-                
-                
-                if ($isEmailRecordExists) {
-                    $emailRecordsResult = EmailRecords::where(
-                        'scheduled_jobs_id',
-                        $email->scheduled_jobs_id
-                    )->first();
-                    // dd($emailRecordsResult->id);
-                    $email_records_id = $emailRecordsResult->id;
-                    if($email->bounce_status==0 && $email->delivery_status==0){
-                        // print_r($email_records_count + 1);
-                    // $count_increment=$email_records_count + 1;
-                        $emailRecordsResult->counts = $emailRecordsResult->counts+1;
-                    $emailRecordsResult->save();
-                    }
-                }
-                $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
-                ///commented
-                // if ($email->bounce_status == 0) {
-                //     $current_mail->delivery_status = 1;
-                //     $current_mail->save();
-                // }
-
-                print_r($email_records_id);
-                $isEmailRecordsDetailsExists = EmailRecordsDetails::where('recipients_mail',$email->email)->where('email_records_id',$email_records_id)->exists();
-                if(!$isEmailRecordsDetailsExists){
-                    $email_records_details = new EmailRecordsDetails();
-                    $email_records_details->recipients_mail = $email->email;
-                    $email_records_details->sender = $mail->from_mail_address;
-                    $email_records_details->email_records_id = $email_records_id;
-                    $email_records_details->open = 0;
-                    $email_records_details->click = 0;
-                    if ($email->bounce_status == 1) {
-                        $email_records_details->subscribed_or_unsubscribed = 0;
-                        $emailRecordsResult = EmailRecords::where(
-                        'scheduled_jobs_id',
-                        $email->scheduled_jobs_id
-                    )->first();
-                    $emailRecordsResult->bounce = $emailRecordsResult->bounce + 1;
-                    $emailRecordsResult->save();
-                    } else {
-                        $email_records_details->subscribed_or_unsubscribed = 1;                        
-                    }
-
-                    $email_records_details->schedule = $email->schedule;
-                    $email_records_details->bounce_status = $email->bounce_status;
-                    $email_records_details->save();
-                    // print_r($email_records_details);
-                    
-                    
-                }               
-
-                // print_r($email->schedule);
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
-                
+
                 // print_r($db_date);
                 // print_r($today_date);
                 $db_time = Carbon::parse($email->schedule)->format('H:i:s');
                 $today_time = Carbon::now()->format('H:i:s');
                 // print_r($db_time);
                 // print_r($today_time);
-                if($db_time < $today_date){
+                if ($db_time < $today_date) {
                     // print_r('true');
                 }
                 // dd('fgf');
                 if ($db_date <= $today_date) {
                     if ($db_time <= $today_time) {
+                        // $records = new EmailRecords();
+                        $email_records = "";
+                        $email_records_id = "";
+                        $email_records_count = 0;
+                        $count_increment = 0;
+                        $email_records_details = "";
+                        $isEmailRecordExists = EmailRecords::where('scheduled_jobs_id', $email->scheduled_jobs_id)->exists();
+                        print_r($isEmailRecordExists);
+
+                        if (!$isEmailRecordExists) {
+                            $email_records = new EmailRecords();
+                            $email_records->sender = $mail->from_mail_address;
+                            $email_records->counts = 0;
+                            $email_records->user_id = $email->user_id;
+                            $email_records->schedule = $email->schedule;
+                            $email_records->bounce = 0;
+                            $email_records->scheduled_jobs_id = $email->scheduled_jobs_id;
+                            $email_records->save();
+                            $email_records_id = json_decode($email_records->id);
+                            $email_records_count = json_decode($email_records->counts);
+                            print_r($email->bounce_status);
+                            print_r($email->delivery_status);
+                            if ($email->bounce_status == 0 && $email->delivery_status == 0) {
+                                // print_r($email_records_count + 1);
+                                $count_increment = $email_records_count + 1;
+                                $email_records->counts = $count_increment;
+                                $email_records->save();
+                            }
+                        }
+
+
+                        if ($isEmailRecordExists) {
+                            $emailRecordsResult = EmailRecords::where(
+                                'scheduled_jobs_id',
+                                $email->scheduled_jobs_id
+                            )->first();
+                            // dd($emailRecordsResult->id);
+                            $email_records_id = $emailRecordsResult->id;
+                            if ($email->bounce_status == 0 && $email->delivery_status == 0) {
+                                // print_r($email_records_count + 1);
+                                // $count_increment=$email_records_count + 1;
+                                $emailRecordsResult->counts = $emailRecordsResult->counts + 1;
+                                $emailRecordsResult->save();
+                            }
+                        }
+                        $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
+                        ///commented
+                        // if ($email->bounce_status == 0) {
+                        //     $current_mail->delivery_status = 1;
+                        //     $current_mail->save();
+                        // }
+
+                        print_r($email_records_id);
+                        $isEmailRecordsDetailsExists = EmailRecordsDetails::where('recipients_mail', $email->email)->where('email_records_id', $email_records_id)->exists();
+                        if (!$isEmailRecordsDetailsExists) {
+                            $email_records_details = new EmailRecordsDetails();
+                            $email_records_details->recipients_mail = $email->email;
+                            $email_records_details->sender = $mail->from_mail_address;
+                            $email_records_details->email_records_id = $email_records_id;
+                            $email_records_details->open = 0;
+                            $email_records_details->click = 0;
+                            if ($email->bounce_status == 1) {
+                                $email_records_details->subscribed_or_unsubscribed = 0;
+                                $emailRecordsResult = EmailRecords::where(
+                                    'scheduled_jobs_id',
+                                    $email->scheduled_jobs_id
+                                )->first();
+                                $emailRecordsResult->bounce = $emailRecordsResult->bounce + 1;
+                                $emailRecordsResult->save();
+                            } else {
+                                $email_records_details->subscribed_or_unsubscribed = 1;
+                            }
+
+                            $email_records_details->schedule = $email->schedule;
+                            $email_records_details->bounce_status = $email->bounce_status;
+                            $email_records_details->save();
+                            // print_r($email_records_details);
+
+
+                        }
+
+                        // print_r($email->schedule);
+
                         // print_r('true');
                         $mail = DynamicMail::where('user_id', $email->user_id)->first();
 
@@ -178,16 +178,19 @@ class ScheduleBulkMail extends Command
                                 'mail.from.address' => $smtpSettings['from_mail_address'],
                                 'mail.from.name' => $smtpSettings['from_name']
                             ]);
-                            
-                            if($email->bounce_status==0){
+
+                            if ($email->bounce_status == 0) {
                                 print_r($email_records_details->id);
                                 print_r($email->subject);
                                 print_r($email->email);
                                 print_r($email->template);
-                                Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject,
-                                $email->template, $email_records_details->id, $email->email));
+                                Mail::to($email->email)->send(new ScheduledMarketingMail(
+                                    $email->subject,
+                                    $email->template,
+                                    $email_records_details->id,
+                                    $email->email
+                                ));
                             }
-                            
                         }
                     }
                     // else if($email->bounce_status == 1) {

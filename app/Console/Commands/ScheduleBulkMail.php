@@ -143,7 +143,7 @@ class ScheduleBulkMail extends Command
                 $today_time = Carbon::now()->format('H:i');
                 print_r($db_time);
                 print_r($today_time);
-                dd('fgf');
+                // dd('fgf');
                 if ($db_date <= $today_date && $email->delivery_status == 0) {
                     if ($db_time <= $today_time) {
                         print_r('true');

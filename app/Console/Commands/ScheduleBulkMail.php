@@ -64,9 +64,9 @@ class ScheduleBulkMail extends Command
                 $today_time = Carbon::now()->format('H:i:s');
                 // print_r($db_time);
                 // print_r($today_time);
-                if ($db_time < $today_date) {
-                    // print_r('true');
-                }
+                // if ($db_time < $today_date) {
+                //     // print_r('true');
+                // }
                 // dd('fgf');
                 if ($db_date <= $today_date) {
                     if ($db_time <= $today_time) {

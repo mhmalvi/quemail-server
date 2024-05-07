@@ -94,7 +94,7 @@ class ScheduleBulkMail extends Command
                     )->first();
                     // dd($emailRecordsResult->id);
                     $email_records_id = $emailRecordsResult->id;
-                    if ($email->bounce_status == 0 && $email->delivery_status == 0) {
+                    if ($email->bounce_status == 0) {
                         // print_r($email_records_count + 1);
                         // $count_increment=$email_records_count + 1;
                         $emailRecordsResult->counts = $emailRecordsResult->counts + 1;
@@ -128,8 +128,16 @@ class ScheduleBulkMail extends Command
                     $email_records_details->bounce_status = $email->bounce_status;
                     $email_records_details->save();
                     // print_r($email_records_details);
+                }
 
-
+                if ($isEmailRecordsDetailsExists) {
+                    $email_records_details = EmailRecordsDetails::where(
+                        'recipients_mail',
+                        $email->email
+                    )->where(
+                        'email_records_id',
+                        $email_records_id
+                    )->first();
                 }
 
                 // print_r($email->schedule);
@@ -175,6 +183,7 @@ class ScheduleBulkMail extends Command
                                 'scheduled_jobs_id',
                                 $email->scheduled_jobs_id
                             )->first();
+
                             if ($email->bounce_status == 0) {
                                 $current_mail->delivery_status = 1;
                                 $current_mail->save();
@@ -196,7 +205,6 @@ class ScheduleBulkMail extends Command
                     }
                     // else if($email->bounce_status == 1) {
                     //     // $record = ;
-
                     // }
                 } else {
                     print_r('false');

@@ -115,7 +115,7 @@ class ScheduleBulkMail extends Command
                                 $emailRecordsResult->save();
                             }
                         }
-                        $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
+                        // $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
                         ///commented
                         // if ($email->bounce_status == 0) {
                         //     $current_mail->delivery_status = 1;

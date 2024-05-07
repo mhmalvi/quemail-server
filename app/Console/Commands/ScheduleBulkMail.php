@@ -150,7 +150,7 @@ class ScheduleBulkMail extends Command
                     // print_r('true');
                 }
                 // dd('fgf');
-                if ($db_date <= $today_date && $email->delivery_status == 0) {
+                if ($db_date <= $today_date) {
                     if ($db_time <= $today_time) {
                         // print_r('true');
                         $mail = DynamicMail::where('user_id', $email->user_id)->first();

@@ -150,15 +150,6 @@ class ScheduleBulkMail extends Command
                     if ($db_time <= $today_time) {
                         // print_r('true');
                         $mail = DynamicMail::where('user_id', $email->user_id)->first();
-                        $current_mail = ScheduledMail::where('email', $email->email)->where(
-                            'scheduled_jobs_id',
-                            $email->scheduled_jobs_id
-                        )->first();
-                        if ($email->bounce_status == 0) {
-                            $current_mail->delivery_status = 1;
-                            $current_mail->save();
-                        }
-
                         if ($mail) {
                             $smtpSettings = [
                                 'default' => $mail->driver,
@@ -180,6 +171,14 @@ class ScheduleBulkMail extends Command
                                 'mail.from.address' => $smtpSettings['from_mail_address'],
                                 'mail.from.name' => $smtpSettings['from_name']
                             ]);
+                            $current_mail = ScheduledMail::where('email', $email->email)->where(
+                                'scheduled_jobs_id',
+                                $email->scheduled_jobs_id
+                            )->first();
+                            if ($email->bounce_status == 0) {
+                                $current_mail->delivery_status = 1;
+                                $current_mail->save();
+                            }
 
                             if ($email->bounce_status == 0) {
                                 print_r($email_records_details->id);

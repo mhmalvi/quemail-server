@@ -180,6 +180,9 @@ class ScheduleBulkMail extends Command
                             
                             if($email->bounce_status==0){
                                 print_r($email_records_details->id);
+                                print_r($email->subject);
+                                print_r($email->email);
+                                print_r($email->template);
                                 Mail::to($email->email)->send(new ScheduledMarketingMail($email->subject,
                                 $email->template, $email_records_details->id, $email->email));
                             }

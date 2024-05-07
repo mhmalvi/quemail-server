@@ -102,11 +102,10 @@ class ScheduleBulkMail extends Command
                     }
                 }
                 $current_mail = ScheduledMail::where('email', $email->email)->where('scheduled_jobs_id', $email->scheduled_jobs_id)->first();
-                ///commented
-                // if ($email->bounce_status == 0) {
-                //     $current_mail->delivery_status = 1;
-                //     $current_mail->save();
-                // }
+                if ($email->bounce_status == 0) {
+                    $current_mail->delivery_status = 1;
+                    $current_mail->save();
+                }
 
                 print_r($email_records_id);
                 $isEmailRecordsDetailsExists = EmailRecordsDetails::where('recipients_mail',$email->email)->where('email_records_id',$email_records_id)->exists();
@@ -151,7 +150,7 @@ class ScheduleBulkMail extends Command
                     // print_r('true');
                 }
                 // dd('fgf');
-                if ($db_date <= $today_date) {
+                if ($db_date <= $today_date && $email->delivery_status == 0) {
                     if ($db_time <= $today_time) {
                         // print_r('true');
                         $mail = DynamicMail::where('user_id', $email->user_id)->first();

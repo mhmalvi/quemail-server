@@ -157,7 +157,7 @@ class ScheduleBulkMail extends Command
                 if ($db_date <= $today_date && $email->delivery_status == 0) {
                     if ($db_time <= $today_time) {
                         // print_r('true');
-                        $current_mail = ScheduledMail::where('email', $email->email)->where(
+                        $current_mail = ScheduledMail::where('id', $email->id)->where(
                             'scheduled_jobs_id',
                             $email->scheduled_jobs_id
                         )->first();

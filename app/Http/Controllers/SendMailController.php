@@ -21,23 +21,23 @@ class SendMailController extends Controller
     {
         set_time_limit(8000);
         $mail = DynamicMail::where('user_id', $request->user_id)->first();
-        $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
-            date)'), Carbon::now()->toDateString())->sum('counts');
-        if ($counts) {
-            $counts_array = json_decode($counts);
-            if ($counts_array >= 1000) {
-                return response()->json([
-                    'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
-                    'status' => 305
-                ], 305);
-            }
-            // else if($counts_array >= 200 && ){
-            //     return response()->json([
-            //     'message' => '200 emails sent. You cannot send any mails for today. Come back tomorrow.',
-            //     'status' => 305
-            //     ], 305);
-            // }
-        }
+        // $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
+        //     date)'), Carbon::now()->toDateString())->sum('counts');
+        // if ($counts) {
+        //     $counts_array = json_decode($counts);
+        //     if ($counts_array >= 1000) {
+        //         return response()->json([
+        //             'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
+        //             'status' => 305
+        //         ], 305);
+        //     }
+        //     // else if($counts_array >= 200 && ){
+        //     //     return response()->json([
+        //     //     'message' => '200 emails sent. You cannot send any mails for today. Come back tomorrow.',
+        //     //     'status' => 305
+        //     //     ], 305);
+        //     // }
+        // }
         $file_urls = [];
         $email_content = [
             $subject = $request->subject,

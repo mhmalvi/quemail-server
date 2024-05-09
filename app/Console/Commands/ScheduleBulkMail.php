@@ -44,17 +44,17 @@ class ScheduleBulkMail extends Command
                 // $records = new EmailRecords();
                 /////////////////////////////////////check if email count is greater than 1000/////////
                 $mail = DynamicMail::where('user_id', $email->user_id)->first();
-                // $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
-                // date)'), Carbon::now()->toDateString())->sum('counts');
-                // if ($counts) {
-                //     $counts_array = json_decode($counts);
-                //     if ($counts_array >= 1000) {
-                //         return response()->json([
-                //             'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
-                //             'status' => 305
-                //         ], 305);
-                //     }
-                // }
+                $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
+                date)'), Carbon::now()->toDateString())->sum('counts');
+                if ($counts) {
+                    $counts_array = json_decode($counts);
+                    if ($counts_array >= 1000) {
+                        return response()->json([
+                            'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
+                            'status' => 305
+                        ], 305);
+                    }
+                }
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
 
@@ -112,45 +112,42 @@ class ScheduleBulkMail extends Command
                                 $emailRecordsResult->save();
                             }
                         }
-                        /////////////////////////////////////////////
-                        $email_records_details = new EmailRecordsDetails();
-                        $email_records_details->recipients_mail = $email->email;
-                        $email_records_details->sender = $mail->from_mail_address;
-                        $email_records_details->email_records_id = $email_records_id;
-                        $email_records_details->open = 0;
-                        $email_records_details->click = 0;
-                        if ($email->bounce_status == 1) {
-                        $email_records_details->subscribed_or_unsubscribed = 0;
-                        $emailRecordsResult = EmailRecords::where(
-                        'scheduled_jobs_id',
-                        $email->scheduled_jobs_id
-                        )->first();
-                        $emailRecordsResult->bounce = $emailRecordsResult->bounce + 1;
-                        $emailRecordsResult->save();
-                        } else {
-                        $email_records_details->subscribed_or_unsubscribed = 1;
-                        }
 
-                        $email_records_details->schedule = $email->schedule;
-                        $email_records_details->bounce_status = $email->bounce_status;
-                        $email_records_details->save();
-                        ///////////////////////////////////////////////////////////
                         $isEmailRecordsDetailsExists = EmailRecordsDetails::where('recipients_mail', $email->email)->where('email_records_id', $email_records_id)->exists();
-                        
                         if (!$isEmailRecordsDetailsExists) {
-                            
+                            $email_records_details = new EmailRecordsDetails();
+                            $email_records_details->recipients_mail = $email->email;
+                            $email_records_details->sender = $mail->from_mail_address;
+                            $email_records_details->email_records_id = $email_records_id;
+                            $email_records_details->open = 0;
+                            $email_records_details->click = 0;
+                            if ($email->bounce_status == 1) {
+                                $email_records_details->subscribed_or_unsubscribed = 0;
+                                $emailRecordsResult = EmailRecords::where(
+                                    'scheduled_jobs_id',
+                                    $email->scheduled_jobs_id
+                                )->first();
+                                $emailRecordsResult->bounce = $emailRecordsResult->bounce + 1;
+                                $emailRecordsResult->save();
+                            } else {
+                                $email_records_details->subscribed_or_unsubscribed = 1;
+                            }
+
+                            $email_records_details->schedule = $email->schedule;
+                            $email_records_details->bounce_status = $email->bounce_status;
+                            $email_records_details->save();
                             // print_r($email_records_details);
                         }
 
-                        // if ($isEmailRecordsDetailsExists) {
-                        //     $email_records_details = EmailRecordsDetails::where(
-                        //         'recipients_mail',
-                        //         $email->email
-                        //     )->where(
-                        //         'email_records_id',
-                        //         $email_records_id
-                        //     )->first();
-                        // }
+                        if ($isEmailRecordsDetailsExists) {
+                            $email_records_details = EmailRecordsDetails::where(
+                                'recipients_mail',
+                                $email->email
+                            )->where(
+                                'email_records_id',
+                                $email_records_id
+                            )->first();
+                        }
 
                         // print_r($email->schedule);
 

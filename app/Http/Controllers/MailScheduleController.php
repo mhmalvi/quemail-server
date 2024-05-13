@@ -30,9 +30,9 @@ class MailScheduleController extends Controller
                 $number_of_mails = $mail_count;
             }
             $scheduleJob = new ScheduledJobs();
-            $scheduleJob->file_name = $request->file_name[0];
-            $scheduleJob->schedule = $request->schedule[0];
-            $scheduleJob->user_id = $request->user_id[0];
+            $scheduleJob->file_name = $request->file_name;
+            $scheduleJob->schedule = $request->schedule;
+            $scheduleJob->user_id = $request->user_id;
             $scheduleJob->number_of_mails = $number_of_mails;
             $scheduleJob->save();
             // dd($scheduleJob->id);

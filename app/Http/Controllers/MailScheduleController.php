@@ -23,7 +23,7 @@ class MailScheduleController extends Controller
         try {
             // dd($request->file_name);
             
-            // $mail_count = count($request->email);
+            $mail_count = count($request->email);
             dd($request->email);
             if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
                 $bounce_count = count($request->bounced_email);

@@ -54,19 +54,19 @@ class MailScheduleController extends Controller
                     $scheduler->save();
                 }
             }
-            if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
-                for ($j = 0; $j < count($request->bounced_email); $j++) {
-                    $scheduler = new ScheduledMail();
-                    if ($request->bounced_email[$j] != "" || $request->bounced_email[$j] != "undefined" || $request->subject[$i] != "" || $request->subject[$i] != "undefined") {
-                        $scheduler->email = $request->bounced_email[$j];
-                        $scheduler->bounce_status = 1; //// 1 = bounced
-                        // $scheduler->schedule = $request->schedule;
-                        $scheduler->user_id = $request->user_id;
-                        $scheduler->scheduled_jobs_id = $scheduleJob->id;
-                        $scheduler->save();
-                    }
-                }
-            }
+            // if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
+            //     for ($j = 0; $j < count($request->bounced_email); $j++) {
+            //         $scheduler = new ScheduledMail();
+            //         if ($request->bounced_email[$j] != "" || $request->bounced_email[$j] != "undefined" || $request->subject[$i] != "" || $request->subject[$i] != "undefined") {
+            //             $scheduler->email = $request->bounced_email[$j];
+            //             $scheduler->bounce_status = 1; //// 1 = bounced
+            //             $scheduler->schedule = $request->schedule;
+            //             $scheduler->user_id = $request->user_id;
+            //             $scheduler->scheduled_jobs_id = $scheduleJob->id;
+            //             $scheduler->save();
+            //         }
+            //     }
+            // }
             // DB::commit();
             return response()->json([
                 'message' => 'success',

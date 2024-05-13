@@ -41,7 +41,6 @@ class MailScheduleController extends Controller
             $chunked_email = array_chunk($request->email, 100,true);
             $chunked_template = array_chunk($request->template, 100,true);
             $chunked_subject = array_chunk($request->subject, 100,true);
-            dd($chunked_email);
             for ($i = 0; $i < count($chunked_email); $i++) {
                 $scheduler = new ScheduledMail();
                 if ($chunked_email[$i] != "undefined" || $chunked_subject[$i] != "undefined" || $chunked_email[$i] !=

@@ -19,8 +19,9 @@ class MailScheduleController extends Controller
     }
     public function schedule_mail(ScheduledJobs $scheduleJob, Request $request)
     {
-        DB::beginTransaction();
+        // DB::beginTransaction();
         try {
+            dd($request->all());
             $mail_count = count($request->email);
             if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
                 $bounce_count = count($request->bounced_email);
@@ -66,13 +67,13 @@ class MailScheduleController extends Controller
                     }
                 }
             }
-            DB::commit();
+            // DB::commit();
             return response()->json([
                 'message' => 'success',
                 'status' => 201
             ], 201);
         } catch (\Throwable $th) {
-            DB::rollback();
+            // DB::rollback();
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()

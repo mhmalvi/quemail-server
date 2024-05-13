@@ -60,7 +60,7 @@ class MailScheduleController extends Controller
                     if ($request->bounced_email[$j] != "" || $request->bounced_email[$j] != "undefined" || $request->subject[$i] != "" || $request->subject[$i] != "undefined") {
                         $scheduler->email = $request->bounced_email[$j];
                         $scheduler->bounce_status = 1; //// 1 = bounced
-                        $scheduler->schedule = $request->schedule;
+                        // $scheduler->schedule = $request->schedule;
                         $scheduler->user_id = $request->user_id;
                         $scheduler->scheduled_jobs_id = $scheduleJob->id;
                         $scheduler->save();

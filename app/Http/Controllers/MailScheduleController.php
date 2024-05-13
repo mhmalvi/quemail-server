@@ -29,12 +29,12 @@ class MailScheduleController extends Controller
             } else {
                 $number_of_mails = $mail_count;
             }
-            $scheduleJob = ScheduledJobs::create([
-                'file_name' => $request->file_name,
-                'schedule' => $request->schedule,
-                'user_id' => $request->user_id,
-                'number_of_mails' => $number_of_mails
-            ]);
+            $scheduleJob = new ScheduledJobs();
+            $scheduleJob->file_name = $request->file_name;
+            $scheduleJob->schedule = $request->schedule;
+            $scheduleJob->user_id = $request->user_id;
+            $scheduleJob->number_of_mails = $number_of_mails;
+            $scheduleJob->save();
             // dd($scheduleJob->id);
             for ($i = 0; $i < count($request->email); $i++) {
                 $scheduler = new ScheduledMail();

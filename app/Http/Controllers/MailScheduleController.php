@@ -24,7 +24,7 @@ class MailScheduleController extends Controller
             // dd($request->file_name);
             
             $mail_count = count($request->email);
-            dd($request->email);
+            // dd($request->email);
             if (isset($request->bounced_email) && count($request->bounced_email) > 0) {
                 $bounce_count = count($request->bounced_email);
                 $number_of_mails = $mail_count + $bounce_count;
@@ -38,10 +38,14 @@ class MailScheduleController extends Controller
             $scheduleJob->number_of_mails = $number_of_mails;
             $scheduleJob->save();
             // dd($scheduleJob->id);
-            for ($i = 0; $i < count($request->email); $i++) {
+            $chunked_email = array_chunk($request->email, 100,true);
+            $chunked_template = array_chunk($request->template, 100,true);
+            $chunked_subject = array_chunk($request->subject, 100,true);
+            for ($i = 0; $i < count($chunked_email); $i++) {
                 $scheduler = new ScheduledMail();
-                if ($request->email[$i] != "undefined" || $request->subject[$i] != "undefined" || $request->email[$i] != "" || $request->subject[$i] != "") {
-                    $scheduler->email = $request->email[$i];
+                if ($chunked_email[$i] != "undefined" || $chunked_subject[$i] != "undefined" || $chunked_email[$i] !=
+                "" || $chunked_subject[$i] != "") {
+                    $scheduler->email = $chunked_email[$i];
                     // if (preg_match('/@.+\./', $request->email[$i])) {
                     //     $scheduler->bounce_status = 1; //// 1 = bounced
                     // } else {
@@ -49,8 +53,8 @@ class MailScheduleController extends Controller
                     // }
                     $scheduler->schedule = $request->schedule;
                     $scheduler->user_id = $request->user_id;
-                    $scheduler->template = $request->template[$i];
-                    $scheduler->subject = $request->subject[$i];
+                    $scheduler->template = $chunked_template[$i];
+                    $scheduler->subject = $chunked_subject[$i];
                     $scheduler->scheduled_jobs_id = $scheduleJob->id;
                     $scheduler->delivery_status = 0;
                     $scheduler->save();

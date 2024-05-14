@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'companyAuthentication'], function () {
     Route::post('/send-mail', [SendMailController::class, 'send_mail']);
     Route::post('/save-template', [MailTemplate::class, 'saveTemplate']);
-    Route::get('/get-template', [MailTemplate::class, 'getTemplate']);
+    Route::post('/get-template', [MailTemplate::class, 'getTemplate']);
     Route::post('/delete-template', [MailTemplate::class, 'destroy']);
 
     Route::post('/email-history', [EmailHistoryController::class, 'emailHistory']);

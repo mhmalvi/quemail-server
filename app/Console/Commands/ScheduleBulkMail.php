@@ -44,17 +44,17 @@ class ScheduleBulkMail extends Command
                 // $records = new EmailRecords();
                 /////////////////////////////////////check if email count is greater than 1000/////////
                 $mail = DynamicMail::where('user_id', $email->user_id)->first();
-                $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
-                date)'), Carbon::now()->toDateString())->sum('counts');
-                if ($counts) {
-                    $counts_array = json_decode($counts);
-                    if ($counts_array >= 1000) {
-                        return response()->json([
-                            'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
-                            'status' => 305
-                        ], 305);
-                    }
-                }
+                // $counts = EmailRecords::where('sender', $mail->from_mail_address)->where(DB::raw('CAST(created_at as
+                // date)'), Carbon::now()->toDateString())->sum('counts');
+                // if ($counts) {
+                //     $counts_array = json_decode($counts);
+                //     if ($counts_array >= 1000) {
+                //         return response()->json([
+                //             'message' => '1000 emails sent. You cannot send any mails for today. Come back tomorrow.',
+                //             'status' => 305
+                //         ], 305);
+                //     }
+                // }
                 $db_date = Carbon::parse($email->schedule)->format('Y-m-d');
                 $today_date = Carbon::now()->format('Y-m-d');
 

@@ -16,7 +16,8 @@ class MailTemplate extends Controller
     {
         $template_data = [
             $name = $request->name,
-            $template = $request->template
+            $template = $request->template,
+            $client_id = $request->client_id
         ];
         $createTemplateService = new CreateTemplateService($template_data);
         $response = $createTemplateService->saveTemplate();

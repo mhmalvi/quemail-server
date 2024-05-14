@@ -15,7 +15,8 @@ class CreateTemplateService
     {
         $response = Template::create([
             'name' => $this->template_data[0],
-            'template' => $this->template_data[1]
+            'template' => $this->template_data[1],
+            'client_id' => $this->template_data[2]
         ]);
         return $response;
     }

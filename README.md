@@ -1,66 +1,165 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# QueMail Server
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The backend API for the QueMail email marketing platform. Built with Laravel 10, it handles email campaign orchestration, template management, scheduled bulk mailing, subscriber tracking, and delivery analytics.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Email Campaign Engine** — Create, schedule, and dispatch bulk email campaigns with queue-based processing
+- **Template Management** — CRUD operations for reusable email templates with image upload support
+- **Scheduled Mailing** — Cron-driven bulk mail scheduling with configurable delivery windows
+- **Subscriber Management** — Subscribe/unsubscribe handling with QueLead integration
+- **Email Tracking** — Open tracking via pixel, delivery status monitoring, and bounce detection
+- **Campaign Analytics** — Per-campaign email counts, delivery rates, and historical records
+- **Dynamic Mail Configuration** — Per-user SMTP settings for multi-tenant email sending
+- **Rate Limiting** — Built-in mail limitation counting to stay within provider quotas
+- **Queue Processing** — Laravel job queues for non-blocking email dispatch
+- **API Authentication** — Sanctum-based token authentication with company-level middleware
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Component | Technology |
+|-----------|------------|
+| Framework | Laravel 10 |
+| Language | PHP 8.1+ |
+| Authentication | Laravel Sanctum |
+| Queue | Laravel Queue (database/Redis) |
+| Mail | SwiftMailer |
+| Database | MySQL/PostgreSQL |
 
-## Learning Laravel
+## Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.1+
+- Composer
+- MySQL 8.0+ or PostgreSQL
+- Redis (optional, for queue driver)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Getting Started
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Clone the Repository
 
-## Laravel Sponsors
+```bash
+git clone https://github.com/mhmalvi/quemail-server.git
+cd quemail-server
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Install Dependencies
 
-### Premium Partners
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 3. Configure Environment
 
-## Contributing
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Edit `.env` with your database and mail configuration:
 
-## Code of Conduct
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_DATABASE=quemail
+DB_USERNAME=root
+DB_PASSWORD=
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.example.com
+MAIL_PORT=587
+MAIL_USERNAME=your_email
+MAIL_PASSWORD=your_password
+```
 
-## Security Vulnerabilities
+### 4. Run Migrations
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan migrate
+```
+
+### 5. Start the Server
+
+```bash
+php artisan serve
+```
+
+### 6. Start the Queue Worker
+
+```bash
+php artisan queue:work
+```
+
+## API Endpoints
+
+### Email Operations
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/send-mail` | Send email to recipients |
+| POST | `/api/mail-schedule-store` | Schedule a bulk mail campaign |
+| POST | `/api/email-history` | Retrieve email sending history |
+| POST | `/api/email-history-details` | Get detailed delivery records |
+| POST | `/api/email-counts-on-today` | Get today's email send count |
+
+### Template Management
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/save-template` | Create a new template |
+| POST | `/api/get-template` | Retrieve templates |
+| PUT | `/api/update-template` | Update an existing template |
+| POST | `/api/delete-template` | Delete a template |
+
+### Dynamic Mail Settings
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/save-mail` | Save SMTP configuration |
+| GET | `/api/get-mail/{user_id}` | Get user mail settings |
+| PUT | `/api/update-mail/{id}` | Update mail settings |
+| POST | `/api/delete-mail` | Remove mail settings |
+
+### Subscriber Management
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/queleads-subscribe` | Subscribe a contact |
+| POST | `/api/queleads-unsubscribe` | Unsubscribe a contact |
+| POST | `/api/unsubscribe` | Process unsubscribe request |
+
+### Scheduling
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/scheduled-jobs` | List scheduled mail jobs |
+| POST | `/api/scheduled-mails` | List scheduled mail details |
+
+## Project Structure
+
+```
+quemail-server/
+├── app/
+│   ├── Console/Commands/         # Artisan commands (ScheduleBulkMail)
+│   ├── Http/
+│   │   ├── Controllers/          # API controllers
+│   │   ├── Middleware/            # Auth and company middleware
+│   │   └── Requests/             # Form request validation
+│   ├── Jobs/                     # Queue jobs (SendQueueEmail)
+│   ├── Mail/                     # Mailable classes
+│   ├── Models/                   # Eloquent models
+│   ├── Policies/                 # Authorization policies
+│   └── Services/                 # Business logic services
+├── database/migrations/          # Database schema migrations
+├── routes/api.php                # API route definitions
+├── config/                       # Laravel configuration
+└── composer.json
+```
+
+## Related Projects
+
+- [quemail-client](https://github.com/mhmalvi/quemail-client) — Frontend dashboard (Next.js)
+- [quemail-templates](https://github.com/mhmalvi/quemail-templates) — HTML email template collection
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open source and available under the [MIT License](LICENSE).

@@ -1,3 +1,6 @@
+<!-- repo-card -->
+![quemail-server](docs/assets/social-card.png)
+
 # QueMail Server
 
 The backend API for the QueMail email marketing platform. Built with Laravel 10, it handles email campaign orchestration, template management, scheduled bulk mailing, subscriber tracking, and delivery analytics.
